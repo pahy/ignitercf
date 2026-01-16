@@ -1,0 +1,29 @@
+{
+    "name": "pahy/ignitercf",
+    "type": "typo3-cms-extension",
+    "description": "Cloudflare Cache Purge (unofficial) - Automatically purge Cloudflare cache when content changes. Unofficial TYPO3 integration - not affiliated with Cloudflare, Inc.",
+    "license": "GPL-2.0-or-later",
+    "keywords": ["TYPO3", "Cloudflare", "Cache", "CDN", "Purge"],
+    "authors": [
+        {
+            "name": "Patrick Hayder",
+            "email": "patrick@hayder.org"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "typo3/cms-core": "^12.4 || ^13.4",
+        "typo3/cms-backend": "^12.4 || ^13.4",
+        "typo3/cms-frontend": "^12.4 || ^13.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pahy\\Ignitercf\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "ignitercf"
+        }
+    }
+}

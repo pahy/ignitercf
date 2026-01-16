@@ -1,0 +1,29 @@
+# cat=basic/enable/10; type=boolean; label=Enable Cloudflare Integration:Enable or disable the Cloudflare cache purge functionality globally.
+enabled = 1
+
+# cat=basic/behavior/20; type=boolean; label=Purge on Clear All Caches:Automatically purge Cloudflare cache when "Clear all caches" is clicked in TYPO3 backend.
+purgeOnClearAll = 1
+
+# cat=basic/behavior/30; type=boolean; label=Auto-Purge on Content Change:Automatically purge affected pages when content (pages, tt_content) is saved.
+autoPurgeOnSave = 1
+
+# cat=basic/behavior/40; type=boolean; label=Enable Cache-Control Middleware:Set Cache-Control headers to prevent Cloudflare caching for backend users and protected pages.
+enableMiddleware = 1
+
+# cat=advanced/debug/10; type=boolean; label=Debug Mode:Enable verbose logging for troubleshooting. Logs will be written to var/log/typo3_ignitercf_*.log
+debug = 0
+
+# ---------------------------------------------------------------------------------
+# IMPORTANT: Zone ID and API Token are configured per-site, not here!
+# ---------------------------------------------------------------------------------
+#
+# Zone ID: Add to your site's config.yaml:
+#   cloudflare:
+#     zoneId: "your-cloudflare-zone-id"
+#
+# API Token: Set via environment variable (recommended for security):
+#   IGNITERCF_TOKEN_{SITE_IDENTIFIER}  (e.g. IGNITERCF_TOKEN_MAIN for site "main")
+#   IGNITERCF_API_TOKEN                (global fallback for single-domain setups)
+#
+# For multi-domain installations, each site can have its own Cloudflare zone.
+# ---------------------------------------------------------------------------------

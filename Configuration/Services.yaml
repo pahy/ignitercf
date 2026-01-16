@@ -1,0 +1,36 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Pahy\Ignitercf\:
+    resource: '../Classes/*'
+
+  # Context-Menu Provider registration
+  Pahy\Ignitercf\ContextMenu\ItemProvider:
+    tags:
+      - name: backend.contextmenu.itemprovider
+
+  # CLI Commands
+  Pahy\Ignitercf\Command\PurgeAllCommand:
+    tags:
+      - name: console.command
+        command: 'ignitercf:purge:all'
+
+  Pahy\Ignitercf\Command\PurgeZoneCommand:
+    tags:
+      - name: console.command
+        command: 'ignitercf:purge:zone'
+
+  Pahy\Ignitercf\Command\PurgePageCommand:
+    tags:
+      - name: console.command
+        command: 'ignitercf:purge:page'
+
+  # Event Listener - Cache Dropdown (v12 compatible, v13 uses attribute)
+  Pahy\Ignitercf\EventListener\ModifyClearCacheActionsEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'ignitercf/modify-clear-cache-actions'
+        event: TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent
