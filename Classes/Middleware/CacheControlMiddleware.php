@@ -67,22 +67,14 @@ final class CacheControlMiddleware implements MiddlewareInterface, LoggerAwareIn
 
     /**
      * Check if page should not be cached
+     *
+     * Uses version-specific page data access:
+     * - TYPO3 v13+: PageInformation object via request attribute
+     * - TYPO3 v12: $GLOBALS['TSFE']->page (deprecated in v13)
      */
     private function shouldNotCachePage(ServerRequestInterface $request): bool
     {
-        // Get current page - v12/v13 compatible
-        // v13: frontend.page.information attribute with PageInformation object
-        // v12: $GLOBALS['TSFE']->page
-        $pageInformation = $request->getAttribute('frontend.page.information');
-
-        if ($pageInformation !== null && method_exists($pageInformation, 'getPageRecord')) {
-            // v13: Use PageInformation object
-            $page = $pageInformation->getPageRecord();
-        } else {
-            // v12: Use TSFE
-            $page = $GLOBALS['TSFE']->page ?? null;
-        }
-
+        $page = $this->getPageRecord($request);
         if ($page === null) {
             return false;
         }
@@ -112,5 +104,27 @@ final class CacheControlMiddleware implements MiddlewareInterface, LoggerAwareIn
         }
 
         return false;
+    }
+
+    /**
+     * Get page record from request (v12/v13 compatible)
+     *
+     * @return array<string, mixed>|null Page record or null
+     */
+    private function getPageRecord(ServerRequestInterface $request): ?array
+    {
+        // TYPO3 v13+: Use PageInformation from request attribute
+        $pageInformation = $request->getAttribute('frontend.page.information');
+        if ($pageInformation !== null && method_exists($pageInformation, 'getPageRecord')) {
+            return $pageInformation->getPageRecord();
+        }
+
+        // TYPO3 v12 fallback: Use TSFE (deprecated in v13, removed in v14)
+        // @extensionScannerIgnoreLine
+        if (isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) && isset($GLOBALS['TSFE']->page)) {
+            return $GLOBALS['TSFE']->page;
+        }
+
+        return null;
     }
 }
