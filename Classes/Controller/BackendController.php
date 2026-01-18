@@ -9,6 +9,7 @@ use Pahy\Ignitercf\Service\CloudflareLogService;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Attribute\AsController;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -32,18 +33,16 @@ final class BackendController extends ActionController
     ) {}
 
     /**
-     * Main dashboard view
+     * Dashboard view - Statistics & Purge Activity
      */
     public function indexAction(): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->addDocHeaderMenu($moduleTemplate, 'index');
 
         // Get user's days preferences
         $statisticsDays = $this->getUserSetting('statisticsDays');
         $chartDays = $this->getUserSetting('chartDays');
-
-        // Get all sites with their configuration status
-        $sitesStatus = $this->getSitesStatus();
 
         // Get recent log entries
         $recentLogs = $this->cloudflareLogService->getRecentEntries(20);
@@ -61,23 +60,13 @@ final class BackendController extends ActionController
             $dailyData = array_slice($dailyData, -$chartDays);
         }
 
-        // Get global settings
-        $globalSettings = [
-            'enabled' => $this->configurationService->isEnabled(),
-            'logLevel' => $this->configurationService->getLogLevel(),
-            'logRetentionDays' => $this->configurationService->getLogRetentionDays(),
-            'autoPurgeOnSave' => $this->configurationService->isAutoPurgeOnSaveEnabled(),
-            'purgeOnClearAll' => $this->configurationService->isPurgeOnClearAllEnabled(),
-            'middlewareEnabled' => $this->configurationService->isMiddlewareEnabled(),
-        ];
+        // Get global settings for header status
+        $globalSettings = $this->getGlobalSettings();
 
         $moduleTemplate->assignMultiple([
-            'sitesStatus' => $sitesStatus,
             'recentLogs' => $recentLogs,
             'statistics' => $statistics,
             'globalSettings' => $globalSettings,
-            'allConfigured' => $this->areAllSitesConfigured($sitesStatus),
-            'chartData' => $chartData,
             'chartDataAge' => $chartDataAge,
             'chartDataJson' => json_encode($dailyData),
             'statisticsDays' => $statisticsDays,
@@ -86,6 +75,29 @@ final class BackendController extends ActionController
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Index');
+    }
+
+    /**
+     * Configuration view - Site Configuration Status & Settings
+     */
+    public function configurationAction(): ResponseInterface
+    {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->addDocHeaderMenu($moduleTemplate, 'configuration');
+
+        // Get all sites with their configuration status
+        $sitesStatus = $this->getSitesStatus();
+
+        // Get global settings
+        $globalSettings = $this->getGlobalSettings();
+
+        $moduleTemplate->assignMultiple([
+            'sitesStatus' => $sitesStatus,
+            'globalSettings' => $globalSettings,
+            'allConfigured' => $this->areAllSitesConfigured($sitesStatus),
+        ]);
+
+        return $moduleTemplate->renderResponse('Backend/Configuration');
     }
 
     /**
@@ -99,6 +111,50 @@ final class BackendController extends ActionController
         }
 
         return $this->redirect('index');
+    }
+
+    /**
+     * Add docheader menu for page navigation
+     */
+    private function addDocHeaderMenu(ModuleTemplate $moduleTemplate, string $currentAction): void
+    {
+        $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
+        $menu->setIdentifier('ignitercf_menu');
+
+        $menuItems = [
+            'index' => 'Dashboard',
+            'configuration' => 'Configuration',
+        ];
+
+        $uriBuilder = $this->uriBuilder;
+        $uriBuilder->setRequest($this->request);
+
+        foreach ($menuItems as $action => $label) {
+            $menuItem = $menu->makeMenuItem()
+                ->setTitle($label)
+                ->setHref($uriBuilder->reset()->uriFor($action, [], 'Backend'))
+                ->setActive($currentAction === $action);
+            $menu->addMenuItem($menuItem);
+        }
+
+        $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
+    }
+
+    /**
+     * Get global settings array
+     *
+     * @return array<string, mixed>
+     */
+    private function getGlobalSettings(): array
+    {
+        return [
+            'enabled' => $this->configurationService->isEnabled(),
+            'logLevel' => $this->configurationService->getLogLevel(),
+            'logRetentionDays' => $this->configurationService->getLogRetentionDays(),
+            'autoPurgeOnSave' => $this->configurationService->isAutoPurgeOnSaveEnabled(),
+            'purgeOnClearAll' => $this->configurationService->isPurgeOnClearAllEnabled(),
+            'middlewareEnabled' => $this->configurationService->isMiddlewareEnabled(),
+        ];
     }
 
     /**

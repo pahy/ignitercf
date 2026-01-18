@@ -13,82 +13,24 @@
 />
 
 <div class="ignitercf-module">
-    <h1>
-        <core:icon identifier="module-ignitercf" size="medium" />
-        IgniterCF - Cloudflare Cache Management
-    </h1>
 
-    <!-- Global Status -->
-    <f:if condition="{globalSettings.enabled}">
-        <f:then>
-            <f:if condition="{allConfigured}">
-                <f:then>
-                    <div class="callout callout-success">
-                        <div class="media">
-                            <div class="media-left">
-                                <core:icon identifier="actions-check" size="small" />
-                            </div>
-                            <div class="media-body">
-                                <h4 class="callout-title">All sites configured</h4>
-                                <p class="callout-body">Cloudflare integration is active for all sites.</p>
-                            </div>
-                        </div>
-                    </div>
-                </f:then>
-                <f:else>
-                    <div class="callout callout-warning">
-                        <div class="media">
-                            <div class="media-left">
-                                <core:icon identifier="actions-exclamation-triangle" size="small" />
-                            </div>
-                            <div class="media-body">
-                                <h4 class="callout-title">Configuration required</h4>
-                                <p class="callout-body">Some sites are not fully configured. See details below.</p>
-                            </div>
-                        </div>
-                    </div>
-                </f:else>
-            </f:if>
-        </f:then>
-        <f:else>
-            <div class="callout callout-danger">
-                <div class="media">
-                    <div class="media-left">
-                        <core:icon identifier="actions-ban" size="small" />
-                    </div>
-                    <div class="media-body">
-                        <h4 class="callout-title">Extension disabled</h4>
-                        <p class="callout-body">
-                            IgniterCF is globally disabled. Enable it in
-                            <strong>Settings → Extension Configuration → ignitercf</strong>.
-                        </p>
-                    </div>
+    <!-- Extension disabled warning -->
+    <f:if condition="{globalSettings.enabled} == 0">
+        <div class="callout callout-danger">
+            <div class="media">
+                <div class="media-left">
+                    <core:icon identifier="actions-ban" size="small" />
+                </div>
+                <div class="media-body">
+                    <h4 class="callout-title">Extension disabled</h4>
+                    <p class="callout-body">
+                        IgniterCF is globally disabled. Enable it in
+                        <strong>Settings → Extension Configuration → ignitercf</strong>.
+                    </p>
                 </div>
             </div>
-        </f:else>
+        </div>
     </f:if>
-
-    <!-- Sites Configuration Status -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <core:icon identifier="apps-pagetree-root" size="small" />
-                Site Configuration Status
-            </h3>
-        </div>
-        <div class="panel-body">
-            <f:if condition="{sitesStatus}">
-                <f:then>
-                    <f:for each="{sitesStatus}" as="site" key="identifier">
-                        <f:render partial="Backend/SiteStatus" arguments="{site: site}" />
-                    </f:for>
-                </f:then>
-                <f:else>
-                    <p class="text-muted">No sites configured in TYPO3.</p>
-                </f:else>
-            </f:if>
-        </div>
-    </div>
 
     <!-- Statistics -->
     <div class="panel panel-default">
@@ -323,68 +265,6 @@
                     </div>
                 </f:else>
             </f:if>
-        </div>
-    </div>
-
-    <!-- Global Settings Info -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <core:icon identifier="actions-cog" size="small" />
-                Current Settings
-            </h3>
-        </div>
-        <div class="panel-body">
-            <dl class="ignitercf-settings">
-                <dt>Extension Enabled</dt>
-                <dd>
-                    <f:if condition="{globalSettings.enabled}">
-                        <f:then><span class="badge badge-success">Yes</span></f:then>
-                        <f:else><span class="badge badge-danger">No</span></f:else>
-                    </f:if>
-                </dd>
-
-                <dt>Auto-Purge on Save</dt>
-                <dd>
-                    <f:if condition="{globalSettings.autoPurgeOnSave}">
-                        <f:then><span class="badge badge-success">Yes</span></f:then>
-                        <f:else><span class="badge badge-secondary">No</span></f:else>
-                    </f:if>
-                </dd>
-
-                <dt>Purge on Clear All</dt>
-                <dd>
-                    <f:if condition="{globalSettings.purgeOnClearAll}">
-                        <f:then><span class="badge badge-success">Yes</span></f:then>
-                        <f:else><span class="badge badge-secondary">No</span></f:else>
-                    </f:if>
-                </dd>
-
-                <dt>Cache-Control Middleware</dt>
-                <dd>
-                    <f:if condition="{globalSettings.middlewareEnabled}">
-                        <f:then><span class="badge badge-success">Enabled</span></f:then>
-                        <f:else><span class="badge badge-secondary">Disabled</span></f:else>
-                    </f:if>
-                </dd>
-
-                <dt>Log Level</dt>
-                <dd><code>{globalSettings.logLevel}</code></dd>
-
-                <dt>Log Retention</dt>
-                <dd>
-                    <f:if condition="{globalSettings.logRetentionDays}">
-                        <f:then>{globalSettings.logRetentionDays} days</f:then>
-                        <f:else>Indefinite</f:else>
-                    </f:if>
-                </dd>
-            </dl>
-            <p class="text-muted mb-0" style="margin-top: 1rem;">
-                <small>
-                    <core:icon identifier="actions-cog" size="small" />
-                    Change settings in <strong>Settings → Extension Configuration → ignitercf</strong>
-                </small>
-            </p>
         </div>
     </div>
 

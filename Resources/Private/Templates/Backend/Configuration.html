@@ -1,0 +1,127 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Backend/Default" />
+
+<f:section name="Content">
+
+<f:be.pageRenderer
+    includeJavaScriptModules="{0: '@pahy/ignitercf/backend-module.js'}"
+    includeCssFiles="{0: 'EXT:ignitercf/Resources/Public/Css/backend-module.css'}"
+/>
+
+<div class="ignitercf-module">
+
+    <!-- Extension disabled warning -->
+    <f:if condition="{globalSettings.enabled} == 0">
+        <div class="callout callout-danger">
+            <div class="media">
+                <div class="media-left">
+                    <core:icon identifier="actions-ban" size="small" />
+                </div>
+                <div class="media-body">
+                    <h4 class="callout-title">Extension disabled</h4>
+                    <p class="callout-body">
+                        IgniterCF is globally disabled. Enable it in
+                        <strong>Settings → Extension Configuration → ignitercf</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </f:if>
+
+    <!-- Site Configuration Status -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="actions-cog" size="small" />
+                Site Configuration Status
+            </h3>
+            <f:if condition="{allConfigured}">
+                <f:then>
+                    <span class="badge badge-success">
+                        <core:icon identifier="actions-check" size="small" /> All sites configured
+                    </span>
+                </f:then>
+                <f:else>
+                    <span class="badge" style="background: var(--ignitercf-orange); color: #fff;">
+                        <core:icon identifier="actions-exclamation-triangle" size="small" /> Setup required
+                    </span>
+                </f:else>
+            </f:if>
+        </div>
+        <div class="panel-body">
+            <f:if condition="{sitesStatus}">
+                <f:then>
+                    <f:for each="{sitesStatus}" as="site">
+                        <f:render partial="Backend/SiteStatus" arguments="{site: site}" />
+                    </f:for>
+                </f:then>
+                <f:else>
+                    <p class="text-muted">No sites configured in TYPO3.</p>
+                </f:else>
+            </f:if>
+        </div>
+    </div>
+
+    <!-- Global Settings -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="actions-system-extension-configure" size="small" />
+                Global Settings
+            </h3>
+        </div>
+        <div class="panel-body">
+            <p class="text-muted" style="margin-bottom: 1rem;">
+                Configure these settings in <strong>Settings → Extension Configuration → ignitercf</strong>
+            </p>
+            <dl class="ignitercf-settings">
+                <dt>Extension Enabled</dt>
+                <dd>
+                    <f:if condition="{globalSettings.enabled}">
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
+                        <f:else><span class="text-danger"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Auto-Purge on Save</dt>
+                <dd>
+                    <f:if condition="{globalSettings.autoPurgeOnSave}">
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
+                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Purge on Clear All</dt>
+                <dd>
+                    <f:if condition="{globalSettings.purgeOnClearAll}">
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
+                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Middleware Enabled</dt>
+                <dd>
+                    <f:if condition="{globalSettings.middlewareEnabled}">
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
+                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Log Level</dt>
+                <dd><code>{globalSettings.logLevel}</code></dd>
+
+                <dt>Log Retention</dt>
+                <dd>{globalSettings.logRetentionDays} days</dd>
+            </dl>
+        </div>
+    </div>
+
+</div>
+
+</f:section>
+
+</html>
