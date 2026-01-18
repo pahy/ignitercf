@@ -22,7 +22,8 @@ final class CloudflareApiService implements LoggerAwareInterface
 
     public function __construct(
         private readonly RequestFactory $requestFactory,
-        private readonly ConfigurationService $configurationService
+        private readonly ConfigurationService $configurationService,
+        private readonly CloudflareLogService $cloudflareLogService
     ) {}
 
     /**
@@ -47,10 +48,16 @@ final class CloudflareApiService implements LoggerAwareInterface
         }
 
         $config = $this->getCloudflareConfig($site);
-
         $body = json_encode(['files' => array_values($urls)]);
 
-        return $this->sendPurgeRequest($config['zoneId'], $config['apiToken'], $body);
+        return $this->sendPurgeRequest(
+            zoneId: $config['zoneId'],
+            apiToken: $config['apiToken'],
+            body: $body,
+            logType: 'purge_urls',
+            siteIdentifier: $site->getIdentifier(),
+            urls: $urls
+        );
     }
 
     /**
@@ -63,10 +70,16 @@ final class CloudflareApiService implements LoggerAwareInterface
     public function purgeEverything(Site $site): bool
     {
         $config = $this->getCloudflareConfig($site);
-
         $body = json_encode(['purge_everything' => true]);
 
-        return $this->sendPurgeRequest($config['zoneId'], $config['apiToken'], $body);
+        return $this->sendPurgeRequest(
+            zoneId: $config['zoneId'],
+            apiToken: $config['apiToken'],
+            body: $body,
+            logType: 'purge_everything',
+            siteIdentifier: $site->getIdentifier(),
+            urls: []
+        );
     }
 
     /**
@@ -93,11 +106,20 @@ final class CloudflareApiService implements LoggerAwareInterface
      * @param string $zoneId Cloudflare zone ID
      * @param string $apiToken Cloudflare API token
      * @param string $body Request body (JSON)
+     * @param string $logType Log type (purge_urls, purge_everything)
+     * @param string $siteIdentifier Site identifier for logging
+     * @param array<string> $urls URLs for logging
      * @return bool True on success
      * @throws CloudflareException On API errors
      */
-    private function sendPurgeRequest(string $zoneId, string $apiToken, string $body): bool
-    {
+    private function sendPurgeRequest(
+        string $zoneId,
+        string $apiToken,
+        string $body,
+        string $logType,
+        string $siteIdentifier,
+        array $urls
+    ): bool {
         $url = sprintf(self::API_ENDPOINT, $zoneId);
 
         $additionalOptions = [
@@ -108,38 +130,45 @@ final class CloudflareApiService implements LoggerAwareInterface
             'body' => $body,
         ];
 
+        $startTime = microtime(true);
+
         try {
             $response = $this->requestFactory->request($url, 'POST', $additionalOptions);
+            $responseTimeMs = (microtime(true) - $startTime) * 1000;
+
             $statusCode = $response->getStatusCode();
             $responseBody = $response->getBody()->getContents();
 
             if ($statusCode !== 200) {
-                throw new CloudflareException(
-                    sprintf('API request failed with status %d: %s', $statusCode, $responseBody)
-                );
+                $errorMessage = sprintf('API request failed with status %d: %s', $statusCode, $responseBody);
+                $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
+                throw new CloudflareException($errorMessage);
             }
 
             $data = json_decode($responseBody, true);
 
             if (!isset($data['success']) || $data['success'] !== true) {
                 $errors = $data['errors'] ?? [];
-                throw new CloudflareException(
-                    'API returned success=false: ' . json_encode($errors)
-                );
+                $errorMessage = 'API returned success=false: ' . json_encode($errors);
+                $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
+                throw new CloudflareException($errorMessage);
             }
+
+            // Log successful request
+            $this->cloudflareLogService->logSuccess($logType, $zoneId, $siteIdentifier, $urls, $responseTimeMs);
 
             return true;
         } catch (\Exception $e) {
+            $responseTimeMs = (microtime(true) - $startTime) * 1000;
+
             if ($e instanceof CloudflareException) {
                 throw $e;
             }
 
-            throw new CloudflareException(
-                'Cloudflare API request failed: ' . $e->getMessage(),
-                0,
-                $e
-            );
+            $errorMessage = 'Cloudflare API request failed: ' . $e->getMessage();
+            $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
+
+            throw new CloudflareException($errorMessage, 0, $e);
         }
     }
-
 }
