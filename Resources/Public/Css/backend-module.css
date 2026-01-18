@@ -322,9 +322,16 @@
     fill: #6c757d;
 }
 
+/* Module container for sticky footer */
+.ignitercf-module {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 200px);
+}
+
 /* Footer */
 .ignitercf-footer {
-    margin-top: 2rem;
+    margin-top: auto;
     padding-top: 1.5rem;
     border-top: 1px solid #e5e5e5;
 }
