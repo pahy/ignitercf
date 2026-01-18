@@ -125,6 +125,114 @@
         </div>
     </div>
 
+    <!-- Activity Chart -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="actions-chart-bar" size="small" />
+                Purge Activity (Last 7 Days)
+                <f:if condition="{chartDataAge}">
+                    <small class="text-muted pull-right">
+                        Data updated {chartDataAge} min ago
+                    </small>
+                </f:if>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div id="ignitercf-chart-container" style="position: relative; height: 300px;">
+                <canvas id="ignitercf-activity-chart"></canvas>
+            </div>
+            <p id="ignitercf-chart-nodata" class="text-muted text-center" style="display: none;">
+                No data available. Run the chart:generate command first.
+            </p>
+            <p class="text-muted text-center mt-2">
+                <small>
+                    Generate chart data: <code>./vendor/bin/typo3 ignitercf:chart:generate</code>
+                </small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        (function() {
+            const chartData = <f:format.raw>{chartDataJson}</f:format.raw>;
+            const chartContainer = document.getElementById('ignitercf-chart-container');
+            const noDataMessage = document.getElementById('ignitercf-chart-nodata');
+
+            if (!chartData || chartData.length === 0) {
+                chartContainer.style.display = 'none';
+                noDataMessage.style.display = 'block';
+                return;
+            }
+
+            const labels = chartData.map(d => {
+                const date = new Date(d.date);
+                return date.toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' });
+            });
+            const successData = chartData.map(d => d.success);
+            const errorData = chartData.map(d => d.errors);
+
+            const ctx = document.getElementById('ignitercf-activity-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Successful',
+                            data: successData,
+                            backgroundColor: 'rgba(40, 167, 69, 0.8)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Errors',
+                            data: errorData,
+                            backgroundColor: 'rgba(220, 53, 69, 0.8)',
+                            borderColor: 'rgba(220, 53, 69, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterBody: function(context) {
+                                    const dataIndex = context[0].dataIndex;
+                                    const avgResponse = chartData[dataIndex].avg_response_ms;
+                                    return 'Avg Response: ' + avgResponse.toFixed(0) + ' ms';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
+
     <!-- Recent Log Entries -->
     <div class="panel panel-default">
         <div class="panel-heading">

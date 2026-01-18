@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pahy\Ignitercf\Controller;
 
+use Pahy\Ignitercf\Service\ChartDataService;
 use Pahy\Ignitercf\Service\CloudflareLogService;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use Psr\Http\Message\ResponseInterface;
@@ -22,7 +23,8 @@ final class BackendController extends ActionController
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly SiteFinder $siteFinder,
         private readonly ConfigurationService $configurationService,
-        private readonly CloudflareLogService $cloudflareLogService
+        private readonly CloudflareLogService $cloudflareLogService,
+        private readonly ChartDataService $chartDataService
     ) {}
 
     /**
@@ -41,6 +43,10 @@ final class BackendController extends ActionController
         // Get statistics
         $statistics = $this->cloudflareLogService->getStatistics(7);
 
+        // Get chart data (from cache or generate if stale)
+        $chartData = $this->chartDataService->getDataOrGenerate(60);
+        $chartDataAge = $this->chartDataService->getCacheAgeMinutes();
+
         // Get global settings
         $globalSettings = [
             'enabled' => $this->configurationService->isEnabled(),
@@ -57,6 +63,9 @@ final class BackendController extends ActionController
             'statistics' => $statistics,
             'globalSettings' => $globalSettings,
             'allConfigured' => $this->areAllSitesConfigured($sitesStatus),
+            'chartData' => $chartData,
+            'chartDataAge' => $chartDataAge,
+            'chartDataJson' => json_encode($chartData['daily'] ?? []),
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Index');
