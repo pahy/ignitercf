@@ -381,13 +381,15 @@
 .ignitercf-footer-credits {
     flex-basis: 100%;
     text-align: center;
+    font-size: 0.75rem;
+    color: #999;
 }
 
 .ignitercf-footer-credits a {
-    color: var(--ignitercf-orange);
+    color: #999;
     text-decoration: none;
 }
 
 .ignitercf-footer-credits a:hover {
-    text-decoration: underline;
+    color: #666;
 }
