@@ -7,6 +7,7 @@ namespace Pahy\Ignitercf\Command;
 use Pahy\Ignitercf\Exception\CloudflareException;
 use Pahy\Ignitercf\Service\CloudflareApiService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,7 +17,15 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 
 /**
  * CLI command to purge a specific Cloudflare zone
+ *
+ * Registered via:
+ * - PHP Attribute #[AsCommand] for Symfony 6.1+ / TYPO3 v13+
+ * - Services.yaml for TYPO3 v12
  */
+#[AsCommand(
+    name: 'ignitercf:purge:zone',
+    description: 'Purge Cloudflare cache for a specific zone/site'
+)]
 final class PurgeZoneCommand extends Command
 {
     public function __construct(

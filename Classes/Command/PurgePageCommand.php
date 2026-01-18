@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Command;
 
 use Pahy\Ignitercf\Service\CacheClearService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,7 +15,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * CLI command to purge Cloudflare cache for a specific page
+ *
+ * Registered via:
+ * - PHP Attribute #[AsCommand] for Symfony 6.1+ / TYPO3 v13+
+ * - Services.yaml for TYPO3 v12
  */
+#[AsCommand(
+    name: 'ignitercf:purge:page',
+    description: 'Purge Cloudflare cache for a specific page'
+)]
 final class PurgePageCommand extends Command
 {
     public function __construct(
