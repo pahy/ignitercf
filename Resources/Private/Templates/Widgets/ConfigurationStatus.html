@@ -1,12 +1,8 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-      xmlns:dashboard="http://typo3.org/ns/TYPO3/CMS/Dashboard/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<dashboard:widget.header title="{configuration.title}" icon="{configuration.iconIdentifier}">
-</dashboard:widget.header>
-
-<div class="widget-body">
+<div class="widget-content-main">
     <f:if condition="{enabled}">
         <f:then>
             <div class="text-center">
@@ -55,12 +51,5 @@
         </f:else>
     </f:if>
 </div>
-
-<dashboard:widget.footer>
-    <f:be.link route="ignitercf" class="btn btn-link">
-        <core:icon identifier="actions-cog" size="small" />
-        Open IgniterCF Module
-    </f:be.link>
-</dashboard:widget.footer>
 
 </html>

@@ -6,11 +6,10 @@ namespace Pahy\Ignitercf\Widgets;
 
 use Pahy\Ignitercf\Service\ChartDataService;
 use Pahy\Ignitercf\Service\ConfigurationService;
-use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Backend\View\BackendViewFactory;
-use TYPO3\CMS\Dashboard\Widgets\RequestAwareWidgetInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\Widgets\WidgetConfigurationInterface;
 use TYPO3\CMS\Dashboard\Widgets\WidgetInterface;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Dashboard widget showing Cloudflare configuration status
@@ -20,21 +19,13 @@ use TYPO3\CMS\Dashboard\Widgets\WidgetInterface;
  * - Status indicator (green/yellow/red)
  * - Link to backend module for configuration
  */
-class ConfigurationStatusWidget implements WidgetInterface, RequestAwareWidgetInterface
+class ConfigurationStatusWidget implements WidgetInterface
 {
-    private ServerRequestInterface $request;
-
     public function __construct(
         private readonly WidgetConfigurationInterface $configuration,
-        private readonly BackendViewFactory $backendViewFactory,
         private readonly ChartDataService $chartDataService,
         private readonly ConfigurationService $configurationService
     ) {}
-
-    public function setRequest(ServerRequestInterface $request): void
-    {
-        $this->request = $request;
-    }
 
     public function renderWidgetContent(): string
     {
@@ -63,7 +54,10 @@ class ConfigurationStatusWidget implements WidgetInterface, RequestAwareWidgetIn
             $statusIcon = 'actions-exclamation-circle';
         }
 
-        $view = $this->backendViewFactory->create($this->request);
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view->setTemplatePathAndFilename(
+            'EXT:ignitercf/Resources/Private/Templates/Widgets/ConfigurationStatus.html'
+        );
         $view->assignMultiple([
             'configuration' => $this->configuration,
             'configured' => $configured,
@@ -75,7 +69,7 @@ class ConfigurationStatusWidget implements WidgetInterface, RequestAwareWidgetIn
             'sites' => $sitesStatus['sites'] ?? [],
         ]);
 
-        return $view->render('Widgets/ConfigurationStatus');
+        return $view->render();
     }
 
     public function getOptions(): array
