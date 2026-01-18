@@ -38,6 +38,7 @@ final class BackendController extends ActionController
     public function indexAction(): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $moduleTemplate->setTitle('IgniterCF - Cloudflare Cache Management');
         $this->addDocHeaderMenu($moduleTemplate, 'index');
 
         // Get user's days preferences
@@ -83,6 +84,7 @@ final class BackendController extends ActionController
     public function configurationAction(): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $moduleTemplate->setTitle('IgniterCF - Cloudflare Cache Management');
         $this->addDocHeaderMenu($moduleTemplate, 'configuration');
 
         // Get all sites with their configuration status
