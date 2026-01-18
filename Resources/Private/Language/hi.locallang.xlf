@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+    <file source-language="en" target-language="hi" datatype="plaintext" original="messages" date="2026-01-18T00:00:00Z" product-name="ignitercf">
+        <header/>
+        <body>
+            <!-- Context Menu -->
+            <trans-unit id="contextMenu.clearCloudflareCache">
+                <source>Clear Cloudflare Cache</source>
+                <target>Cloudflare कैश साफ़ करें</target>
+            </trans-unit>
+
+            <!-- Cache Toolbar -->
+            <trans-unit id="cache.clearAll">
+                <source>Clear Cloudflare Cache (All Zones)</source>
+                <target>Cloudflare कैश साफ़ करें (सभी ज़ोन)</target>
+            </trans-unit>
+            <trans-unit id="cache.clearAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>सभी कॉन्फ़िगर किए गए ज़ोन के लिए पूरा Cloudflare कैश साफ़ करता है</target>
+            </trans-unit>
+
+            <!-- Backend Module - General -->
+            <trans-unit id="module.title">
+                <source>IgniterCF - Cloudflare Cache Management</source>
+                <target>IgniterCF - Cloudflare कैश प्रबंधन</target>
+            </trans-unit>
+            <trans-unit id="module.menu.dashboard">
+                <source>Dashboard</source>
+                <target>डैशबोर्ड</target>
+            </trans-unit>
+            <trans-unit id="module.menu.configuration">
+                <source>Configuration</source>
+                <target>कॉन्फ़िगरेशन</target>
+            </trans-unit>
+
+            <!-- Backend Module - Extension Disabled Warning -->
+            <trans-unit id="module.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>एक्सटेंशन अक्षम</target>
+            </trans-unit>
+            <trans-unit id="module.extensionDisabledMessage">
+                <source>IgniterCF is globally disabled. Enable it in Settings → Extension Configuration → ignitercf.</source>
+                <target>IgniterCF विश्व स्तर पर अक्षम है। इसे सेटिंग्स → एक्सटेंशन कॉन्फ़िगरेशन → ignitercf में सक्षम करें।</target>
+            </trans-unit>
+
+            <!-- Backend Module - Statistics Panel -->
+            <trans-unit id="module.statistics.title">
+                <source>Statistics (Last %d Days)</source>
+                <target>आँकड़े (पिछले %d दिन)</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.totalRequests">
+                <source>Total Requests</source>
+                <target>कुल अनुरोध</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.successful">
+                <source>Successful</source>
+                <target>सफल</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.errors">
+                <source>Errors</source>
+                <target>त्रुटियाँ</target>
+            </trans-unit>
+
+            <!-- Backend Module - Chart Panel -->
+            <trans-unit id="module.chart.title">
+                <source>Purge Activity (Last %d Days)</source>
+                <target>पर्ज गतिविधि (पिछले %d दिन)</target>
+            </trans-unit>
+            <trans-unit id="module.chart.updated">
+                <source>updated %d min ago</source>
+                <target>%d मिनट पहले अपडेट किया गया</target>
+            </trans-unit>
+            <trans-unit id="module.chart.noData">
+                <source>No data available. Run the chart:generate command first.</source>
+                <target>कोई डेटा उपलब्ध नहीं। पहले chart:generate कमांड चलाएं।</target>
+            </trans-unit>
+            <trans-unit id="module.chart.avgResponse">
+                <source>Avg Response</source>
+                <target>औसत प्रतिक्रिया</target>
+            </trans-unit>
+
+            <!-- Backend Module - Log Table -->
+            <trans-unit id="module.log.title">
+                <source>Recent Log Entries</source>
+                <target>हाल की लॉग प्रविष्टियाँ</target>
+            </trans-unit>
+            <trans-unit id="module.log.timestamp">
+                <source>Timestamp</source>
+                <target>टाइमस्टैंप</target>
+            </trans-unit>
+            <trans-unit id="module.log.type">
+                <source>Type</source>
+                <target>प्रकार</target>
+            </trans-unit>
+            <trans-unit id="module.log.site">
+                <source>Site</source>
+                <target>साइट</target>
+            </trans-unit>
+            <trans-unit id="module.log.status">
+                <source>Status</source>
+                <target>स्थिति</target>
+            </trans-unit>
+            <trans-unit id="module.log.response">
+                <source>Response</source>
+                <target>प्रतिक्रिया</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeAll">
+                <source>Purge All</source>
+                <target>सभी साफ़ करें</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeUrls">
+                <source>Purge URLs</source>
+                <target>URL साफ़ करें</target>
+            </trans-unit>
+            <trans-unit id="module.log.ok">
+                <source>OK</source>
+                <target>ठीक है</target>
+            </trans-unit>
+            <trans-unit id="module.log.error">
+                <source>Error</source>
+                <target>त्रुटि</target>
+            </trans-unit>
+            <trans-unit id="module.log.noEntries">
+                <source>No log entries yet.</source>
+                <target>अभी तक कोई लॉग प्रविष्टि नहीं।</target>
+            </trans-unit>
+            <trans-unit id="module.log.loggingDisabled">
+                <source>Note: Logging is currently disabled.</source>
+                <target>नोट: लॉगिंग वर्तमान में अक्षम है।</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Page -->
+            <trans-unit id="module.config.siteStatus">
+                <source>Site Configuration Status</source>
+                <target>साइट कॉन्फ़िगरेशन स्थिति</target>
+            </trans-unit>
+            <trans-unit id="module.config.allConfigured">
+                <source>All sites configured</source>
+                <target>सभी साइटें कॉन्फ़िगर की गईं</target>
+            </trans-unit>
+            <trans-unit id="module.config.setupRequired">
+                <source>Setup required</source>
+                <target>सेटअप आवश्यक</target>
+            </trans-unit>
+            <trans-unit id="module.config.noSites">
+                <source>No sites configured in TYPO3.</source>
+                <target>TYPO3 में कोई साइट कॉन्फ़िगर नहीं।</target>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettings">
+                <source>Global Settings</source>
+                <target>वैश्विक सेटिंग्स</target>
+            </trans-unit>
+            <trans-unit id="module.config.extensionEnabled">
+                <source>Extension Enabled</source>
+                <target>एक्सटेंशन सक्षम</target>
+            </trans-unit>
+            <trans-unit id="module.config.autoPurge">
+                <source>Auto-Purge on Save</source>
+                <target>सेव पर ऑटो-पर्ज</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetentionValue">
+                <source>%d days</source>
+                <target>%d दिन</target>
+            </trans-unit>
+            <trans-unit id="module.config.configured">
+                <source>Configured</source>
+                <target>कॉन्फ़िगर किया गया</target>
+            </trans-unit>
+            <trans-unit id="module.config.testButton">
+                <source>Test</source>
+                <target>परीक्षण</target>
+            </trans-unit>
+            <trans-unit id="module.config.siteEnabled">
+                <source>Site enabled</source>
+                <target>साइट सक्षम</target>
+            </trans-unit>
+            <trans-unit id="module.config.clickTest">
+                <source>Click "Test" to verify connection</source>
+                <target>कनेक्शन सत्यापित करने के लिए "परीक्षण" पर क्लिक करें</target>
+            </trans-unit>
+            <trans-unit id="module.config.solution">
+                <source>Solution</source>
+                <target>समाधान</target>
+            </trans-unit>
+
+            <!-- Backend Module - Status Indicators -->
+            <trans-unit id="module.status.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>एक्सटेंशन अक्षम</target>
+            </trans-unit>
+            <trans-unit id="module.status.noSitesConfigured">
+                <source>No sites configured</source>
+                <target>कोई साइट कॉन्फ़िगर नहीं</target>
+            </trans-unit>
+            <trans-unit id="module.status.configReady">
+                <source>Config: %d/%d sites ready</source>
+                <target>कॉन्फ़िग: %d/%d साइटें तैयार</target>
+            </trans-unit>
+            <trans-unit id="module.status.noActivity">
+                <source>Status: No activity (%d days)</source>
+                <target>स्थिति: कोई गतिविधि नहीं (%d दिन)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusOk">
+                <source>Status: %d OK (%d days)</source>
+                <target>स्थिति: %d ठीक (%d दिन)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusMixed">
+                <source>Status: %d OK, %d errors (%d days)</source>
+                <target>स्थिति: %d ठीक, %d त्रुटियाँ (%d दिन)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusErrors">
+                <source>Status: %d errors (%d days)</source>
+                <target>स्थिति: %d त्रुटियाँ (%d दिन)</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Hints -->
+            <trans-unit id="module.hint.zoneIdMissing">
+                <source>Zone ID is not configured</source>
+                <target>ज़ोन आईडी कॉन्फ़िगर नहीं है</target>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenMissing">
+                <source>API Token is not configured</source>
+                <target>API टोकन कॉन्फ़िगर नहीं है</target>
+            </trans-unit>
+            <trans-unit id="module.hint.siteDisabled">
+                <source>Cloudflare is disabled for this site</source>
+                <target>इस साइट के लिए Cloudflare अक्षम है</target>
+            </trans-unit>
+
+            <!-- Backend Module - Footer -->
+            <trans-unit id="module.footer.reportBug">
+                <source>Report Bug</source>
+                <target>बग रिपोर्ट करें</target>
+            </trans-unit>
+            <trans-unit id="module.footer.developedBy">
+                <source>Developed by</source>
+                <target>द्वारा विकसित</target>
+            </trans-unit>
+            <trans-unit id="module.footer.notAffiliated">
+                <source>Not affiliated with Cloudflare, Inc.</source>
+                <target>Cloudflare, Inc. से संबद्ध नहीं।</target>
+            </trans-unit>
+
+            <!-- Generic Values -->
+            <trans-unit id="value.yes">
+                <source>Yes</source>
+                <target>हाँ</target>
+            </trans-unit>
+            <trans-unit id="value.no">
+                <source>No</source>
+                <target>नहीं</target>
+            </trans-unit>
+
+            <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeZone.selectSite">
+                <source>-- Select site --</source>
+                <target>-- साइट चुनें --</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.notConfigured">
+                <source>(not configured)</source>
+                <target>(कॉन्फ़िगर नहीं)</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteRequired">
+                <source>Site identifier is required</source>
+                <target>साइट पहचानकर्ता आवश्यक है</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUidInvalid">
+                <source>Page UID must be a positive number</source>
+                <target>पेज UID एक धनात्मक संख्या होनी चाहिए</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days">
+                <source>Number of days to include</source>
+                <target>शामिल करने के लिए दिनों की संख्या</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days.invalid">
+                <source>Days must be between 1 and 365</source>
+                <target>दिन 1 और 365 के बीच होने चाहिए</target>
+            </trans-unit>
+
+            <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.noSites">
+                <source>No sites found</source>
+                <target>कोई साइट नहीं मिली</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.allConfigured">
+                <source>All sites configured</source>
+                <target>सभी साइटें कॉन्फ़िगर की गईं</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.noneConfigured">
+                <source>No sites configured</source>
+                <target>कोई साइट कॉन्फ़िगर नहीं</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.partiallyConfigured">
+                <source>%d of %d sites configured</source>
+                <target>%d में से %d साइटें कॉन्फ़िगर की गईं</target>
+            </trans-unit>
+
+            <!-- JavaScript/AJAX Messages -->
+            <trans-unit id="ajax.testConnection.success">
+                <source>Connection successful</source>
+                <target>कनेक्शन सफल</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.failed">
+                <source>Connection failed</source>
+                <target>कनेक्शन विफल</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testing">
+                <source>Testing...</source>
+                <target>परीक्षण हो रहा है...</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

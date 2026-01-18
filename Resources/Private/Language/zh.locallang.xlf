@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+    <file source-language="en" target-language="zh" datatype="plaintext" original="messages" date="2026-01-18T00:00:00Z" product-name="ignitercf">
+        <header/>
+        <body>
+            <!-- Context Menu -->
+            <trans-unit id="contextMenu.clearCloudflareCache">
+                <source>Clear Cloudflare Cache</source>
+                <target>清除 Cloudflare 缓存</target>
+            </trans-unit>
+
+            <!-- Cache Toolbar -->
+            <trans-unit id="cache.clearAll">
+                <source>Clear Cloudflare Cache (All Zones)</source>
+                <target>清除 Cloudflare 缓存（所有区域）</target>
+            </trans-unit>
+            <trans-unit id="cache.clearAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>清除所有已配置区域的全部 Cloudflare 缓存</target>
+            </trans-unit>
+
+            <!-- Backend Module - General -->
+            <trans-unit id="module.title">
+                <source>IgniterCF - Cloudflare Cache Management</source>
+                <target>IgniterCF - Cloudflare 缓存管理</target>
+            </trans-unit>
+            <trans-unit id="module.menu.dashboard">
+                <source>Dashboard</source>
+                <target>仪表板</target>
+            </trans-unit>
+            <trans-unit id="module.menu.configuration">
+                <source>Configuration</source>
+                <target>配置</target>
+            </trans-unit>
+
+            <!-- Backend Module - Extension Disabled Warning -->
+            <trans-unit id="module.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>扩展已禁用</target>
+            </trans-unit>
+            <trans-unit id="module.extensionDisabledMessage">
+                <source>IgniterCF is globally disabled. Enable it in Settings → Extension Configuration → ignitercf.</source>
+                <target>IgniterCF 已全局禁用。请在设置 → 扩展配置 → ignitercf 中启用。</target>
+            </trans-unit>
+
+            <!-- Backend Module - Statistics Panel -->
+            <trans-unit id="module.statistics.title">
+                <source>Statistics (Last %d Days)</source>
+                <target>统计（最近 %d 天）</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.totalRequests">
+                <source>Total Requests</source>
+                <target>总请求数</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.successful">
+                <source>Successful</source>
+                <target>成功</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.errors">
+                <source>Errors</source>
+                <target>错误</target>
+            </trans-unit>
+
+            <!-- Backend Module - Chart Panel -->
+            <trans-unit id="module.chart.title">
+                <source>Purge Activity (Last %d Days)</source>
+                <target>清除活动（最近 %d 天）</target>
+            </trans-unit>
+            <trans-unit id="module.chart.updated">
+                <source>updated %d min ago</source>
+                <target>%d 分钟前更新</target>
+            </trans-unit>
+            <trans-unit id="module.chart.noData">
+                <source>No data available. Run the chart:generate command first.</source>
+                <target>无可用数据。请先运行 chart:generate 命令。</target>
+            </trans-unit>
+            <trans-unit id="module.chart.avgResponse">
+                <source>Avg Response</source>
+                <target>平均响应</target>
+            </trans-unit>
+
+            <!-- Backend Module - Log Table -->
+            <trans-unit id="module.log.title">
+                <source>Recent Log Entries</source>
+                <target>最近的日志条目</target>
+            </trans-unit>
+            <trans-unit id="module.log.timestamp">
+                <source>Timestamp</source>
+                <target>时间戳</target>
+            </trans-unit>
+            <trans-unit id="module.log.type">
+                <source>Type</source>
+                <target>类型</target>
+            </trans-unit>
+            <trans-unit id="module.log.site">
+                <source>Site</source>
+                <target>站点</target>
+            </trans-unit>
+            <trans-unit id="module.log.status">
+                <source>Status</source>
+                <target>状态</target>
+            </trans-unit>
+            <trans-unit id="module.log.response">
+                <source>Response</source>
+                <target>响应</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeAll">
+                <source>Purge All</source>
+                <target>清除全部</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeUrls">
+                <source>Purge URLs</source>
+                <target>清除 URL</target>
+            </trans-unit>
+            <trans-unit id="module.log.ok">
+                <source>OK</source>
+                <target>成功</target>
+            </trans-unit>
+            <trans-unit id="module.log.error">
+                <source>Error</source>
+                <target>错误</target>
+            </trans-unit>
+            <trans-unit id="module.log.noEntries">
+                <source>No log entries yet.</source>
+                <target>暂无日志条目。</target>
+            </trans-unit>
+            <trans-unit id="module.log.loggingDisabled">
+                <source>Note: Logging is currently disabled.</source>
+                <target>注意：日志记录当前已禁用。</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Page -->
+            <trans-unit id="module.config.siteStatus">
+                <source>Site Configuration Status</source>
+                <target>站点配置状态</target>
+            </trans-unit>
+            <trans-unit id="module.config.allConfigured">
+                <source>All sites configured</source>
+                <target>所有站点已配置</target>
+            </trans-unit>
+            <trans-unit id="module.config.setupRequired">
+                <source>Setup required</source>
+                <target>需要设置</target>
+            </trans-unit>
+            <trans-unit id="module.config.noSites">
+                <source>No sites configured in TYPO3.</source>
+                <target>TYPO3 中未配置站点。</target>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettings">
+                <source>Global Settings</source>
+                <target>全局设置</target>
+            </trans-unit>
+            <trans-unit id="module.config.extensionEnabled">
+                <source>Extension Enabled</source>
+                <target>扩展已启用</target>
+            </trans-unit>
+            <trans-unit id="module.config.autoPurge">
+                <source>Auto-Purge on Save</source>
+                <target>保存时自动清除</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetentionValue">
+                <source>%d days</source>
+                <target>%d 天</target>
+            </trans-unit>
+            <trans-unit id="module.config.configured">
+                <source>Configured</source>
+                <target>已配置</target>
+            </trans-unit>
+            <trans-unit id="module.config.testButton">
+                <source>Test</source>
+                <target>测试</target>
+            </trans-unit>
+            <trans-unit id="module.config.siteEnabled">
+                <source>Site enabled</source>
+                <target>站点已启用</target>
+            </trans-unit>
+            <trans-unit id="module.config.clickTest">
+                <source>Click "Test" to verify connection</source>
+                <target>点击"测试"以验证连接</target>
+            </trans-unit>
+            <trans-unit id="module.config.solution">
+                <source>Solution</source>
+                <target>解决方案</target>
+            </trans-unit>
+
+            <!-- Backend Module - Status Indicators -->
+            <trans-unit id="module.status.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>扩展已禁用</target>
+            </trans-unit>
+            <trans-unit id="module.status.noSitesConfigured">
+                <source>No sites configured</source>
+                <target>未配置站点</target>
+            </trans-unit>
+            <trans-unit id="module.status.configReady">
+                <source>Config: %d/%d sites ready</source>
+                <target>配置：%d/%d 站点就绪</target>
+            </trans-unit>
+            <trans-unit id="module.status.noActivity">
+                <source>Status: No activity (%d days)</source>
+                <target>状态：无活动（%d 天）</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusOk">
+                <source>Status: %d OK (%d days)</source>
+                <target>状态：%d 成功（%d 天）</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusMixed">
+                <source>Status: %d OK, %d errors (%d days)</source>
+                <target>状态：%d 成功，%d 错误（%d 天）</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusErrors">
+                <source>Status: %d errors (%d days)</source>
+                <target>状态：%d 错误（%d 天）</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Hints -->
+            <trans-unit id="module.hint.zoneIdMissing">
+                <source>Zone ID is not configured</source>
+                <target>区域 ID 未配置</target>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenMissing">
+                <source>API Token is not configured</source>
+                <target>API 令牌未配置</target>
+            </trans-unit>
+            <trans-unit id="module.hint.siteDisabled">
+                <source>Cloudflare is disabled for this site</source>
+                <target>此站点的 Cloudflare 已禁用</target>
+            </trans-unit>
+
+            <!-- Backend Module - Footer -->
+            <trans-unit id="module.footer.reportBug">
+                <source>Report Bug</source>
+                <target>报告错误</target>
+            </trans-unit>
+            <trans-unit id="module.footer.developedBy">
+                <source>Developed by</source>
+                <target>开发者</target>
+            </trans-unit>
+            <trans-unit id="module.footer.notAffiliated">
+                <source>Not affiliated with Cloudflare, Inc.</source>
+                <target>与 Cloudflare, Inc. 无关联</target>
+            </trans-unit>
+
+            <!-- Generic Values -->
+            <trans-unit id="value.yes">
+                <source>Yes</source>
+                <target>是</target>
+            </trans-unit>
+            <trans-unit id="value.no">
+                <source>No</source>
+                <target>否</target>
+            </trans-unit>
+
+            <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeZone.selectSite">
+                <source>-- Select site --</source>
+                <target>-- 选择站点 --</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.notConfigured">
+                <source>(not configured)</source>
+                <target>（未配置）</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteRequired">
+                <source>Site identifier is required</source>
+                <target>需要站点标识符</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUidInvalid">
+                <source>Page UID must be a positive number</source>
+                <target>页面 UID 必须是正数</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days">
+                <source>Number of days to include</source>
+                <target>要包含的天数</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days.invalid">
+                <source>Days must be between 1 and 365</source>
+                <target>天数必须在 1 到 365 之间</target>
+            </trans-unit>
+
+            <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.noSites">
+                <source>No sites found</source>
+                <target>未找到站点</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.allConfigured">
+                <source>All sites configured</source>
+                <target>所有站点已配置</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.noneConfigured">
+                <source>No sites configured</source>
+                <target>未配置站点</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.partiallyConfigured">
+                <source>%d of %d sites configured</source>
+                <target>已配置 %d/%d 个站点</target>
+            </trans-unit>
+
+            <!-- JavaScript/AJAX Messages -->
+            <trans-unit id="ajax.testConnection.success">
+                <source>Connection successful</source>
+                <target>连接成功</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.failed">
+                <source>Connection failed</source>
+                <target>连接失败</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testing">
+                <source>Testing...</source>
+                <target>测试中...</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+    <file source-language="en" target-language="es" datatype="plaintext" original="messages" date="2026-01-18T00:00:00Z" product-name="ignitercf">
+        <header/>
+        <body>
+            <!-- Context Menu -->
+            <trans-unit id="contextMenu.clearCloudflareCache">
+                <source>Clear Cloudflare Cache</source>
+                <target>Limpiar caché de Cloudflare</target>
+            </trans-unit>
+
+            <!-- Cache Toolbar -->
+            <trans-unit id="cache.clearAll">
+                <source>Clear Cloudflare Cache (All Zones)</source>
+                <target>Limpiar caché de Cloudflare (todas las zonas)</target>
+            </trans-unit>
+            <trans-unit id="cache.clearAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Purga toda la caché de Cloudflare para todas las zonas configuradas</target>
+            </trans-unit>
+
+            <!-- Backend Module - General -->
+            <trans-unit id="module.title">
+                <source>IgniterCF - Cloudflare Cache Management</source>
+                <target>IgniterCF - Gestión de caché de Cloudflare</target>
+            </trans-unit>
+            <trans-unit id="module.menu.dashboard">
+                <source>Dashboard</source>
+                <target>Panel de control</target>
+            </trans-unit>
+            <trans-unit id="module.menu.configuration">
+                <source>Configuration</source>
+                <target>Configuración</target>
+            </trans-unit>
+
+            <!-- Backend Module - Extension Disabled Warning -->
+            <trans-unit id="module.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>Extensión desactivada</target>
+            </trans-unit>
+            <trans-unit id="module.extensionDisabledMessage">
+                <source>IgniterCF is globally disabled. Enable it in Settings → Extension Configuration → ignitercf.</source>
+                <target>IgniterCF está desactivado globalmente. Actívelo en Configuración → Configuración de extensiones → ignitercf.</target>
+            </trans-unit>
+
+            <!-- Backend Module - Statistics Panel -->
+            <trans-unit id="module.statistics.title">
+                <source>Statistics (Last %d Days)</source>
+                <target>Estadísticas (Últimos %d días)</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.totalRequests">
+                <source>Total Requests</source>
+                <target>Solicitudes totales</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.successful">
+                <source>Successful</source>
+                <target>Exitosas</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.errors">
+                <source>Errors</source>
+                <target>Errores</target>
+            </trans-unit>
+
+            <!-- Backend Module - Chart Panel -->
+            <trans-unit id="module.chart.title">
+                <source>Purge Activity (Last %d Days)</source>
+                <target>Actividad de purga (Últimos %d días)</target>
+            </trans-unit>
+            <trans-unit id="module.chart.updated">
+                <source>updated %d min ago</source>
+                <target>actualizado hace %d min</target>
+            </trans-unit>
+            <trans-unit id="module.chart.noData">
+                <source>No data available. Run the chart:generate command first.</source>
+                <target>No hay datos disponibles. Ejecute primero el comando chart:generate.</target>
+            </trans-unit>
+            <trans-unit id="module.chart.avgResponse">
+                <source>Avg Response</source>
+                <target>Respuesta promedio</target>
+            </trans-unit>
+
+            <!-- Backend Module - Log Table -->
+            <trans-unit id="module.log.title">
+                <source>Recent Log Entries</source>
+                <target>Entradas de registro recientes</target>
+            </trans-unit>
+            <trans-unit id="module.log.timestamp">
+                <source>Timestamp</source>
+                <target>Marca de tiempo</target>
+            </trans-unit>
+            <trans-unit id="module.log.type">
+                <source>Type</source>
+                <target>Tipo</target>
+            </trans-unit>
+            <trans-unit id="module.log.site">
+                <source>Site</source>
+                <target>Sitio</target>
+            </trans-unit>
+            <trans-unit id="module.log.urls">
+                <source>URLs</source>
+                <target>URLs</target>
+            </trans-unit>
+            <trans-unit id="module.log.status">
+                <source>Status</source>
+                <target>Estado</target>
+            </trans-unit>
+            <trans-unit id="module.log.response">
+                <source>Response</source>
+                <target>Respuesta</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeAll">
+                <source>Purge All</source>
+                <target>Purgar todo</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeUrls">
+                <source>Purge URLs</source>
+                <target>Purgar URLs</target>
+            </trans-unit>
+            <trans-unit id="module.log.ok">
+                <source>OK</source>
+                <target>OK</target>
+            </trans-unit>
+            <trans-unit id="module.log.error">
+                <source>Error</source>
+                <target>Error</target>
+            </trans-unit>
+            <trans-unit id="module.log.noEntries">
+                <source>No log entries yet.</source>
+                <target>Aún no hay entradas de registro.</target>
+            </trans-unit>
+            <trans-unit id="module.log.loggingDisabled">
+                <source>Note: Logging is currently disabled.</source>
+                <target>Nota: El registro está actualmente desactivado.</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Page -->
+            <trans-unit id="module.config.siteStatus">
+                <source>Site Configuration Status</source>
+                <target>Estado de configuración del sitio</target>
+            </trans-unit>
+            <trans-unit id="module.config.allConfigured">
+                <source>All sites configured</source>
+                <target>Todos los sitios configurados</target>
+            </trans-unit>
+            <trans-unit id="module.config.setupRequired">
+                <source>Setup required</source>
+                <target>Configuración requerida</target>
+            </trans-unit>
+            <trans-unit id="module.config.noSites">
+                <source>No sites configured in TYPO3.</source>
+                <target>No hay sitios configurados en TYPO3.</target>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettings">
+                <source>Global Settings</source>
+                <target>Configuración global</target>
+            </trans-unit>
+            <trans-unit id="module.config.configureHint">
+                <source>Configure these settings in Settings → Extension Configuration → ignitercf</source>
+                <target>Configure estos ajustes en Configuración → Configuración de extensiones → ignitercf</target>
+            </trans-unit>
+            <trans-unit id="module.config.extensionEnabled">
+                <source>Extension Enabled</source>
+                <target>Extensión activada</target>
+            </trans-unit>
+            <trans-unit id="module.config.autoPurge">
+                <source>Auto-Purge on Save</source>
+                <target>Purga automática al guardar</target>
+            </trans-unit>
+            <trans-unit id="module.config.purgeOnClearAll">
+                <source>Purge on Clear All</source>
+                <target>Purgar al limpiar todo</target>
+            </trans-unit>
+            <trans-unit id="module.config.middlewareEnabled">
+                <source>Middleware Enabled</source>
+                <target>Middleware activado</target>
+            </trans-unit>
+            <trans-unit id="module.config.logLevel">
+                <source>Log Level</source>
+                <target>Nivel de registro</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetention">
+                <source>Log Retention</source>
+                <target>Retención de registros</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetentionValue">
+                <source>%d days</source>
+                <target>%d días</target>
+            </trans-unit>
+            <trans-unit id="module.config.configured">
+                <source>Configured</source>
+                <target>Configurado</target>
+            </trans-unit>
+            <trans-unit id="module.config.testConnectionTitle">
+                <source>Test Cloudflare connection</source>
+                <target>Probar conexión de Cloudflare</target>
+            </trans-unit>
+            <trans-unit id="module.config.testButton">
+                <source>Test</source>
+                <target>Probar</target>
+            </trans-unit>
+            <trans-unit id="module.config.zoneId">
+                <source>Zone ID</source>
+                <target>ID de zona</target>
+            </trans-unit>
+            <trans-unit id="module.config.apiToken">
+                <source>API Token</source>
+                <target>Token de API</target>
+            </trans-unit>
+            <trans-unit id="module.config.siteEnabled">
+                <source>Site enabled</source>
+                <target>Sitio activado</target>
+            </trans-unit>
+            <trans-unit id="module.config.clickTest">
+                <source>Click "Test" to verify connection</source>
+                <target>Haga clic en "Probar" para verificar la conexión</target>
+            </trans-unit>
+            <trans-unit id="module.config.solution">
+                <source>Solution</source>
+                <target>Solución</target>
+            </trans-unit>
+
+            <!-- Backend Module - Status Indicators -->
+            <trans-unit id="module.status.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>Extensión desactivada</target>
+            </trans-unit>
+            <trans-unit id="module.status.noSitesConfigured">
+                <source>No sites configured</source>
+                <target>No hay sitios configurados</target>
+            </trans-unit>
+            <trans-unit id="module.status.configReady">
+                <source>Config: %d/%d sites ready</source>
+                <target>Config: %d/%d sitios listos</target>
+            </trans-unit>
+            <trans-unit id="module.status.configNone">
+                <source>Config: No sites configured</source>
+                <target>Config: No hay sitios configurados</target>
+            </trans-unit>
+            <trans-unit id="module.status.noActivity">
+                <source>Status: No activity (%d days)</source>
+                <target>Estado: Sin actividad (%d días)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusOk">
+                <source>Status: %d OK (%d days)</source>
+                <target>Estado: %d OK (%d días)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusMixed">
+                <source>Status: %d OK, %d errors (%d days)</source>
+                <target>Estado: %d OK, %d errores (%d días)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusErrors">
+                <source>Status: %d errors (%d days)</source>
+                <target>Estado: %d errores (%d días)</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Hints -->
+            <trans-unit id="module.hint.zoneIdMissing">
+                <source>Zone ID is not configured</source>
+                <target>El ID de zona no está configurado</target>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenMissing">
+                <source>API Token is not configured</source>
+                <target>El token de API no está configurado</target>
+            </trans-unit>
+            <trans-unit id="module.hint.siteDisabled">
+                <source>Cloudflare is disabled for this site</source>
+                <target>Cloudflare está desactivado para este sitio</target>
+            </trans-unit>
+
+            <!-- Backend Module - Footer -->
+            <trans-unit id="module.footer.reportBug">
+                <source>Report Bug</source>
+                <target>Reportar error</target>
+            </trans-unit>
+            <trans-unit id="module.footer.developedBy">
+                <source>Developed by</source>
+                <target>Desarrollado por</target>
+            </trans-unit>
+            <trans-unit id="module.footer.notAffiliated">
+                <source>Not affiliated with Cloudflare, Inc.</source>
+                <target>No afiliado a Cloudflare, Inc.</target>
+            </trans-unit>
+
+            <!-- Generic Values -->
+            <trans-unit id="value.yes">
+                <source>Yes</source>
+                <target>Sí</target>
+            </trans-unit>
+            <trans-unit id="value.no">
+                <source>No</source>
+                <target>No</target>
+            </trans-unit>
+
+            <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeAll.title">
+                <source>IgniterCF: Purge All Zones</source>
+                <target>IgniterCF: Purgar todas las zonas</target>
+            </trans-unit>
+            <trans-unit id="task.purgeAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Purga toda la caché de Cloudflare para todas las zonas configuradas</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.title">
+                <source>IgniterCF: Purge Zone</source>
+                <target>IgniterCF: Purgar zona</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.description">
+                <source>Purges the entire Cloudflare cache for a specific zone/site</source>
+                <target>Purga toda la caché de Cloudflare para una zona/sitio específico</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteIdentifier">
+                <source>Site</source>
+                <target>Sitio</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.selectSite">
+                <source>-- Select site --</source>
+                <target>-- Seleccionar sitio --</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.notConfigured">
+                <source>(not configured)</source>
+                <target>(no configurado)</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteRequired">
+                <source>Site identifier is required</source>
+                <target>Se requiere el identificador del sitio</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.title">
+                <source>IgniterCF: Purge Page</source>
+                <target>IgniterCF: Purgar página</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.description">
+                <source>Purges the Cloudflare cache for a specific page</source>
+                <target>Purga la caché de Cloudflare para una página específica</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUid">
+                <source>Page UID</source>
+                <target>UID de página</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.languageUid">
+                <source>Language UID (-1 = all languages)</source>
+                <target>UID de idioma (-1 = todos los idiomas)</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUidInvalid">
+                <source>Page UID must be a positive number</source>
+                <target>El UID de página debe ser un número positivo</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days">
+                <source>Number of days to include</source>
+                <target>Número de días a incluir</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days.invalid">
+                <source>Days must be between 1 and 365</source>
+                <target>Los días deben estar entre 1 y 365</target>
+            </trans-unit>
+
+            <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.noSites">
+                <source>No sites found</source>
+                <target>No se encontraron sitios</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.allConfigured">
+                <source>All sites configured</source>
+                <target>Todos los sitios configurados</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.noneConfigured">
+                <source>No sites configured</source>
+                <target>No hay sitios configurados</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.partiallyConfigured">
+                <source>%d of %d sites configured</source>
+                <target>%d de %d sitios configurados</target>
+            </trans-unit>
+
+            <!-- JavaScript/AJAX Messages -->
+            <trans-unit id="ajax.testConnection.success">
+                <source>Connection successful</source>
+                <target>Conexión exitosa</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.failed">
+                <source>Connection failed</source>
+                <target>Conexión fallida</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testing">
+                <source>Testing...</source>
+                <target>Probando...</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

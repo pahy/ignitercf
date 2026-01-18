@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+    <file source-language="en" target-language="nl" datatype="plaintext" original="messages" date="2026-01-18T00:00:00Z" product-name="ignitercf">
+        <header/>
+        <body>
+            <!-- Context Menu -->
+            <trans-unit id="contextMenu.clearCloudflareCache">
+                <source>Clear Cloudflare Cache</source>
+                <target>Cloudflare-cache wissen</target>
+            </trans-unit>
+
+            <!-- Cache Toolbar -->
+            <trans-unit id="cache.clearAll">
+                <source>Clear Cloudflare Cache (All Zones)</source>
+                <target>Cloudflare-cache wissen (alle zones)</target>
+            </trans-unit>
+            <trans-unit id="cache.clearAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Wist de volledige Cloudflare-cache voor alle geconfigureerde zones</target>
+            </trans-unit>
+
+            <!-- Backend Module - General -->
+            <trans-unit id="module.title">
+                <source>IgniterCF - Cloudflare Cache Management</source>
+                <target>IgniterCF - Cloudflare-cachebeheer</target>
+            </trans-unit>
+            <trans-unit id="module.menu.dashboard">
+                <source>Dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="module.menu.configuration">
+                <source>Configuration</source>
+                <target>Configuratie</target>
+            </trans-unit>
+
+            <!-- Backend Module - Extension Disabled Warning -->
+            <trans-unit id="module.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>Extensie uitgeschakeld</target>
+            </trans-unit>
+            <trans-unit id="module.extensionDisabledMessage">
+                <source>IgniterCF is globally disabled. Enable it in Settings → Extension Configuration → ignitercf.</source>
+                <target>IgniterCF is globaal uitgeschakeld. Schakel het in via Instellingen → Extensieconfiguratie → ignitercf.</target>
+            </trans-unit>
+
+            <!-- Backend Module - Statistics Panel -->
+            <trans-unit id="module.statistics.title">
+                <source>Statistics (Last %d Days)</source>
+                <target>Statistieken (Laatste %d dagen)</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.totalRequests">
+                <source>Total Requests</source>
+                <target>Totaal verzoeken</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.successful">
+                <source>Successful</source>
+                <target>Succesvol</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.errors">
+                <source>Errors</source>
+                <target>Fouten</target>
+            </trans-unit>
+
+            <!-- Backend Module - Chart Panel -->
+            <trans-unit id="module.chart.title">
+                <source>Purge Activity (Last %d Days)</source>
+                <target>Wisactiviteit (Laatste %d dagen)</target>
+            </trans-unit>
+            <trans-unit id="module.chart.updated">
+                <source>updated %d min ago</source>
+                <target>bijgewerkt %d min geleden</target>
+            </trans-unit>
+            <trans-unit id="module.chart.noData">
+                <source>No data available. Run the chart:generate command first.</source>
+                <target>Geen gegevens beschikbaar. Voer eerst het chart:generate-commando uit.</target>
+            </trans-unit>
+            <trans-unit id="module.chart.avgResponse">
+                <source>Avg Response</source>
+                <target>Gem. respons</target>
+            </trans-unit>
+
+            <!-- Backend Module - Log Table -->
+            <trans-unit id="module.log.title">
+                <source>Recent Log Entries</source>
+                <target>Recente logboekitems</target>
+            </trans-unit>
+            <trans-unit id="module.log.timestamp">
+                <source>Timestamp</source>
+                <target>Tijdstempel</target>
+            </trans-unit>
+            <trans-unit id="module.log.type">
+                <source>Type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="module.log.site">
+                <source>Site</source>
+                <target>Site</target>
+            </trans-unit>
+            <trans-unit id="module.log.status">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="module.log.response">
+                <source>Response</source>
+                <target>Respons</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeAll">
+                <source>Purge All</source>
+                <target>Alles wissen</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeUrls">
+                <source>Purge URLs</source>
+                <target>URLs wissen</target>
+            </trans-unit>
+            <trans-unit id="module.log.ok">
+                <source>OK</source>
+                <target>OK</target>
+            </trans-unit>
+            <trans-unit id="module.log.error">
+                <source>Error</source>
+                <target>Fout</target>
+            </trans-unit>
+            <trans-unit id="module.log.noEntries">
+                <source>No log entries yet.</source>
+                <target>Nog geen logboekitems.</target>
+            </trans-unit>
+            <trans-unit id="module.log.loggingDisabled">
+                <source>Note: Logging is currently disabled.</source>
+                <target>Opmerking: Logboekregistratie is momenteel uitgeschakeld.</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Page -->
+            <trans-unit id="module.config.siteStatus">
+                <source>Site Configuration Status</source>
+                <target>Site-configuratiestatus</target>
+            </trans-unit>
+            <trans-unit id="module.config.allConfigured">
+                <source>All sites configured</source>
+                <target>Alle sites geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="module.config.setupRequired">
+                <source>Setup required</source>
+                <target>Configuratie vereist</target>
+            </trans-unit>
+            <trans-unit id="module.config.noSites">
+                <source>No sites configured in TYPO3.</source>
+                <target>Geen sites geconfigureerd in TYPO3.</target>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettings">
+                <source>Global Settings</source>
+                <target>Globale instellingen</target>
+            </trans-unit>
+            <trans-unit id="module.config.extensionEnabled">
+                <source>Extension Enabled</source>
+                <target>Extensie ingeschakeld</target>
+            </trans-unit>
+            <trans-unit id="module.config.autoPurge">
+                <source>Auto-Purge on Save</source>
+                <target>Automatisch wissen bij opslaan</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetentionValue">
+                <source>%d days</source>
+                <target>%d dagen</target>
+            </trans-unit>
+            <trans-unit id="module.config.configured">
+                <source>Configured</source>
+                <target>Geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="module.config.testButton">
+                <source>Test</source>
+                <target>Testen</target>
+            </trans-unit>
+            <trans-unit id="module.config.siteEnabled">
+                <source>Site enabled</source>
+                <target>Site ingeschakeld</target>
+            </trans-unit>
+            <trans-unit id="module.config.clickTest">
+                <source>Click "Test" to verify connection</source>
+                <target>Klik op "Testen" om de verbinding te verifiëren</target>
+            </trans-unit>
+            <trans-unit id="module.config.solution">
+                <source>Solution</source>
+                <target>Oplossing</target>
+            </trans-unit>
+
+            <!-- Backend Module - Status Indicators -->
+            <trans-unit id="module.status.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>Extensie uitgeschakeld</target>
+            </trans-unit>
+            <trans-unit id="module.status.noSitesConfigured">
+                <source>No sites configured</source>
+                <target>Geen sites geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="module.status.configReady">
+                <source>Config: %d/%d sites ready</source>
+                <target>Config: %d/%d sites gereed</target>
+            </trans-unit>
+            <trans-unit id="module.status.noActivity">
+                <source>Status: No activity (%d days)</source>
+                <target>Status: Geen activiteit (%d dagen)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusOk">
+                <source>Status: %d OK (%d days)</source>
+                <target>Status: %d OK (%d dagen)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusMixed">
+                <source>Status: %d OK, %d errors (%d days)</source>
+                <target>Status: %d OK, %d fouten (%d dagen)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusErrors">
+                <source>Status: %d errors (%d days)</source>
+                <target>Status: %d fouten (%d dagen)</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Hints -->
+            <trans-unit id="module.hint.zoneIdMissing">
+                <source>Zone ID is not configured</source>
+                <target>Zone-ID is niet geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenMissing">
+                <source>API Token is not configured</source>
+                <target>API-token is niet geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="module.hint.siteDisabled">
+                <source>Cloudflare is disabled for this site</source>
+                <target>Cloudflare is uitgeschakeld voor deze site</target>
+            </trans-unit>
+
+            <!-- Backend Module - Footer -->
+            <trans-unit id="module.footer.reportBug">
+                <source>Report Bug</source>
+                <target>Bug melden</target>
+            </trans-unit>
+            <trans-unit id="module.footer.developedBy">
+                <source>Developed by</source>
+                <target>Ontwikkeld door</target>
+            </trans-unit>
+            <trans-unit id="module.footer.notAffiliated">
+                <source>Not affiliated with Cloudflare, Inc.</source>
+                <target>Niet gelieerd aan Cloudflare, Inc.</target>
+            </trans-unit>
+
+            <!-- Generic Values -->
+            <trans-unit id="value.yes">
+                <source>Yes</source>
+                <target>Ja</target>
+            </trans-unit>
+            <trans-unit id="value.no">
+                <source>No</source>
+                <target>Nee</target>
+            </trans-unit>
+
+            <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeZone.selectSite">
+                <source>-- Select site --</source>
+                <target>-- Selecteer site --</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.notConfigured">
+                <source>(not configured)</source>
+                <target>(niet geconfigureerd)</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteRequired">
+                <source>Site identifier is required</source>
+                <target>Site-identificatie is vereist</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUidInvalid">
+                <source>Page UID must be a positive number</source>
+                <target>Pagina-UID moet een positief getal zijn</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days">
+                <source>Number of days to include</source>
+                <target>Aantal dagen om op te nemen</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days.invalid">
+                <source>Days must be between 1 and 365</source>
+                <target>Dagen moeten tussen 1 en 365 liggen</target>
+            </trans-unit>
+
+            <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.noSites">
+                <source>No sites found</source>
+                <target>Geen sites gevonden</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.allConfigured">
+                <source>All sites configured</source>
+                <target>Alle sites geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.noneConfigured">
+                <source>No sites configured</source>
+                <target>Geen sites geconfigureerd</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.partiallyConfigured">
+                <source>%d of %d sites configured</source>
+                <target>%d van %d sites geconfigureerd</target>
+            </trans-unit>
+
+            <!-- JavaScript/AJAX Messages -->
+            <trans-unit id="ajax.testConnection.success">
+                <source>Connection successful</source>
+                <target>Verbinding geslaagd</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.failed">
+                <source>Connection failed</source>
+                <target>Verbinding mislukt</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testing">
+                <source>Testing...</source>
+                <target>Testen...</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

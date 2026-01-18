@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+    <file source-language="en" target-language="no" datatype="plaintext" original="messages" date="2026-01-18T00:00:00Z" product-name="ignitercf">
+        <header/>
+        <body>
+            <!-- Context Menu -->
+            <trans-unit id="contextMenu.clearCloudflareCache">
+                <source>Clear Cloudflare Cache</source>
+                <target>Tøm Cloudflare-hurtigbuffer</target>
+            </trans-unit>
+
+            <!-- Cache Toolbar -->
+            <trans-unit id="cache.clearAll">
+                <source>Clear Cloudflare Cache (All Zones)</source>
+                <target>Tøm Cloudflare-hurtigbuffer (alle soner)</target>
+            </trans-unit>
+            <trans-unit id="cache.clearAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Tømmer hele Cloudflare-hurtigbufferen for alle konfigurerte soner</target>
+            </trans-unit>
+
+            <!-- Backend Module - General -->
+            <trans-unit id="module.title">
+                <source>IgniterCF - Cloudflare Cache Management</source>
+                <target>IgniterCF - Cloudflare hurtigbufferadministrasjon</target>
+            </trans-unit>
+            <trans-unit id="module.menu.dashboard">
+                <source>Dashboard</source>
+                <target>Kontrollpanel</target>
+            </trans-unit>
+            <trans-unit id="module.menu.configuration">
+                <source>Configuration</source>
+                <target>Konfigurasjon</target>
+            </trans-unit>
+
+            <!-- Backend Module - Extension Disabled Warning -->
+            <trans-unit id="module.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>Utvidelse deaktivert</target>
+            </trans-unit>
+            <trans-unit id="module.extensionDisabledMessage">
+                <source>IgniterCF is globally disabled. Enable it in Settings → Extension Configuration → ignitercf.</source>
+                <target>IgniterCF er globalt deaktivert. Aktiver det i Innstillinger → Utvidelseskonfigurasjon → ignitercf.</target>
+            </trans-unit>
+
+            <!-- Backend Module - Statistics Panel -->
+            <trans-unit id="module.statistics.title">
+                <source>Statistics (Last %d Days)</source>
+                <target>Statistikk (Siste %d dager)</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.totalRequests">
+                <source>Total Requests</source>
+                <target>Totalt antall forespørsler</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.successful">
+                <source>Successful</source>
+                <target>Vellykkede</target>
+            </trans-unit>
+            <trans-unit id="module.statistics.errors">
+                <source>Errors</source>
+                <target>Feil</target>
+            </trans-unit>
+
+            <!-- Backend Module - Chart Panel -->
+            <trans-unit id="module.chart.title">
+                <source>Purge Activity (Last %d Days)</source>
+                <target>Tømmeaktivitet (Siste %d dager)</target>
+            </trans-unit>
+            <trans-unit id="module.chart.updated">
+                <source>updated %d min ago</source>
+                <target>oppdatert for %d min siden</target>
+            </trans-unit>
+            <trans-unit id="module.chart.noData">
+                <source>No data available. Run the chart:generate command first.</source>
+                <target>Ingen data tilgjengelig. Kjør chart:generate-kommandoen først.</target>
+            </trans-unit>
+            <trans-unit id="module.chart.avgResponse">
+                <source>Avg Response</source>
+                <target>Gj.snitt respons</target>
+            </trans-unit>
+
+            <!-- Backend Module - Log Table -->
+            <trans-unit id="module.log.title">
+                <source>Recent Log Entries</source>
+                <target>Nylige loggoppføringer</target>
+            </trans-unit>
+            <trans-unit id="module.log.timestamp">
+                <source>Timestamp</source>
+                <target>Tidsstempel</target>
+            </trans-unit>
+            <trans-unit id="module.log.type">
+                <source>Type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="module.log.site">
+                <source>Site</source>
+                <target>Nettsted</target>
+            </trans-unit>
+            <trans-unit id="module.log.status">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="module.log.response">
+                <source>Response</source>
+                <target>Respons</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeAll">
+                <source>Purge All</source>
+                <target>Tøm alt</target>
+            </trans-unit>
+            <trans-unit id="module.log.purgeUrls">
+                <source>Purge URLs</source>
+                <target>Tøm URLer</target>
+            </trans-unit>
+            <trans-unit id="module.log.ok">
+                <source>OK</source>
+                <target>OK</target>
+            </trans-unit>
+            <trans-unit id="module.log.error">
+                <source>Error</source>
+                <target>Feil</target>
+            </trans-unit>
+            <trans-unit id="module.log.noEntries">
+                <source>No log entries yet.</source>
+                <target>Ingen loggoppføringer ennå.</target>
+            </trans-unit>
+            <trans-unit id="module.log.loggingDisabled">
+                <source>Note: Logging is currently disabled.</source>
+                <target>Merk: Logging er for øyeblikket deaktivert.</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Page -->
+            <trans-unit id="module.config.siteStatus">
+                <source>Site Configuration Status</source>
+                <target>Nettstedskonfigurasjonsstatus</target>
+            </trans-unit>
+            <trans-unit id="module.config.allConfigured">
+                <source>All sites configured</source>
+                <target>Alle nettsteder konfigurert</target>
+            </trans-unit>
+            <trans-unit id="module.config.setupRequired">
+                <source>Setup required</source>
+                <target>Oppsett påkrevd</target>
+            </trans-unit>
+            <trans-unit id="module.config.noSites">
+                <source>No sites configured in TYPO3.</source>
+                <target>Ingen nettsteder konfigurert i TYPO3.</target>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettings">
+                <source>Global Settings</source>
+                <target>Globale innstillinger</target>
+            </trans-unit>
+            <trans-unit id="module.config.extensionEnabled">
+                <source>Extension Enabled</source>
+                <target>Utvidelse aktivert</target>
+            </trans-unit>
+            <trans-unit id="module.config.autoPurge">
+                <source>Auto-Purge on Save</source>
+                <target>Automatisk tømming ved lagring</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetentionValue">
+                <source>%d days</source>
+                <target>%d dager</target>
+            </trans-unit>
+            <trans-unit id="module.config.configured">
+                <source>Configured</source>
+                <target>Konfigurert</target>
+            </trans-unit>
+            <trans-unit id="module.config.testButton">
+                <source>Test</source>
+                <target>Test</target>
+            </trans-unit>
+            <trans-unit id="module.config.siteEnabled">
+                <source>Site enabled</source>
+                <target>Nettsted aktivert</target>
+            </trans-unit>
+            <trans-unit id="module.config.clickTest">
+                <source>Click "Test" to verify connection</source>
+                <target>Klikk "Test" for å verifisere tilkoblingen</target>
+            </trans-unit>
+            <trans-unit id="module.config.solution">
+                <source>Solution</source>
+                <target>Løsning</target>
+            </trans-unit>
+
+            <!-- Backend Module - Status Indicators -->
+            <trans-unit id="module.status.extensionDisabled">
+                <source>Extension disabled</source>
+                <target>Utvidelse deaktivert</target>
+            </trans-unit>
+            <trans-unit id="module.status.noSitesConfigured">
+                <source>No sites configured</source>
+                <target>Ingen nettsteder konfigurert</target>
+            </trans-unit>
+            <trans-unit id="module.status.configReady">
+                <source>Config: %d/%d sites ready</source>
+                <target>Konfig: %d/%d nettsteder klare</target>
+            </trans-unit>
+            <trans-unit id="module.status.noActivity">
+                <source>Status: No activity (%d days)</source>
+                <target>Status: Ingen aktivitet (%d dager)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusOk">
+                <source>Status: %d OK (%d days)</source>
+                <target>Status: %d OK (%d dager)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusMixed">
+                <source>Status: %d OK, %d errors (%d days)</source>
+                <target>Status: %d OK, %d feil (%d dager)</target>
+            </trans-unit>
+            <trans-unit id="module.status.statusErrors">
+                <source>Status: %d errors (%d days)</source>
+                <target>Status: %d feil (%d dager)</target>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Hints -->
+            <trans-unit id="module.hint.zoneIdMissing">
+                <source>Zone ID is not configured</source>
+                <target>Sone-ID er ikke konfigurert</target>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenMissing">
+                <source>API Token is not configured</source>
+                <target>API-token er ikke konfigurert</target>
+            </trans-unit>
+            <trans-unit id="module.hint.siteDisabled">
+                <source>Cloudflare is disabled for this site</source>
+                <target>Cloudflare er deaktivert for dette nettstedet</target>
+            </trans-unit>
+
+            <!-- Backend Module - Footer -->
+            <trans-unit id="module.footer.reportBug">
+                <source>Report Bug</source>
+                <target>Rapporter feil</target>
+            </trans-unit>
+            <trans-unit id="module.footer.developedBy">
+                <source>Developed by</source>
+                <target>Utviklet av</target>
+            </trans-unit>
+            <trans-unit id="module.footer.notAffiliated">
+                <source>Not affiliated with Cloudflare, Inc.</source>
+                <target>Ikke tilknyttet Cloudflare, Inc.</target>
+            </trans-unit>
+
+            <!-- Generic Values -->
+            <trans-unit id="value.yes">
+                <source>Yes</source>
+                <target>Ja</target>
+            </trans-unit>
+            <trans-unit id="value.no">
+                <source>No</source>
+                <target>Nei</target>
+            </trans-unit>
+
+            <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeZone.selectSite">
+                <source>-- Select site --</source>
+                <target>-- Velg nettsted --</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.notConfigured">
+                <source>(not configured)</source>
+                <target>(ikke konfigurert)</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteRequired">
+                <source>Site identifier is required</source>
+                <target>Nettstedsidentifikator er påkrevd</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUidInvalid">
+                <source>Page UID must be a positive number</source>
+                <target>Side-UID må være et positivt tall</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days">
+                <source>Number of days to include</source>
+                <target>Antall dager som skal inkluderes</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days.invalid">
+                <source>Days must be between 1 and 365</source>
+                <target>Dager må være mellom 1 og 365</target>
+            </trans-unit>
+
+            <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.noSites">
+                <source>No sites found</source>
+                <target>Ingen nettsteder funnet</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.allConfigured">
+                <source>All sites configured</source>
+                <target>Alle nettsteder konfigurert</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.noneConfigured">
+                <source>No sites configured</source>
+                <target>Ingen nettsteder konfigurert</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.partiallyConfigured">
+                <source>%d of %d sites configured</source>
+                <target>%d av %d nettsteder konfigurert</target>
+            </trans-unit>
+
+            <!-- JavaScript/AJAX Messages -->
+            <trans-unit id="ajax.testConnection.success">
+                <source>Connection successful</source>
+                <target>Tilkobling vellykket</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.failed">
+                <source>Connection failed</source>
+                <target>Tilkobling mislyktes</target>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testing">
+                <source>Testing...</source>
+                <target>Tester...</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
