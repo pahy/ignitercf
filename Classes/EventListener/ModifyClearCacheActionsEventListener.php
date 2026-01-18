@@ -6,12 +6,16 @@ namespace Pahy\Ignitercf\EventListener;
 
 use TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 /**
  * Event listener to add Cloudflare actions to cache dropdown
  *
- * Registered via Services.yaml for TYPO3 v12/v13 compatibility
+ * Registered via:
+ * - PHP Attribute #[AsEventListener] for TYPO3 v13+
+ * - Services.yaml for TYPO3 v12 (ignored in v13 due to duplicate identifier)
  */
+#[AsEventListener(identifier: 'ignitercf/modify-clear-cache-actions')]
 final class ModifyClearCacheActionsEventListener
 {
     public function __construct(
