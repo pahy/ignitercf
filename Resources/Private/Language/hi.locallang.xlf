@@ -96,6 +96,10 @@
                 <source>Site</source>
                 <target>साइट</target>
             </trans-unit>
+            <trans-unit id="module.log.urls">
+                <source>URLs</source>
+                <target>URLs</target>
+            </trans-unit>
             <trans-unit id="module.log.status">
                 <source>Status</source>
                 <target>स्थिति</target>
@@ -158,6 +162,26 @@
                 <source>Auto-Purge on Save</source>
                 <target>सेव पर ऑटो-पर्ज</target>
             </trans-unit>
+            <trans-unit id="module.config.configureHint">
+                <source>Configure these settings in Settings → Extension Configuration → ignitercf</source>
+                <target>इन सेटिंग्स को सेटिंग्स → एक्सटेंशन कॉन्फ़िगरेशन → ignitercf में कॉन्फ़िगर करें</target>
+            </trans-unit>
+            <trans-unit id="module.config.purgeOnClearAll">
+                <source>Purge on Clear All</source>
+                <target>सभी साफ़ करने पर पर्ज</target>
+            </trans-unit>
+            <trans-unit id="module.config.middlewareEnabled">
+                <source>Middleware Enabled</source>
+                <target>मिडलवेयर सक्षम</target>
+            </trans-unit>
+            <trans-unit id="module.config.logLevel">
+                <source>Log Level</source>
+                <target>लॉग स्तर</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetention">
+                <source>Log Retention</source>
+                <target>लॉग प्रतिधारण</target>
+            </trans-unit>
             <trans-unit id="module.config.logRetentionValue">
                 <source>%d days</source>
                 <target>%d दिन</target>
@@ -169,6 +193,18 @@
             <trans-unit id="module.config.testButton">
                 <source>Test</source>
                 <target>परीक्षण</target>
+            </trans-unit>
+            <trans-unit id="module.config.testConnectionTitle">
+                <source>Test Cloudflare connection</source>
+                <target>Cloudflare कनेक्शन का परीक्षण करें</target>
+            </trans-unit>
+            <trans-unit id="module.config.zoneId">
+                <source>Zone ID</source>
+                <target>ज़ोन आईडी</target>
+            </trans-unit>
+            <trans-unit id="module.config.apiToken">
+                <source>API Token</source>
+                <target>API टोकन</target>
             </trans-unit>
             <trans-unit id="module.config.siteEnabled">
                 <source>Site enabled</source>

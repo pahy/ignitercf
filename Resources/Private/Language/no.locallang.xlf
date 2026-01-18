@@ -96,6 +96,10 @@
                 <source>Site</source>
                 <target>Nettsted</target>
             </trans-unit>
+            <trans-unit id="module.log.urls">
+                <source>URLs</source>
+                <target>URLer</target>
+            </trans-unit>
             <trans-unit id="module.log.status">
                 <source>Status</source>
                 <target>Status</target>
@@ -158,6 +162,26 @@
                 <source>Auto-Purge on Save</source>
                 <target>Automatisk tømming ved lagring</target>
             </trans-unit>
+            <trans-unit id="module.config.configureHint">
+                <source>Configure these settings in Settings → Extension Configuration → ignitercf</source>
+                <target>Konfigurer disse innstillingene i Innstillinger → Utvidelseskonfigurasjon → ignitercf</target>
+            </trans-unit>
+            <trans-unit id="module.config.purgeOnClearAll">
+                <source>Purge on Clear All</source>
+                <target>Tøm ved Cache tømming</target>
+            </trans-unit>
+            <trans-unit id="module.config.middlewareEnabled">
+                <source>Middleware Enabled</source>
+                <target>Mellomvare aktivert</target>
+            </trans-unit>
+            <trans-unit id="module.config.logLevel">
+                <source>Log Level</source>
+                <target>Loggnivå</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetention">
+                <source>Log Retention</source>
+                <target>Loggoppbevaring</target>
+            </trans-unit>
             <trans-unit id="module.config.logRetentionValue">
                 <source>%d days</source>
                 <target>%d dager</target>
@@ -169,6 +193,18 @@
             <trans-unit id="module.config.testButton">
                 <source>Test</source>
                 <target>Test</target>
+            </trans-unit>
+            <trans-unit id="module.config.testConnectionTitle">
+                <source>Test Cloudflare connection</source>
+                <target>Test Cloudflare-tilkobling</target>
+            </trans-unit>
+            <trans-unit id="module.config.zoneId">
+                <source>Zone ID</source>
+                <target>Sone-ID</target>
+            </trans-unit>
+            <trans-unit id="module.config.apiToken">
+                <source>API Token</source>
+                <target>API-token</target>
             </trans-unit>
             <trans-unit id="module.config.siteEnabled">
                 <source>Site enabled</source>

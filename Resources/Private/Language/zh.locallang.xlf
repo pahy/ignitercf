@@ -96,6 +96,10 @@
                 <source>Site</source>
                 <target>站点</target>
             </trans-unit>
+            <trans-unit id="module.log.urls">
+                <source>URLs</source>
+                <target>URL</target>
+            </trans-unit>
             <trans-unit id="module.log.status">
                 <source>Status</source>
                 <target>状态</target>
@@ -158,6 +162,26 @@
                 <source>Auto-Purge on Save</source>
                 <target>保存时自动清除</target>
             </trans-unit>
+            <trans-unit id="module.config.configureHint">
+                <source>Configure these settings in Settings → Extension Configuration → ignitercf</source>
+                <target>在设置 → 扩展配置 → ignitercf 中配置这些设置</target>
+            </trans-unit>
+            <trans-unit id="module.config.purgeOnClearAll">
+                <source>Purge on Clear All</source>
+                <target>清除全部时清除</target>
+            </trans-unit>
+            <trans-unit id="module.config.middlewareEnabled">
+                <source>Middleware Enabled</source>
+                <target>中间件已启用</target>
+            </trans-unit>
+            <trans-unit id="module.config.logLevel">
+                <source>Log Level</source>
+                <target>日志级别</target>
+            </trans-unit>
+            <trans-unit id="module.config.logRetention">
+                <source>Log Retention</source>
+                <target>日志保留</target>
+            </trans-unit>
             <trans-unit id="module.config.logRetentionValue">
                 <source>%d days</source>
                 <target>%d 天</target>
@@ -169,6 +193,18 @@
             <trans-unit id="module.config.testButton">
                 <source>Test</source>
                 <target>测试</target>
+            </trans-unit>
+            <trans-unit id="module.config.testConnectionTitle">
+                <source>Test Cloudflare connection</source>
+                <target>测试 Cloudflare 连接</target>
+            </trans-unit>
+            <trans-unit id="module.config.zoneId">
+                <source>Zone ID</source>
+                <target>区域 ID</target>
+            </trans-unit>
+            <trans-unit id="module.config.apiToken">
+                <source>API Token</source>
+                <target>API 令牌</target>
             </trans-unit>
             <trans-unit id="module.config.siteEnabled">
                 <source>Site enabled</source>
