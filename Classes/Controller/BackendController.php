@@ -12,6 +12,7 @@ use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -164,7 +165,7 @@ final class BackendController extends ActionController
             ->setHref('#')
             ->setTitle($configStatus['tooltip'])
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon($configStatus['icon'], \TYPO3\CMS\Core\Imaging\IconSize::SMALL))
+            ->setIcon($this->iconFactory->getIcon($configStatus['icon'], Icon::SIZE_SMALL))
             ->setClasses('ignitercf-status-indicator ignitercf-status-' . $configStatus['level']);
         $buttonBar->addButton($configButton, ButtonBar::BUTTON_POSITION_RIGHT, 90);
 
@@ -173,7 +174,7 @@ final class BackendController extends ActionController
             ->setHref('#')
             ->setTitle($operationStatus['tooltip'])
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon($operationStatus['icon'], \TYPO3\CMS\Core\Imaging\IconSize::SMALL))
+            ->setIcon($this->iconFactory->getIcon($operationStatus['icon'], Icon::SIZE_SMALL))
             ->setClasses('ignitercf-status-indicator ignitercf-status-' . $operationStatus['level']);
         $buttonBar->addButton($operationButton, ButtonBar::BUTTON_POSITION_RIGHT, 91);
     }
