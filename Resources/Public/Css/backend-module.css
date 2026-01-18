@@ -271,3 +271,29 @@
     border-radius: 4px;
     margin-bottom: 1.5rem;
 }
+
+/* Docheader Status Indicators */
+.ignitercf-status-indicator {
+    pointer-events: none;
+    cursor: default;
+}
+
+.ignitercf-status-indicator .icon {
+    border-radius: 50%;
+}
+
+.ignitercf-status-green .icon svg {
+    fill: #28a745;
+}
+
+.ignitercf-status-yellow .icon svg {
+    fill: #ffc107;
+}
+
+.ignitercf-status-red .icon svg {
+    fill: #dc3545;
+}
+
+.ignitercf-status-gray .icon svg {
+    fill: #6c757d;
+}

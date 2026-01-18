@@ -9,8 +9,10 @@ use Pahy\Ignitercf\Service\CloudflareLogService;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Attribute\AsController;
+use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -29,7 +31,8 @@ final class BackendController extends ActionController
         private readonly SiteFinder $siteFinder,
         private readonly ConfigurationService $configurationService,
         private readonly CloudflareLogService $cloudflareLogService,
-        private readonly ChartDataService $chartDataService
+        private readonly ChartDataService $chartDataService,
+        private readonly IconFactory $iconFactory
     ) {}
 
     /**
@@ -140,6 +143,141 @@ final class BackendController extends ActionController
         }
 
         $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
+
+        // Add status indicators to button bar
+        $this->addStatusIndicators($moduleTemplate);
+    }
+
+    /**
+     * Add status indicators to the docheader button bar
+     */
+    private function addStatusIndicators(ModuleTemplate $moduleTemplate): void
+    {
+        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
+
+        // Get status data
+        $configStatus = $this->getConfigurationStatus();
+        $operationStatus = $this->getOperationStatus(3);
+
+        // Configuration status indicator
+        $configButton = $buttonBar->makeLinkButton()
+            ->setHref('#')
+            ->setTitle($configStatus['tooltip'])
+            ->setShowLabelText(true)
+            ->setIcon($this->iconFactory->getIcon($configStatus['icon'], \TYPO3\CMS\Core\Imaging\IconSize::SMALL))
+            ->setClasses('ignitercf-status-indicator ignitercf-status-' . $configStatus['level']);
+        $buttonBar->addButton($configButton, ButtonBar::BUTTON_POSITION_RIGHT, 90);
+
+        // Operation status indicator (last 3 days)
+        $operationButton = $buttonBar->makeLinkButton()
+            ->setHref('#')
+            ->setTitle($operationStatus['tooltip'])
+            ->setShowLabelText(true)
+            ->setIcon($this->iconFactory->getIcon($operationStatus['icon'], \TYPO3\CMS\Core\Imaging\IconSize::SMALL))
+            ->setClasses('ignitercf-status-indicator ignitercf-status-' . $operationStatus['level']);
+        $buttonBar->addButton($operationButton, ButtonBar::BUTTON_POSITION_RIGHT, 91);
+    }
+
+    /**
+     * Get configuration status (green/yellow/red)
+     *
+     * @return array{level: string, icon: string, tooltip: string}
+     */
+    private function getConfigurationStatus(): array
+    {
+        if (!$this->configurationService->isEnabled()) {
+            return [
+                'level' => 'red',
+                'icon' => 'actions-circle',
+                'tooltip' => 'Extension disabled',
+            ];
+        }
+
+        $sites = $this->siteFinder->getAllSites();
+        $configuredCount = 0;
+        $totalCount = count($sites);
+
+        foreach ($sites as $site) {
+            if ($this->configurationService->isSiteConfigured($site)) {
+                $configuredCount++;
+            }
+        }
+
+        if ($totalCount === 0) {
+            return [
+                'level' => 'red',
+                'icon' => 'actions-circle',
+                'tooltip' => 'No sites configured',
+            ];
+        }
+
+        if ($configuredCount === $totalCount) {
+            return [
+                'level' => 'green',
+                'icon' => 'actions-circle',
+                'tooltip' => sprintf('Config: %d/%d sites ready', $configuredCount, $totalCount),
+            ];
+        }
+
+        if ($configuredCount > 0) {
+            return [
+                'level' => 'yellow',
+                'icon' => 'actions-circle',
+                'tooltip' => sprintf('Config: %d/%d sites ready', $configuredCount, $totalCount),
+            ];
+        }
+
+        return [
+            'level' => 'red',
+            'icon' => 'actions-circle',
+            'tooltip' => 'Config: No sites configured',
+        ];
+    }
+
+    /**
+     * Get operation status for the last N days (green/yellow/red)
+     *
+     * @return array{level: string, icon: string, tooltip: string}
+     */
+    private function getOperationStatus(int $days): array
+    {
+        $statistics = $this->cloudflareLogService->getStatistics($days);
+
+        $total = (int)($statistics['total'] ?? 0);
+        $errors = (int)($statistics['errors'] ?? 0);
+        $success = (int)($statistics['success'] ?? 0);
+
+        if ($total === 0) {
+            return [
+                'level' => 'gray',
+                'icon' => 'actions-circle',
+                'tooltip' => sprintf('Status: No activity (%d days)', $days),
+            ];
+        }
+
+        $errorRate = $total > 0 ? ($errors / $total) * 100 : 0;
+
+        if ($errors === 0) {
+            return [
+                'level' => 'green',
+                'icon' => 'actions-circle',
+                'tooltip' => sprintf('Status: %d OK (%d days)', $success, $days),
+            ];
+        }
+
+        if ($errorRate <= 10) {
+            return [
+                'level' => 'yellow',
+                'icon' => 'actions-circle',
+                'tooltip' => sprintf('Status: %d OK, %d errors (%d days)', $success, $errors, $days),
+            ];
+        }
+
+        return [
+            'level' => 'red',
+            'icon' => 'actions-circle',
+            'tooltip' => sprintf('Status: %d errors (%d days)', $errors, $days),
+        ];
     }
 
     /**
