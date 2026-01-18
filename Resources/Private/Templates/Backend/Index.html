@@ -1,0 +1,273 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Backend/Default" />
+
+<f:section name="Content">
+
+<div class="ignitercf-module">
+    <h1>
+        <core:icon identifier="module-ignitercf" size="medium" />
+        IgniterCF - Cloudflare Cache Management
+    </h1>
+
+    <!-- Global Status -->
+    <f:if condition="{globalSettings.enabled}">
+        <f:then>
+            <f:if condition="{allConfigured}">
+                <f:then>
+                    <div class="callout callout-success">
+                        <div class="media">
+                            <div class="media-left">
+                                <core:icon identifier="actions-check" size="small" />
+                            </div>
+                            <div class="media-body">
+                                <h4 class="callout-title">All sites configured</h4>
+                                <p class="callout-body">Cloudflare integration is active for all sites.</p>
+                            </div>
+                        </div>
+                    </div>
+                </f:then>
+                <f:else>
+                    <div class="callout callout-warning">
+                        <div class="media">
+                            <div class="media-left">
+                                <core:icon identifier="actions-exclamation-triangle" size="small" />
+                            </div>
+                            <div class="media-body">
+                                <h4 class="callout-title">Configuration required</h4>
+                                <p class="callout-body">Some sites are not fully configured. See details below.</p>
+                            </div>
+                        </div>
+                    </div>
+                </f:else>
+            </f:if>
+        </f:then>
+        <f:else>
+            <div class="callout callout-danger">
+                <div class="media">
+                    <div class="media-left">
+                        <core:icon identifier="actions-ban" size="small" />
+                    </div>
+                    <div class="media-body">
+                        <h4 class="callout-title">Extension disabled</h4>
+                        <p class="callout-body">
+                            IgniterCF is globally disabled. Enable it in
+                            <strong>Settings → Extension Configuration → ignitercf</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </f:else>
+    </f:if>
+
+    <!-- Sites Configuration Status -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="apps-pagetree-root" size="small" />
+                Site Configuration Status
+            </h3>
+        </div>
+        <div class="panel-body">
+            <f:if condition="{sitesStatus}">
+                <f:then>
+                    <f:for each="{sitesStatus}" as="site" key="identifier">
+                        <f:render partial="Backend/SiteStatus" arguments="{site: site}" />
+                    </f:for>
+                </f:then>
+                <f:else>
+                    <p class="text-muted">No sites configured in TYPO3.</p>
+                </f:else>
+            </f:if>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="actions-chart-bar" size="small" />
+                Statistics (Last 7 Days)
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h2 class="text-primary">{statistics.total}</h2>
+                            <p class="text-muted">Total Requests</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h2 class="text-success">{statistics.success}</h2>
+                            <p class="text-muted">Successful</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h2 class="text-danger">{statistics.errors}</h2>
+                            <p class="text-muted">Errors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Log Entries -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="actions-document-view" size="small" />
+                Recent Log Entries
+            </h3>
+        </div>
+        <div class="panel-body">
+            <f:if condition="{recentLogs}">
+                <f:then>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Type</th>
+                                    <th>Site</th>
+                                    <th>URLs</th>
+                                    <th>Status</th>
+                                    <th>Response Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <f:for each="{recentLogs}" as="log">
+                                    <tr class="{f:if(condition: log.success, then: '', else: 'danger')}">
+                                        <td>
+                                            <small>{log.timestamp}</small>
+                                        </td>
+                                        <td>
+                                            <f:if condition="{log.type} == 'purge_everything'">
+                                                <f:then>
+                                                    <span class="badge badge-warning">Purge All</span>
+                                                </f:then>
+                                                <f:else>
+                                                    <span class="badge badge-info">Purge URLs</span>
+                                                </f:else>
+                                            </f:if>
+                                        </td>
+                                        <td>{log.site}</td>
+                                        <td>
+                                            <f:if condition="{log.urls_count}">
+                                                <f:then>{log.urls_count} URL(s)</f:then>
+                                                <f:else>-</f:else>
+                                            </f:if>
+                                        </td>
+                                        <td>
+                                            <f:if condition="{log.success}">
+                                                <f:then>
+                                                    <span class="badge badge-success">
+                                                        <core:icon identifier="actions-check" size="small" /> Success
+                                                    </span>
+                                                </f:then>
+                                                <f:else>
+                                                    <span class="badge badge-danger" title="{log.error}">
+                                                        <core:icon identifier="actions-ban" size="small" /> Error
+                                                    </span>
+                                                </f:else>
+                                            </f:if>
+                                        </td>
+                                        <td>
+                                            <f:format.number decimals="0">{log.response_time_ms}</f:format.number> ms
+                                        </td>
+                                    </tr>
+                                </f:for>
+                            </tbody>
+                        </table>
+                    </div>
+                </f:then>
+                <f:else>
+                    <p class="text-muted">
+                        No log entries yet.
+                        <f:if condition="{globalSettings.logLevel} == 'none'">
+                            <br /><em>Note: Logging is currently disabled.</em>
+                        </f:if>
+                    </p>
+                </f:else>
+            </f:if>
+        </div>
+    </div>
+
+    <!-- Global Settings Info -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <core:icon identifier="actions-cog" size="small" />
+                Current Settings
+            </h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>Extension Enabled</dt>
+                <dd>
+                    <f:if condition="{globalSettings.enabled}">
+                        <f:then><span class="text-success">Yes</span></f:then>
+                        <f:else><span class="text-danger">No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Auto-Purge on Save</dt>
+                <dd>
+                    <f:if condition="{globalSettings.autoPurgeOnSave}">
+                        <f:then><span class="text-success">Yes</span></f:then>
+                        <f:else><span class="text-muted">No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Purge on Clear All</dt>
+                <dd>
+                    <f:if condition="{globalSettings.purgeOnClearAll}">
+                        <f:then><span class="text-success">Yes</span></f:then>
+                        <f:else><span class="text-muted">No</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Cache-Control Middleware</dt>
+                <dd>
+                    <f:if condition="{globalSettings.middlewareEnabled}">
+                        <f:then><span class="text-success">Enabled</span></f:then>
+                        <f:else><span class="text-muted">Disabled</span></f:else>
+                    </f:if>
+                </dd>
+
+                <dt>Log Level</dt>
+                <dd>{globalSettings.logLevel}</dd>
+
+                <dt>Log Retention</dt>
+                <dd>
+                    <f:if condition="{globalSettings.logRetentionDays}">
+                        <f:then>{globalSettings.logRetentionDays} days</f:then>
+                        <f:else>Indefinite</f:else>
+                    </f:if>
+                </dd>
+            </dl>
+            <p class="text-muted">
+                <small>
+                    Change settings in
+                    <strong>Settings → Extension Configuration → ignitercf</strong>
+                </small>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+</f:section>
+
+</html>
