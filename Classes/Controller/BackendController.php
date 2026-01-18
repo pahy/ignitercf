@@ -19,6 +19,10 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 #[AsController]
 final class BackendController extends ActionController
 {
+    private const UC_KEY = 'ignitercf';
+    private const DEFAULT_CHART_DAYS = 7;
+    private const AVAILABLE_CHART_DAYS = [7, 14, 30, 90];
+
     public function __construct(
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly SiteFinder $siteFinder,
@@ -34,18 +38,27 @@ final class BackendController extends ActionController
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 
+        // Get user's chart days preference
+        $chartDays = $this->getChartDays();
+
         // Get all sites with their configuration status
         $sitesStatus = $this->getSitesStatus();
 
         // Get recent log entries
         $recentLogs = $this->cloudflareLogService->getRecentEntries(20);
 
-        // Get statistics
-        $statistics = $this->cloudflareLogService->getStatistics(7);
+        // Get statistics for selected period
+        $statistics = $this->cloudflareLogService->getStatistics($chartDays);
 
         // Get chart data (from cache or generate if stale)
         $chartData = $this->chartDataService->getDataOrGenerate(60);
         $chartDataAge = $this->chartDataService->getCacheAgeMinutes();
+
+        // Filter chart data to selected days
+        $dailyData = $chartData['daily'] ?? [];
+        if (count($dailyData) > $chartDays) {
+            $dailyData = array_slice($dailyData, -$chartDays);
+        }
 
         // Get global settings
         $globalSettings = [
@@ -65,10 +78,66 @@ final class BackendController extends ActionController
             'allConfigured' => $this->areAllSitesConfigured($sitesStatus),
             'chartData' => $chartData,
             'chartDataAge' => $chartDataAge,
-            'chartDataJson' => json_encode($chartData['daily'] ?? []),
+            'chartDataJson' => json_encode($dailyData),
+            'chartDays' => $chartDays,
+            'availableChartDays' => $this->getChartDaysOptions(),
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Index');
+    }
+
+    /**
+     * Save chart days preference
+     */
+    public function saveChartDaysAction(int $days = 7): ResponseInterface
+    {
+        if (in_array($days, self::AVAILABLE_CHART_DAYS, true)) {
+            $this->setChartDays($days);
+        }
+
+        return $this->redirect('index');
+    }
+
+    /**
+     * Get chart days from user configuration
+     */
+    private function getChartDays(): int
+    {
+        $uc = $GLOBALS['BE_USER']->uc[self::UC_KEY] ?? [];
+        $days = (int)($uc['chartDays'] ?? self::DEFAULT_CHART_DAYS);
+
+        // Validate against available options
+        if (!in_array($days, self::AVAILABLE_CHART_DAYS, true)) {
+            $days = self::DEFAULT_CHART_DAYS;
+        }
+
+        return $days;
+    }
+
+    /**
+     * Save chart days to user configuration
+     */
+    private function setChartDays(int $days): void
+    {
+        if (!isset($GLOBALS['BE_USER']->uc[self::UC_KEY])) {
+            $GLOBALS['BE_USER']->uc[self::UC_KEY] = [];
+        }
+        $GLOBALS['BE_USER']->uc[self::UC_KEY]['chartDays'] = $days;
+        $GLOBALS['BE_USER']->writeUC();
+    }
+
+    /**
+     * Get chart days options for dropdown
+     *
+     * @return array<int, string>
+     */
+    private function getChartDaysOptions(): array
+    {
+        $options = [];
+        foreach (self::AVAILABLE_CHART_DAYS as $days) {
+            $options[$days] = $days . ' days';
+        }
+        return $options;
     }
 
     /**

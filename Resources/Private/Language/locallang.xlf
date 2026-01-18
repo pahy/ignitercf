@@ -81,6 +81,11 @@
             <trans-unit id="widget.purgeActivity.description">
                 <source>Chart showing Cloudflare cache purge activity over the last 7 days</source>
             </trans-unit>
+
+            <!-- Backend Module -->
+            <trans-unit id="module.chartDays.suffix">
+                <source>days</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

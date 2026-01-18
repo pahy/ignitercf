@@ -90,9 +90,21 @@
     <!-- Statistics -->
     <div class="panel panel-default">
         <div class="panel-heading">
+            <div class="pull-right">
+                <f:form action="saveChartDays" method="post" style="display: inline;">
+                    <f:form.select
+                        name="days"
+                        options="{availableChartDays}"
+                        value="{chartDays}"
+                        additionalAttributes="{onchange: 'this.form.submit()'}"
+                        class="form-select form-select-sm"
+                        style="width: auto; display: inline-block;"
+                    />
+                </f:form>
+            </div>
             <h3 class="panel-title">
                 <core:icon identifier="actions-chart-bar" size="small" />
-                Statistics (Last 7 Days)
+                Statistics (Last {chartDays} Days)
             </h3>
         </div>
         <div class="panel-body">
@@ -130,7 +142,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <core:icon identifier="actions-chart-bar" size="small" />
-                Purge Activity (Last 7 Days)
+                Purge Activity (Last {chartDays} Days)
                 <f:if condition="{chartDataAge}">
                     <small class="text-muted pull-right">
                         Data updated {chartDataAge} min ago
