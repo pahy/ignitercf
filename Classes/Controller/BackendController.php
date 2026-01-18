@@ -14,6 +14,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -146,9 +147,10 @@ final class BackendController extends ActionController
         $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
         $menu->setIdentifier('ignitercf_menu');
 
+        $languageService = $this->getLanguageService();
         $menuItems = [
-            'index' => 'Dashboard',
-            'configuration' => 'Configuration',
+            'index' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.menu.dashboard'),
+            'configuration' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.menu.configuration'),
         ];
 
         foreach ($menuItems as $action => $label) {
@@ -197,11 +199,13 @@ final class BackendController extends ActionController
      */
     private function getConfigurationStatus(): array
     {
+        $languageService = $this->getLanguageService();
+
         if (!$this->configurationService->isEnabled()) {
             return [
                 'level' => 'red',
                 'icon' => 'actions-circle',
-                'tooltip' => 'Extension disabled',
+                'tooltip' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.extensionDisabled'),
             ];
         }
 
@@ -219,7 +223,7 @@ final class BackendController extends ActionController
             return [
                 'level' => 'red',
                 'icon' => 'actions-circle',
-                'tooltip' => 'No sites configured',
+                'tooltip' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.noSitesConfigured'),
             ];
         }
 
@@ -227,7 +231,7 @@ final class BackendController extends ActionController
             return [
                 'level' => 'green',
                 'icon' => 'actions-circle',
-                'tooltip' => sprintf('Config: %d/%d sites ready', $configuredCount, $totalCount),
+                'tooltip' => sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.configReady'), $configuredCount, $totalCount),
             ];
         }
 
@@ -235,14 +239,14 @@ final class BackendController extends ActionController
             return [
                 'level' => 'yellow',
                 'icon' => 'actions-circle',
-                'tooltip' => sprintf('Config: %d/%d sites ready', $configuredCount, $totalCount),
+                'tooltip' => sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.configReady'), $configuredCount, $totalCount),
             ];
         }
 
         return [
             'level' => 'red',
             'icon' => 'actions-circle',
-            'tooltip' => 'Config: No sites configured',
+            'tooltip' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.configNone'),
         ];
     }
 
@@ -253,6 +257,7 @@ final class BackendController extends ActionController
      */
     private function getOperationStatus(int $days): array
     {
+        $languageService = $this->getLanguageService();
         $statistics = $this->cloudflareLogService->getStatistics($days);
 
         $total = (int)($statistics['total'] ?? 0);
@@ -263,7 +268,7 @@ final class BackendController extends ActionController
             return [
                 'level' => 'gray',
                 'icon' => 'actions-circle',
-                'tooltip' => sprintf('Status: No activity (%d days)', $days),
+                'tooltip' => sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.noActivity'), $days),
             ];
         }
 
@@ -273,7 +278,7 @@ final class BackendController extends ActionController
             return [
                 'level' => 'green',
                 'icon' => 'actions-circle',
-                'tooltip' => sprintf('Status: %d OK (%d days)', $success, $days),
+                'tooltip' => sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.statusOk'), $success, $days),
             ];
         }
 
@@ -281,14 +286,14 @@ final class BackendController extends ActionController
             return [
                 'level' => 'yellow',
                 'icon' => 'actions-circle',
-                'tooltip' => sprintf('Status: %d OK, %d errors (%d days)', $success, $errors, $days),
+                'tooltip' => sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.statusMixed'), $success, $errors, $days),
             ];
         }
 
         return [
             'level' => 'red',
             'icon' => 'actions-circle',
-            'tooltip' => sprintf('Status: %d errors (%d days)', $errors, $days),
+            'tooltip' => sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.status.statusErrors'), $errors, $days),
         ];
     }
 
@@ -344,11 +349,18 @@ final class BackendController extends ActionController
      */
     private function getDaysOptions(): array
     {
+        $languageService = $this->getLanguageService();
+        $daysLabel = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.logRetentionValue');
         $options = [];
         foreach (self::AVAILABLE_DAYS as $days) {
-            $options[$days] = $days . ' days';
+            $options[$days] = sprintf($daysLabel, $days);
         }
         return $options;
+    }
+
+    private function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 
     /**

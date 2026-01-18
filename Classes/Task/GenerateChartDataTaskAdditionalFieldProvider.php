@@ -47,7 +47,7 @@ class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFie
         return [
             $fieldId => [
                 'code' => $fieldCode,
-                'label' => 'Number of days to include in statistics',
+                'label' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.days',
                 'cshKey' => '_MOD_system_txschedulerM1',
                 'cshLabel' => $fieldId,
             ],

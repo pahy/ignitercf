@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Widgets;
 
 use Pahy\Ignitercf\Service\ChartDataService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\Widgets\WidgetConfigurationInterface;
@@ -31,6 +32,7 @@ class ConfigurationStatusWidget implements WidgetInterface
 
     public function renderWidgetContent(): string
     {
+        $languageService = $this->getLanguageService();
         $chartData = $this->chartDataService->getDataOrGenerate(60);
         $sitesStatus = $chartData['sites_status'] ?? ['configured' => 0, 'total' => 0, 'sites' => []];
 
@@ -40,19 +42,19 @@ class ConfigurationStatusWidget implements WidgetInterface
         // Determine status
         if ($total === 0) {
             $status = 'warning';
-            $statusText = 'No sites found';
+            $statusText = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.configurationStatus.noSites');
             $statusIcon = 'actions-exclamation-triangle';
         } elseif ($configured === $total) {
             $status = 'success';
-            $statusText = 'All sites configured';
+            $statusText = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.configurationStatus.allConfigured');
             $statusIcon = 'actions-check-circle';
         } elseif ($configured === 0) {
             $status = 'danger';
-            $statusText = 'No sites configured';
+            $statusText = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.configurationStatus.noneConfigured');
             $statusIcon = 'actions-ban';
         } else {
             $status = 'warning';
-            $statusText = sprintf('%d of %d sites configured', $configured, $total);
+            $statusText = sprintf($languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.configurationStatus.partiallyConfigured'), $configured, $total);
             $statusIcon = 'actions-exclamation-circle';
         }
 
@@ -85,6 +87,7 @@ class ConfigurationStatusWidget implements WidgetInterface
      */
     private function getConfigurationHints(): array
     {
+        $languageService = $this->getLanguageService();
         $hints = [];
         $sites = $this->siteFinder->getAllSites();
 
@@ -101,7 +104,7 @@ class ConfigurationStatusWidget implements WidgetInterface
             if (empty($this->configurationService->getZoneIdForSite($site))) {
                 $siteHints[] = [
                     'type' => 'zone_id',
-                    'message' => 'Zone ID missing',
+                    'message' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.hint.zoneIdMissing'),
                     'solution' => "config/sites/{$identifier}/config.yaml:\ncloudflare:\n  zoneId: 'your-zone-id'",
                 ];
             }
@@ -111,7 +114,7 @@ class ConfigurationStatusWidget implements WidgetInterface
                 $envVarName = 'IGNITERCF_TOKEN_' . strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', $identifier));
                 $siteHints[] = [
                     'type' => 'api_token',
-                    'message' => 'API Token missing',
+                    'message' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.hint.apiTokenMissing'),
                     'solution' => "Environment: {$envVarName}=your-token\nOr global: IGNITERCF_API_TOKEN=your-token",
                 ];
             }
@@ -120,7 +123,7 @@ class ConfigurationStatusWidget implements WidgetInterface
             if (!$this->configurationService->isSiteEnabled($site)) {
                 $siteHints[] = [
                     'type' => 'disabled',
-                    'message' => 'Site disabled',
+                    'message' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.hint.siteDisabled'),
                     'solution' => "config/sites/{$identifier}/config.yaml:\ncloudflare:\n  enabled: true",
                 ];
             }
@@ -134,6 +137,11 @@ class ConfigurationStatusWidget implements WidgetInterface
         }
 
         return $hints;
+    }
+
+    private function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 
     public function getOptions(): array

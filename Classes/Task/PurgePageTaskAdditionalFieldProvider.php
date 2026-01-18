@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pahy\Ignitercf\Task;
 
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
@@ -65,7 +66,10 @@ class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
         $languageUid = (int)($submittedData['languageUid'] ?? -1);
 
         if ($pageUid <= 0) {
-            $this->addMessage('Page UID must be a positive number', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR);
+            $this->addMessage(
+                $this->getLanguageService()->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgePage.pageUidInvalid'),
+                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+            );
             return false;
         }
 
@@ -83,6 +87,11 @@ class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
             $task->pageUid = (int)$submittedData['pageUid'];
             $task->languageUid = (int)$submittedData['languageUid'];
         }
+    }
+
+    private function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pahy\Ignitercf\Task;
 
 use Pahy\Ignitercf\Service\ConfigurationService;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
@@ -53,7 +54,10 @@ class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
         $submittedData['siteIdentifier'] = trim($submittedData['siteIdentifier'] ?? '');
 
         if (empty($submittedData['siteIdentifier'])) {
-            $this->addMessage('Site identifier is required', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR);
+            $this->addMessage(
+                $this->getLanguageService()->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.siteRequired'),
+                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+            );
             return false;
         }
 
@@ -73,13 +77,17 @@ class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
     {
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
         $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+        $languageService = $this->getLanguageService();
 
-        $options = '<option value="">-- Select site --</option>';
+        $selectSiteLabel = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.selectSite');
+        $notConfiguredLabel = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.notConfigured');
+
+        $options = '<option value="">' . htmlspecialchars($selectSiteLabel) . '</option>';
 
         foreach ($siteFinder->getAllSites() as $site) {
             $identifier = $site->getIdentifier();
             $configured = $configurationService->isSiteConfigured($site);
-            $label = $identifier . ($configured ? '' : ' (not configured)');
+            $label = $identifier . ($configured ? '' : ' ' . $notConfiguredLabel);
             $selected = $identifier === $selectedIdentifier ? ' selected="selected"' : '';
             $disabled = $configured ? '' : ' disabled="disabled"';
 
@@ -93,6 +101,11 @@ class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
         }
 
         return $options;
+    }
+
+    private function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 
     /**
