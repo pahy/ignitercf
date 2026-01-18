@@ -43,8 +43,6 @@ services:
   # Dashboard Widgets (only loaded when EXT:dashboard is installed)
   dashboard.widget.ignitercf.configurationStatus:
     class: Pahy\Ignitercf\Widgets\ConfigurationStatusWidget
-    arguments:
-      $configuration: '@dashboard.widget.ignitercf.configurationStatus.configuration'
     tags:
       - name: dashboard.widget
         identifier: 'ignitercf-configuration-status'
@@ -55,19 +53,9 @@ services:
         height: 'medium'
         width: 'small'
 
-  dashboard.widget.ignitercf.configurationStatus.configuration:
-    class: TYPO3\CMS\Dashboard\WidgetConfiguration
-    factory: ['@TYPO3\CMS\Dashboard\WidgetConfigurationFactory', 'create']
-    arguments:
-      $identifier: 'ignitercf-configuration-status'
-      $title: 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.configurationStatus.title'
-      $description: 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.configurationStatus.description'
-      $iconIdentifier: 'module-ignitercf'
-
   dashboard.widget.ignitercf.purgeActivity:
     class: TYPO3\CMS\Dashboard\Widgets\BarChartWidget
     arguments:
-      $configuration: '@dashboard.widget.ignitercf.purgeActivity.configuration'
       $dataProvider: '@Pahy\Ignitercf\Widgets\Provider\PurgeActivityChartDataProvider'
     tags:
       - name: dashboard.widget
@@ -78,12 +66,3 @@ services:
         iconIdentifier: 'module-ignitercf'
         height: 'medium'
         width: 'medium'
-
-  dashboard.widget.ignitercf.purgeActivity.configuration:
-    class: TYPO3\CMS\Dashboard\WidgetConfiguration
-    factory: ['@TYPO3\CMS\Dashboard\WidgetConfigurationFactory', 'create']
-    arguments:
-      $identifier: 'ignitercf-purge-activity'
-      $title: 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.purgeActivity.title'
-      $description: 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:widget.purgeActivity.description'
-      $iconIdentifier: 'module-ignitercf'
