@@ -27,6 +27,8 @@ use TYPO3\CMS\Core\Site\Entity\Site;
  * - IGNITERCF_AUTO_PURGE_ON_SAVE
  * - IGNITERCF_ENABLE_MIDDLEWARE
  * - IGNITERCF_DEBUG
+ * - IGNITERCF_LOG_LEVEL (all, errors_only, none)
+ * - IGNITERCF_LOG_RETENTION_DAYS
  */
 final class ConfigurationService
 {
@@ -41,6 +43,8 @@ final class ConfigurationService
         'autoPurgeOnSave' => 'IGNITERCF_AUTO_PURGE_ON_SAVE',
         'enableMiddleware' => 'IGNITERCF_ENABLE_MIDDLEWARE',
         'debug' => 'IGNITERCF_DEBUG',
+        'logLevel' => 'IGNITERCF_LOG_LEVEL',
+        'logRetentionDays' => 'IGNITERCF_LOG_RETENTION_DAYS',
     ];
 
     /**
@@ -52,7 +56,16 @@ final class ConfigurationService
         'autoPurgeOnSave' => true,
         'enableMiddleware' => true,
         'debug' => false,
+        'logLevel' => 'errors_only',
+        'logRetentionDays' => 30,
     ];
+
+    /**
+     * Valid log level values
+     */
+    public const LOG_LEVEL_ALL = 'all';
+    public const LOG_LEVEL_ERRORS_ONLY = 'errors_only';
+    public const LOG_LEVEL_NONE = 'none';
 
     private ?array $configuration = null;
 
@@ -102,6 +115,61 @@ final class ConfigurationService
     public function isDebugEnabled(): bool
     {
         return (bool)$this->get('debug');
+    }
+
+    // =========================================================================
+    // Logging Settings
+    // =========================================================================
+
+    /**
+     * Get the configured log level
+     *
+     * @return string One of: all, errors_only, none
+     */
+    public function getLogLevel(): string
+    {
+        $level = (string)$this->get('logLevel');
+
+        // Validate and normalize
+        if (!in_array($level, [self::LOG_LEVEL_ALL, self::LOG_LEVEL_ERRORS_ONLY, self::LOG_LEVEL_NONE], true)) {
+            return self::LOG_LEVEL_ERRORS_ONLY;
+        }
+
+        return $level;
+    }
+
+    /**
+     * Get the log retention period in days
+     *
+     * @return int Days to keep logs (0 = indefinitely)
+     */
+    public function getLogRetentionDays(): int
+    {
+        return max(0, (int)$this->get('logRetentionDays'));
+    }
+
+    /**
+     * Check if Cloudflare logging is enabled (any level except none)
+     */
+    public function isCloudflareLoggingEnabled(): bool
+    {
+        return $this->getLogLevel() !== self::LOG_LEVEL_NONE;
+    }
+
+    /**
+     * Check if all Cloudflare calls should be logged
+     */
+    public function shouldLogAllCalls(): bool
+    {
+        return $this->getLogLevel() === self::LOG_LEVEL_ALL;
+    }
+
+    /**
+     * Check if errors should be logged (true for both "all" and "errors_only")
+     */
+    public function shouldLogErrors(): bool
+    {
+        return in_array($this->getLogLevel(), [self::LOG_LEVEL_ALL, self::LOG_LEVEL_ERRORS_ONLY], true);
     }
 
     // =========================================================================
@@ -320,6 +388,11 @@ final class ConfigurationService
         // Boolean values
         if (in_array($key, ['enabled', 'purgeOnClearAll', 'autoPurgeOnSave', 'enableMiddleware', 'debug'], true)) {
             return in_array(strtolower($value), ['1', 'true', 'yes', 'on'], true);
+        }
+
+        // Integer values
+        if ($key === 'logRetentionDays') {
+            return (int)$value;
         }
 
         return $value;
