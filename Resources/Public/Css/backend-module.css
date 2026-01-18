@@ -272,9 +272,18 @@
     margin-bottom: 1.5rem;
 }
 
-/* Docheader Navigation Dropdown */
-.ignitercf-nav-dropdown {
-    min-width: 140px;
+/* Docheader Layout - Swap bars: Title row on top, Menu row below */
+.module-docheader {
+    display: flex;
+    flex-direction: column;
+}
+
+.module-docheader .module-docheader-bar-buttons {
+    order: 1;
+}
+
+.module-docheader .module-docheader-bar-navigation {
+    order: 2;
 }
 
 /* Docheader Title */

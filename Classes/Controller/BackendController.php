@@ -120,7 +120,7 @@ final class BackendController extends ActionController
     }
 
     /**
-     * Add docheader elements (all in button bar for single-row layout)
+     * Add docheader elements (two rows: title on top, menu + status below)
      */
     private function addDocHeaderMenu(ModuleTemplate $moduleTemplate, string $currentAction): void
     {
@@ -128,7 +128,7 @@ final class BackendController extends ActionController
         $uriBuilder = $this->uriBuilder;
         $uriBuilder->setRequest($this->request);
 
-        // 1. Title (left side)
+        // Row 1 (buttons bar - will be moved to top via CSS): Title left, Status right
         $titleButton = $buttonBar->makeLinkButton()
             ->setHref('#')
             ->setTitle('IgniterCF - Cloudflare Cache Management')
@@ -137,30 +137,26 @@ final class BackendController extends ActionController
             ->setClasses('ignitercf-status-indicator ignitercf-docheader-title');
         $buttonBar->addButton($titleButton, ButtonBar::BUTTON_POSITION_LEFT, 1);
 
-        // 2. Navigation dropdown (right side, before status)
+        $this->addStatusIndicators($buttonBar);
+
+        // Row 2 (navigation bar - will be moved to bottom via CSS): Dropdown menu
+        $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
+        $menu->setIdentifier('ignitercf_menu');
+
         $menuItems = [
             'index' => 'Dashboard',
             'configuration' => 'Configuration',
         ];
 
-        $options = '';
         foreach ($menuItems as $action => $label) {
-            $url = $uriBuilder->reset()->uriFor($action, [], 'Backend');
-            $selected = $currentAction === $action ? ' selected="selected"' : '';
-            $options .= sprintf('<option value="%s"%s>%s</option>', htmlspecialchars($url), $selected, htmlspecialchars($label));
+            $menuItem = $menu->makeMenuItem()
+                ->setTitle($label)
+                ->setHref($uriBuilder->reset()->uriFor($action, [], 'Backend'))
+                ->setActive($currentAction === $action);
+            $menu->addMenuItem($menuItem);
         }
 
-        $dropdownHtml = sprintf(
-            '<select class="form-select form-select-sm ignitercf-nav-dropdown" onchange="window.location.href=this.value">%s</select>',
-            $options
-        );
-
-        $dropdownButton = $buttonBar->makeFullyRenderedButton()
-            ->setHtmlSource($dropdownHtml);
-        $buttonBar->addButton($dropdownButton, ButtonBar::BUTTON_POSITION_RIGHT, 80);
-
-        // 3. Status indicators (right side)
-        $this->addStatusIndicators($buttonBar);
+        $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
     }
 
     /**
