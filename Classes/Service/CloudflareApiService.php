@@ -18,6 +18,7 @@ final class CloudflareApiService implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     private const API_ENDPOINT = 'https://api.cloudflare.com/client/v4/zones/%s/purge_cache';
+    private const API_VERIFY_TOKEN = 'https://api.cloudflare.com/client/v4/user/tokens/verify';
     private const MAX_URLS_PER_REQUEST = 30;
 
     public function __construct(
@@ -80,6 +81,74 @@ final class CloudflareApiService implements LoggerAwareInterface
             siteIdentifier: $site->getIdentifier(),
             urls: []
         );
+    }
+
+    /**
+     * Verify API token validity with Cloudflare
+     *
+     * @param Site $site Site configuration containing Cloudflare settings
+     * @return array{valid: bool, status: string, message: string, expires_on?: string}
+     */
+    public function verifyToken(Site $site): array
+    {
+        $apiToken = $this->configurationService->getApiTokenForSite($site);
+
+        if (empty($apiToken)) {
+            return [
+                'valid' => false,
+                'status' => 'not_configured',
+                'message' => 'API Token is not configured',
+            ];
+        }
+
+        $additionalOptions = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $apiToken,
+                'Content-Type' => 'application/json',
+            ],
+        ];
+
+        try {
+            $response = $this->requestFactory->request(self::API_VERIFY_TOKEN, 'GET', $additionalOptions);
+            $statusCode = $response->getStatusCode();
+            $responseBody = $response->getBody()->getContents();
+            $data = json_decode($responseBody, true);
+
+            if ($statusCode !== 200 || !isset($data['success']) || $data['success'] !== true) {
+                $errors = $data['errors'] ?? [];
+                $errorMessage = !empty($errors) ? $errors[0]['message'] ?? 'Unknown error' : 'Token verification failed';
+
+                return [
+                    'valid' => false,
+                    'status' => 'invalid',
+                    'message' => $errorMessage,
+                ];
+            }
+
+            $result = $data['result'] ?? [];
+            $tokenStatus = $result['status'] ?? 'unknown';
+
+            if ($tokenStatus !== 'active') {
+                return [
+                    'valid' => false,
+                    'status' => $tokenStatus,
+                    'message' => sprintf('Token status: %s', $tokenStatus),
+                ];
+            }
+
+            return [
+                'valid' => true,
+                'status' => 'active',
+                'message' => 'Token is valid and active',
+                'expires_on' => $result['expires_on'] ?? null,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'valid' => false,
+                'status' => 'error',
+                'message' => 'Connection failed: ' . $e->getMessage(),
+            ];
+        }
     }
 
     /**
