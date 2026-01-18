@@ -16,7 +16,7 @@ return [
         'iconIdentifier' => 'module-ignitercf',
         'extensionName' => 'Ignitercf',
         'controllerActions' => [
-            BackendController::class => ['index'],
+            BackendController::class => ['index', 'configuration', 'saveDays'],
         ],
     ],
 ];
