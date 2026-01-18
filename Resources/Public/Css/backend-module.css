@@ -272,26 +272,43 @@
     margin-bottom: 1.5rem;
 }
 
-/* Docheader Layout - Title left, Menu + Status right */
-.module-docheader .module-docheader-bar-navigation {
-    flex: 1;
+/* Docheader Layout - Single row: Title left, Menu + Status right */
+.module-docheader {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.module-docheader .module-docheader-bar {
+    display: contents;
+}
+
+.module-docheader .module-docheader-bar-navigation,
+.module-docheader .module-docheader-bar-buttons {
+    display: contents;
+}
+
+.module-docheader .module-docheader-bar-column-left,
+.module-docheader .module-docheader-bar-column-right {
     display: flex;
     align-items: center;
+    padding: 0.5rem 1rem;
 }
 
-.module-docheader .module-docheader-bar-navigation .module-docheader-bar-column-left {
+/* Title stays left */
+.module-docheader .module-docheader-bar-buttons .module-docheader-bar-column-left {
+    order: 1;
     flex: 1;
 }
 
-.module-docheader .module-docheader-bar-navigation .module-docheader-bar-column-right {
+/* Menu dropdown goes to right */
+.module-docheader .module-docheader-bar-navigation .module-docheader-bar-column-left {
     order: 2;
+    flex: 0;
 }
 
-/* Move menu dropdown to right side */
-.module-docheader .module-docheader-bar-navigation nav.dropdown {
-    order: 1;
-    margin-left: auto;
-    margin-right: 1rem;
+/* Status indicators far right */
+.module-docheader .module-docheader-bar-buttons .module-docheader-bar-column-right {
+    order: 3;
 }
 
 /* Docheader Title */
