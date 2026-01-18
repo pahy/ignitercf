@@ -20,8 +20,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class BackendController extends ActionController
 {
     private const UC_KEY = 'ignitercf';
-    private const DEFAULT_CHART_DAYS = 7;
-    private const AVAILABLE_CHART_DAYS = [7, 14, 30, 90];
+    private const DEFAULT_DAYS = 7;
+    private const AVAILABLE_DAYS = [7, 14, 30, 90];
 
     public function __construct(
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
@@ -38,8 +38,9 @@ final class BackendController extends ActionController
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 
-        // Get user's chart days preference
-        $chartDays = $this->getChartDays();
+        // Get user's days preferences
+        $statisticsDays = $this->getUserSetting('statisticsDays');
+        $chartDays = $this->getUserSetting('chartDays');
 
         // Get all sites with their configuration status
         $sitesStatus = $this->getSitesStatus();
@@ -48,7 +49,7 @@ final class BackendController extends ActionController
         $recentLogs = $this->cloudflareLogService->getRecentEntries(20);
 
         // Get statistics for selected period
-        $statistics = $this->cloudflareLogService->getStatistics($chartDays);
+        $statistics = $this->cloudflareLogService->getStatistics($statisticsDays);
 
         // Get chart data (from cache or generate if stale)
         $chartData = $this->chartDataService->getDataOrGenerate(60);
@@ -79,62 +80,64 @@ final class BackendController extends ActionController
             'chartData' => $chartData,
             'chartDataAge' => $chartDataAge,
             'chartDataJson' => json_encode($dailyData),
+            'statisticsDays' => $statisticsDays,
             'chartDays' => $chartDays,
-            'availableChartDays' => $this->getChartDaysOptions(),
+            'availableDays' => $this->getDaysOptions(),
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Index');
     }
 
     /**
-     * Save chart days preference
+     * Save days preference for a specific setting
      */
-    public function saveChartDaysAction(int $days = 7): ResponseInterface
+    public function saveDaysAction(string $setting = 'chartDays', int $days = 7): ResponseInterface
     {
-        if (in_array($days, self::AVAILABLE_CHART_DAYS, true)) {
-            $this->setChartDays($days);
+        $allowedSettings = ['statisticsDays', 'chartDays'];
+        if (in_array($setting, $allowedSettings, true) && in_array($days, self::AVAILABLE_DAYS, true)) {
+            $this->setUserSetting($setting, $days);
         }
 
         return $this->redirect('index');
     }
 
     /**
-     * Get chart days from user configuration
+     * Get user setting from BE_USER->uc
      */
-    private function getChartDays(): int
+    private function getUserSetting(string $key): int
     {
         $uc = $GLOBALS['BE_USER']->uc[self::UC_KEY] ?? [];
-        $days = (int)($uc['chartDays'] ?? self::DEFAULT_CHART_DAYS);
+        $value = (int)($uc[$key] ?? self::DEFAULT_DAYS);
 
         // Validate against available options
-        if (!in_array($days, self::AVAILABLE_CHART_DAYS, true)) {
-            $days = self::DEFAULT_CHART_DAYS;
+        if (!in_array($value, self::AVAILABLE_DAYS, true)) {
+            $value = self::DEFAULT_DAYS;
         }
 
-        return $days;
+        return $value;
     }
 
     /**
-     * Save chart days to user configuration
+     * Save user setting to BE_USER->uc
      */
-    private function setChartDays(int $days): void
+    private function setUserSetting(string $key, int $value): void
     {
         if (!isset($GLOBALS['BE_USER']->uc[self::UC_KEY])) {
             $GLOBALS['BE_USER']->uc[self::UC_KEY] = [];
         }
-        $GLOBALS['BE_USER']->uc[self::UC_KEY]['chartDays'] = $days;
+        $GLOBALS['BE_USER']->uc[self::UC_KEY][$key] = $value;
         $GLOBALS['BE_USER']->writeUC();
     }
 
     /**
-     * Get chart days options for dropdown
+     * Get days options for dropdown
      *
      * @return array<int, string>
      */
-    private function getChartDaysOptions(): array
+    private function getDaysOptions(): array
     {
         $options = [];
-        foreach (self::AVAILABLE_CHART_DAYS as $days) {
+        foreach (self::AVAILABLE_DAYS as $days) {
             $options[$days] = $days . ' days';
         }
         return $options;
