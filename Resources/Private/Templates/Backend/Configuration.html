@@ -22,10 +22,9 @@
                     <core:icon identifier="actions-ban" size="small" />
                 </div>
                 <div class="media-body">
-                    <h4 class="callout-title">Extension disabled</h4>
+                    <h4 class="callout-title"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.extensionDisabled" /></h4>
                     <p class="callout-body">
-                        IgniterCF is globally disabled. Enable it in
-                        <strong>Settings → Extension Configuration → ignitercf</strong>.
+                        <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.extensionDisabledMessage" />
                     </p>
                 </div>
             </div>
@@ -37,17 +36,17 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <core:icon identifier="actions-cog" size="small" />
-                Site Configuration Status
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.siteStatus" />
             </h3>
             <f:if condition="{allConfigured}">
                 <f:then>
                     <span class="badge badge-success">
-                        <core:icon identifier="actions-check" size="small" /> All sites configured
+                        <core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.allConfigured" />
                     </span>
                 </f:then>
                 <f:else>
                     <span class="badge" style="background: var(--ignitercf-orange); color: #fff;">
-                        <core:icon identifier="actions-exclamation-triangle" size="small" /> Setup required
+                        <core:icon identifier="actions-exclamation-triangle" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.setupRequired" />
                     </span>
                 </f:else>
             </f:if>
@@ -60,7 +59,7 @@
                     </f:for>
                 </f:then>
                 <f:else>
-                    <p class="text-muted">No sites configured in TYPO3.</p>
+                    <p class="text-muted"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.noSites" /></p>
                 </f:else>
             </f:if>
         </div>
@@ -71,51 +70,51 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <core:icon identifier="actions-system-extension-configure" size="small" />
-                Global Settings
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.globalSettings" />
             </h3>
         </div>
         <div class="panel-body">
             <p class="text-muted" style="margin-bottom: 1rem;">
-                Configure these settings in <strong>Settings → Extension Configuration → ignitercf</strong>
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.configureHint" />
             </p>
             <dl class="ignitercf-settings">
-                <dt>Extension Enabled</dt>
+                <dt><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.extensionEnabled" /></dt>
                 <dd>
                     <f:if condition="{globalSettings.enabled}">
-                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
-                        <f:else><span class="text-danger"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.yes" /></span></f:then>
+                        <f:else><span class="text-danger"><core:icon identifier="actions-ban" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.no" /></span></f:else>
                     </f:if>
                 </dd>
 
-                <dt>Auto-Purge on Save</dt>
+                <dt><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.autoPurge" /></dt>
                 <dd>
                     <f:if condition="{globalSettings.autoPurgeOnSave}">
-                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
-                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.yes" /></span></f:then>
+                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.no" /></span></f:else>
                     </f:if>
                 </dd>
 
-                <dt>Purge on Clear All</dt>
+                <dt><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.purgeOnClearAll" /></dt>
                 <dd>
                     <f:if condition="{globalSettings.purgeOnClearAll}">
-                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
-                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.yes" /></span></f:then>
+                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.no" /></span></f:else>
                     </f:if>
                 </dd>
 
-                <dt>Middleware Enabled</dt>
+                <dt><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.middlewareEnabled" /></dt>
                 <dd>
                     <f:if condition="{globalSettings.middlewareEnabled}">
-                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> Yes</span></f:then>
-                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> No</span></f:else>
+                        <f:then><span class="text-success"><core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.yes" /></span></f:then>
+                        <f:else><span class="text-muted"><core:icon identifier="actions-ban" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:value.no" /></span></f:else>
                     </f:if>
                 </dd>
 
-                <dt>Log Level</dt>
+                <dt><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.logLevel" /></dt>
                 <dd><code>{globalSettings.logLevel}</code></dd>
 
-                <dt>Log Retention</dt>
-                <dd>{globalSettings.logRetentionDays} days</dd>
+                <dt><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.logRetention" /></dt>
+                <dd><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.logRetentionValue" arguments="{0: globalSettings.logRetentionDays}" /></dd>
             </dl>
         </div>
     </div>

@@ -120,13 +120,13 @@
             <trans-unit id="module.config.globalSettings">
                 <source>Global Settings</source>
             </trans-unit>
-            <trans-unit id="module.config.globalSettingsHint">
+            <trans-unit id="module.config.configureHint">
                 <source>Configure these settings in Settings → Extension Configuration → ignitercf</source>
             </trans-unit>
             <trans-unit id="module.config.extensionEnabled">
                 <source>Extension Enabled</source>
             </trans-unit>
-            <trans-unit id="module.config.autoPurgeOnSave">
+            <trans-unit id="module.config.autoPurge">
                 <source>Auto-Purge on Save</source>
             </trans-unit>
             <trans-unit id="module.config.purgeOnClearAll">
@@ -141,8 +141,32 @@
             <trans-unit id="module.config.logRetention">
                 <source>Log Retention</source>
             </trans-unit>
-            <trans-unit id="module.config.days">
+            <trans-unit id="module.config.logRetentionValue">
                 <source>%d days</source>
+            </trans-unit>
+            <trans-unit id="module.config.configured">
+                <source>Configured</source>
+            </trans-unit>
+            <trans-unit id="module.config.testConnectionTitle">
+                <source>Test Cloudflare connection</source>
+            </trans-unit>
+            <trans-unit id="module.config.testButton">
+                <source>Test</source>
+            </trans-unit>
+            <trans-unit id="module.config.zoneId">
+                <source>Zone ID</source>
+            </trans-unit>
+            <trans-unit id="module.config.apiToken">
+                <source>API Token</source>
+            </trans-unit>
+            <trans-unit id="module.config.siteEnabled">
+                <source>Site enabled</source>
+            </trans-unit>
+            <trans-unit id="module.config.clickTest">
+                <source>Click "Test" to verify connection</source>
+            </trans-unit>
+            <trans-unit id="module.config.solution">
+                <source>Solution</source>
             </trans-unit>
 
             <!-- Backend Module - Site Status -->

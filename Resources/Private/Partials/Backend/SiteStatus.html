@@ -24,12 +24,12 @@
             <f:if condition="{site.isConfigured}">
                 <f:then>
                     <span class="site-badge badge-configured">
-                        <core:icon identifier="actions-check" size="small" /> Configured
+                        <core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.configured" />
                     </span>
                 </f:then>
                 <f:else>
                     <span class="site-badge badge-warning">
-                        <core:icon identifier="actions-exclamation-triangle" size="small" /> Setup required
+                        <core:icon identifier="actions-exclamation-triangle" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.setupRequired" />
                     </span>
                 </f:else>
             </f:if>
@@ -37,9 +37,9 @@
                 <button type="button"
                         class="btn btn-sm btn-default ignitercf-test-connection"
                         data-site="{site.identifier}"
-                        title="Test Cloudflare connection">
+                        title="{f:translate(key: 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.testConnectionTitle')}">
                     <core:icon identifier="actions-refresh" size="small" />
-                    Test
+                    <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.testButton" />
                 </button>
             </f:if>
         </div>
@@ -54,15 +54,15 @@
                         <ul class="ignitercf-checklist">
                             <li>
                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                                Zone ID: <code>{site.zoneId}</code>
+                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.zoneId" />: <code>{site.zoneId}</code>
                             </li>
                             <li>
                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                                API Token: <code>{site.apiTokenMasked}</code>
+                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.apiToken" />: <code>{site.apiTokenMasked}</code>
                             </li>
                             <li>
                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                                Site enabled
+                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.siteEnabled" />
                             </li>
                         </ul>
                     </div>
@@ -70,7 +70,7 @@
                         <div class="ignitercf-connection-result" data-site="{site.identifier}">
                             <span class="text-muted">
                                 <core:icon identifier="actions-question-circle" size="small" />
-                                Click "Test" to verify connection
+                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.clickTest" />
                             </span>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                             {hint.message}
                         </div>
                         <div>
-                            <small class="text-muted">Solution:</small>
+                            <small class="text-muted"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.solution" />:</small>
                             <pre class="hint-solution"><f:format.raw>{hint.solution}</f:format.raw></pre>
                             <f:if condition="{hint.link}">
                                 <span class="hint-link">
@@ -101,14 +101,14 @@
                 <f:if condition="{site.zoneId}">
                     <div style="margin-top: 0.5rem;">
                         <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                        Zone ID: <code>{site.zoneId}</code>
+                        <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.zoneId" />: <code>{site.zoneId}</code>
                     </div>
                 </f:if>
 
                 <f:if condition="{site.hasApiToken}">
                     <div style="margin-top: 0.25rem;">
                         <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                        API Token: <code>{site.apiTokenMasked}</code>
+                        <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.apiToken" />: <code>{site.apiTokenMasked}</code>
                     </div>
                 </f:if>
             </f:else>
