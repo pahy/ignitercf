@@ -13,6 +13,12 @@ enableMiddleware = 1
 # cat=advanced/debug/10; type=boolean; label=Debug Mode:Enable verbose logging for troubleshooting. Logs will be written to var/log/typo3_ignitercf_*.log
 debug = 0
 
+# cat=advanced/logging/20; type=options[All Calls=all,Errors Only=errors_only,Disabled=none]; label=Cloudflare Log Level:What to log to the dedicated Cloudflare log file (var/log/typo3_ignitercf_cloudflare.log).
+logLevel = errors_only
+
+# cat=advanced/logging/30; type=int+; label=Log Retention Days:Number of days to keep log entries. Older entries are deleted by the cleanup scheduler task. Set to 0 to keep logs indefinitely.
+logRetentionDays = 30
+
 # ---------------------------------------------------------------------------------
 # IMPORTANT: Zone ID and API Token are configured per-site, not here!
 # ---------------------------------------------------------------------------------
