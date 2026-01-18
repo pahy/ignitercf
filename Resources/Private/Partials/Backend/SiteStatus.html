@@ -2,44 +2,56 @@
       xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<div class="ignitercf-site-status card mb-3" data-site-identifier="{site.identifier}">
-    <div class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">
-                <f:if condition="{site.isConfigured}">
-                    <f:then>
-                        <span class="text-success">
-                            <core:icon identifier="actions-check-circle" size="small" />
-                        </span>
-                    </f:then>
-                    <f:else>
-                        <span class="text-warning">
-                            <core:icon identifier="actions-exclamation-circle" size="small" />
-                        </span>
-                    </f:else>
-                </f:if>
-                {site.identifier}
-                <small class="text-muted">({site.baseUrl})</small>
-            </h4>
+<div class="ignitercf-site-card {f:if(condition: site.isConfigured, then: 'configured', else: 'not-configured')}" data-site-identifier="{site.identifier}">
+    <div class="site-header">
+        <h4 class="site-title">
+            <f:if condition="{site.isConfigured}">
+                <f:then>
+                    <span class="text-success">
+                        <core:icon identifier="actions-check-circle" size="small" />
+                    </span>
+                </f:then>
+                <f:else>
+                    <span style="color: #F38020;">
+                        <core:icon identifier="actions-exclamation-circle" size="small" />
+                    </span>
+                </f:else>
+            </f:if>
+            {site.identifier}
+            <span class="site-url">({site.baseUrl})</span>
+        </h4>
+        <div class="d-flex align-items-center gap-2">
+            <f:if condition="{site.isConfigured}">
+                <f:then>
+                    <span class="site-badge badge-configured">
+                        <core:icon identifier="actions-check" size="small" /> Configured
+                    </span>
+                </f:then>
+                <f:else>
+                    <span class="site-badge badge-warning">
+                        <core:icon identifier="actions-exclamation-triangle" size="small" /> Setup required
+                    </span>
+                </f:else>
+            </f:if>
             <f:if condition="{site.isConfigured}">
                 <button type="button"
                         class="btn btn-sm btn-default ignitercf-test-connection"
                         data-site="{site.identifier}"
                         title="Test Cloudflare connection">
                     <core:icon identifier="actions-refresh" size="small" />
-                    Test Connection
+                    Test
                 </button>
             </f:if>
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="site-body">
         <f:if condition="{site.isConfigured}">
             <f:then>
-                <!-- Configured: Show green checkboxes -->
+                <!-- Configured: Show checklist -->
                 <div class="row">
                     <div class="col-md-6">
-                        <ul class="list-unstyled">
+                        <ul class="ignitercf-checklist">
                             <li>
                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
                                 Zone ID: <code>{site.zoneId}</code>
@@ -58,7 +70,7 @@
                         <div class="ignitercf-connection-result" data-site="{site.identifier}">
                             <span class="text-muted">
                                 <core:icon identifier="actions-question-circle" size="small" />
-                                Click "Test Connection" to verify settings
+                                Click "Test" to verify connection
                             </span>
                         </div>
                     </div>
@@ -67,36 +79,37 @@
             <f:else>
                 <!-- Not configured: Show hints -->
                 <f:for each="{site.hints}" as="hint">
-                    <div class="alert alert-warning mb-2">
-                        <strong>
+                    <div class="ignitercf-hint">
+                        <div class="hint-title">
                             <core:icon identifier="actions-exclamation-triangle" size="small" />
                             {hint.message}
-                        </strong>
-                        <div class="mt-2">
-                            <strong>Solution:</strong>
-                            <pre class="mb-1" style="font-size: 12px; background: #f5f5f5; padding: 8px; border-radius: 4px;"><f:format.raw>{hint.solution}</f:format.raw></pre>
+                        </div>
+                        <div>
+                            <small class="text-muted">Solution:</small>
+                            <pre class="hint-solution"><f:format.raw>{hint.solution}</f:format.raw></pre>
                             <f:if condition="{hint.link}">
-                                <small class="text-muted">
+                                <span class="hint-link">
                                     <core:icon identifier="actions-link" size="small" />
                                     {hint.link}
-                                </small>
+                                </span>
                             </f:if>
                         </div>
                     </div>
                 </f:for>
 
+                <!-- Show what IS configured -->
                 <f:if condition="{site.zoneId}">
-                    <p class="mb-1">
+                    <div style="margin-top: 0.5rem;">
                         <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
                         Zone ID: <code>{site.zoneId}</code>
-                    </p>
+                    </div>
                 </f:if>
 
                 <f:if condition="{site.hasApiToken}">
-                    <p class="mb-1">
+                    <div style="margin-top: 0.25rem;">
                         <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
                         API Token: <code>{site.apiTokenMasked}</code>
-                    </p>
+                    </div>
                 </f:if>
             </f:else>
         </f:if>

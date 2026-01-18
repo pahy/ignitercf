@@ -7,7 +7,10 @@
 
 <f:section name="Content">
 
-<f:be.pageRenderer includeJavaScriptModules="{0: '@pahy/ignitercf/backend-module.js'}" />
+<f:be.pageRenderer
+    includeJavaScriptModules="{0: '@pahy/ignitercf/backend-module.js'}"
+    includeCssFiles="{0: 'EXT:ignitercf/Resources/Public/Css/backend-module.css'}"
+/>
 
 <div class="ignitercf-module">
     <h1>
@@ -90,48 +93,39 @@
     <!-- Statistics -->
     <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="pull-right">
-                <f:form action="saveDays" method="post" style="display: inline;">
-                    <f:form.hidden name="setting" value="statisticsDays" />
-                    <f:form.select
-                        name="days"
-                        options="{availableDays}"
-                        value="{statisticsDays}"
-                        additionalAttributes="{onchange: 'this.form.submit()'}"
-                        class="form-select form-select-sm"
-                        style="width: auto; display: inline-block;"
-                    />
-                </f:form>
-            </div>
             <h3 class="panel-title">
                 <core:icon identifier="content-widget-chart-bar" size="small" />
                 Statistics (Last {statisticsDays} Days)
             </h3>
+            <f:form action="saveDays" method="post" style="display: inline;">
+                <f:form.hidden name="setting" value="statisticsDays" />
+                <f:form.select
+                    name="days"
+                    options="{availableDays}"
+                    value="{statisticsDays}"
+                    additionalAttributes="{onchange: 'this.form.submit()'}"
+                    class="form-select form-select-sm"
+                />
+            </f:form>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h2 class="text-primary">{statistics.total}</h2>
-                            <p class="text-muted">Total Requests</p>
-                        </div>
+                    <div class="ignitercf-stat-card stat-total">
+                        <div class="stat-value">{statistics.total}</div>
+                        <div class="stat-label">Total Requests</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h2 class="text-success">{statistics.success}</h2>
-                            <p class="text-muted">Successful</p>
-                        </div>
+                    <div class="ignitercf-stat-card stat-success">
+                        <div class="stat-value">{statistics.success}</div>
+                        <div class="stat-label">Successful</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h2 class="text-danger">{statistics.errors}</h2>
-                            <p class="text-muted">Errors</p>
-                        </div>
+                    <div class="ignitercf-stat-card stat-errors">
+                        <div class="stat-value">{statistics.errors}</div>
+                        <div class="stat-label">Errors</div>
                     </div>
                 </div>
             </div>
@@ -141,39 +135,37 @@
     <!-- Activity Chart -->
     <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="pull-right">
-                <f:if condition="{chartDataAge}">
-                    <small class="text-muted" style="margin-right: 10px;">
-                        Data updated {chartDataAge} min ago
-                    </small>
-                </f:if>
-                <f:form action="saveDays" method="post" style="display: inline;">
-                    <f:form.hidden name="setting" value="chartDays" />
-                    <f:form.select
-                        name="days"
-                        options="{availableDays}"
-                        value="{chartDays}"
-                        additionalAttributes="{onchange: 'this.form.submit()'}"
-                        class="form-select form-select-sm"
-                        style="width: auto; display: inline-block;"
-                    />
-                </f:form>
-            </div>
             <h3 class="panel-title">
                 <core:icon identifier="content-widget-chart-bar" size="small" />
                 Purge Activity (Last {chartDays} Days)
+                <f:if condition="{chartDataAge}">
+                    <small class="text-muted" style="font-weight: normal; margin-left: 0.5rem;">
+                        · updated {chartDataAge} min ago
+                    </small>
+                </f:if>
             </h3>
+            <f:form action="saveDays" method="post" style="display: inline;">
+                <f:form.hidden name="setting" value="chartDays" />
+                <f:form.select
+                    name="days"
+                    options="{availableDays}"
+                    value="{chartDays}"
+                    additionalAttributes="{onchange: 'this.form.submit()'}"
+                    class="form-select form-select-sm"
+                />
+            </f:form>
         </div>
         <div class="panel-body">
-            <div id="ignitercf-chart-container" style="position: relative; height: 300px;">
+            <div class="ignitercf-chart-wrapper">
                 <canvas id="ignitercf-activity-chart"></canvas>
             </div>
             <p id="ignitercf-chart-nodata" class="text-muted text-center" style="display: none;">
                 No data available. Run the chart:generate command first.
             </p>
-            <p class="text-muted text-center mt-2">
+            <p class="text-muted text-center" style="margin-top: 0.5rem; margin-bottom: 0;">
                 <small>
-                    Generate chart data: <code>./vendor/bin/typo3 ignitercf:chart:generate</code>
+                    <core:icon identifier="actions-terminal" size="small" />
+                    <code style="background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">vendor/bin/typo3 ignitercf:chart:generate</code>
                 </small>
             </p>
         </div>
@@ -184,12 +176,12 @@
     <script>
         (function() {
             const chartData = <f:format.raw>{chartDataJson}</f:format.raw>;
-            const chartContainer = document.getElementById('ignitercf-chart-container');
+            const chartWrapper = document.querySelector('.ignitercf-chart-wrapper');
             const noDataMessage = document.getElementById('ignitercf-chart-nodata');
 
             if (!chartData || chartData.length === 0) {
-                chartContainer.style.display = 'none';
-                noDataMessage.style.display = 'block';
+                if (chartWrapper) chartWrapper.style.display = 'none';
+                if (noDataMessage) noDataMessage.style.display = 'block';
                 return;
             }
 
@@ -211,14 +203,16 @@
                             data: successData,
                             backgroundColor: 'rgba(40, 167, 69, 0.8)',
                             borderColor: 'rgba(40, 167, 69, 1)',
-                            borderWidth: 1
+                            borderWidth: 1,
+                            borderRadius: 2
                         },
                         {
                             label: 'Errors',
                             data: errorData,
                             backgroundColor: 'rgba(220, 53, 69, 0.8)',
                             borderColor: 'rgba(220, 53, 69, 1)',
-                            borderWidth: 1
+                            borderWidth: 1,
+                            borderRadius: 2
                         }
                     ]
                 },
@@ -228,22 +222,16 @@
                     scales: {
                         x: {
                             stacked: true,
-                            grid: {
-                                display: false
-                            }
+                            grid: { display: false }
                         },
                         y: {
                             stacked: true,
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
+                            ticks: { stepSize: 1 }
                         }
                     },
                     plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
+                        legend: { position: 'bottom' },
                         tooltip: {
                             callbacks: {
                                 afterBody: function(context) {
@@ -267,7 +255,7 @@
                 Recent Log Entries
             </h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="padding: 0;">
             <f:if condition="{recentLogs}">
                 <f:then>
                     <div class="table-responsive">
@@ -279,37 +267,35 @@
                                     <th>Site</th>
                                     <th>URLs</th>
                                     <th>Status</th>
-                                    <th>Response Time</th>
+                                    <th>Response</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <f:for each="{recentLogs}" as="log">
-                                    <tr class="{f:if(condition: log.success, then: '', else: 'danger')}">
-                                        <td>
-                                            <small>{log.timestamp}</small>
-                                        </td>
+                                    <tr class="{f:if(condition: log.success, then: '', else: 'table-danger')}">
+                                        <td><small class="text-muted">{log.timestamp}</small></td>
                                         <td>
                                             <f:if condition="{log.type} == 'purge_everything'">
                                                 <f:then>
-                                                    <span class="badge badge-warning">Purge All</span>
+                                                    <span class="badge" style="background: var(--ignitercf-orange); color: #fff;">Purge All</span>
                                                 </f:then>
                                                 <f:else>
                                                     <span class="badge badge-info">Purge URLs</span>
                                                 </f:else>
                                             </f:if>
                                         </td>
-                                        <td>{log.site}</td>
+                                        <td><strong>{log.site}</strong></td>
                                         <td>
                                             <f:if condition="{log.urls_count}">
-                                                <f:then>{log.urls_count} URL(s)</f:then>
-                                                <f:else>-</f:else>
+                                                <f:then>{log.urls_count}</f:then>
+                                                <f:else>–</f:else>
                                             </f:if>
                                         </td>
                                         <td>
                                             <f:if condition="{log.success}">
                                                 <f:then>
                                                     <span class="badge badge-success">
-                                                        <core:icon identifier="actions-check" size="small" /> Success
+                                                        <core:icon identifier="actions-check" size="small" /> OK
                                                     </span>
                                                 </f:then>
                                                 <f:else>
@@ -319,9 +305,7 @@
                                                 </f:else>
                                             </f:if>
                                         </td>
-                                        <td>
-                                            <f:format.number decimals="0">{log.response_time_ms}</f:format.number> ms
-                                        </td>
+                                        <td><f:format.number decimals="0">{log.response_time_ms}</f:format.number> ms</td>
                                     </tr>
                                 </f:for>
                             </tbody>
@@ -329,12 +313,14 @@
                     </div>
                 </f:then>
                 <f:else>
-                    <p class="text-muted">
-                        No log entries yet.
-                        <f:if condition="{globalSettings.logLevel} == 'none'">
-                            <br /><em>Note: Logging is currently disabled.</em>
-                        </f:if>
-                    </p>
+                    <div style="padding: 16px;">
+                        <p class="text-muted mb-0">
+                            No log entries yet.
+                            <f:if condition="{globalSettings.logLevel} == 'none'">
+                                <br /><em>Note: Logging is currently disabled.</em>
+                            </f:if>
+                        </p>
+                    </div>
                 </f:else>
             </f:if>
         </div>
@@ -349,41 +335,41 @@
             </h3>
         </div>
         <div class="panel-body">
-            <dl class="dl-horizontal">
+            <dl class="ignitercf-settings">
                 <dt>Extension Enabled</dt>
                 <dd>
                     <f:if condition="{globalSettings.enabled}">
-                        <f:then><span class="text-success">Yes</span></f:then>
-                        <f:else><span class="text-danger">No</span></f:else>
+                        <f:then><span class="badge badge-success">Yes</span></f:then>
+                        <f:else><span class="badge badge-danger">No</span></f:else>
                     </f:if>
                 </dd>
 
                 <dt>Auto-Purge on Save</dt>
                 <dd>
                     <f:if condition="{globalSettings.autoPurgeOnSave}">
-                        <f:then><span class="text-success">Yes</span></f:then>
-                        <f:else><span class="text-muted">No</span></f:else>
+                        <f:then><span class="badge badge-success">Yes</span></f:then>
+                        <f:else><span class="badge badge-secondary">No</span></f:else>
                     </f:if>
                 </dd>
 
                 <dt>Purge on Clear All</dt>
                 <dd>
                     <f:if condition="{globalSettings.purgeOnClearAll}">
-                        <f:then><span class="text-success">Yes</span></f:then>
-                        <f:else><span class="text-muted">No</span></f:else>
+                        <f:then><span class="badge badge-success">Yes</span></f:then>
+                        <f:else><span class="badge badge-secondary">No</span></f:else>
                     </f:if>
                 </dd>
 
                 <dt>Cache-Control Middleware</dt>
                 <dd>
                     <f:if condition="{globalSettings.middlewareEnabled}">
-                        <f:then><span class="text-success">Enabled</span></f:then>
-                        <f:else><span class="text-muted">Disabled</span></f:else>
+                        <f:then><span class="badge badge-success">Enabled</span></f:then>
+                        <f:else><span class="badge badge-secondary">Disabled</span></f:else>
                     </f:if>
                 </dd>
 
                 <dt>Log Level</dt>
-                <dd>{globalSettings.logLevel}</dd>
+                <dd><code>{globalSettings.logLevel}</code></dd>
 
                 <dt>Log Retention</dt>
                 <dd>
@@ -393,10 +379,10 @@
                     </f:if>
                 </dd>
             </dl>
-            <p class="text-muted">
+            <p class="text-muted mb-0" style="margin-top: 1rem;">
                 <small>
-                    Change settings in
-                    <strong>Settings → Extension Configuration → ignitercf</strong>
+                    <core:icon identifier="actions-cog" size="small" />
+                    Change settings in <strong>Settings → Extension Configuration → ignitercf</strong>
                 </small>
             </p>
         </div>

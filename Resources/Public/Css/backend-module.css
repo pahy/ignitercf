@@ -1,0 +1,273 @@
+/**
+ * IgniterCF Backend Module Styles
+ * TYPO3 CI compliant with Cloudflare accent color
+ */
+
+:root {
+    --ignitercf-orange: #F38020;
+    --ignitercf-orange-light: rgba(243, 128, 32, 0.1);
+    --ignitercf-orange-border: rgba(243, 128, 32, 0.3);
+}
+
+/* Module Header */
+.ignitercf-module h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ignitercf-orange);
+}
+
+/* Panel Styling */
+.ignitercf-module .panel {
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.ignitercf-module .panel-heading {
+    background: linear-gradient(to bottom, #fafafa, #f5f5f5);
+    border-bottom: 1px solid #e5e5e5;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ignitercf-module .panel-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ignitercf-module .panel-body {
+    padding: 16px;
+}
+
+/* Statistics Cards */
+.ignitercf-stat-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+}
+
+.ignitercf-stat-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ignitercf-stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.ignitercf-stat-card .stat-label {
+    font-size: 0.875rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ignitercf-stat-card.stat-total .stat-value {
+    color: var(--ignitercf-orange);
+}
+
+.ignitercf-stat-card.stat-success .stat-value {
+    color: #28a745;
+}
+
+.ignitercf-stat-card.stat-errors .stat-value {
+    color: #dc3545;
+}
+
+/* Site Status Cards */
+.ignitercf-site-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.ignitercf-site-card.configured {
+    border-left: 4px solid #28a745;
+}
+
+.ignitercf-site-card.not-configured {
+    border-left: 4px solid var(--ignitercf-orange);
+}
+
+.ignitercf-site-card .site-header {
+    background: #fafafa;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.ignitercf-site-card .site-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ignitercf-site-card .site-url {
+    font-size: 0.875rem;
+    color: #666;
+    font-weight: normal;
+}
+
+.ignitercf-site-card .site-body {
+    padding: 16px;
+}
+
+.ignitercf-site-card .site-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.ignitercf-site-card .site-badge.badge-configured {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.ignitercf-site-card .site-badge.badge-warning {
+    background: var(--ignitercf-orange-light);
+    color: #c96a10;
+}
+
+/* Configuration Hints */
+.ignitercf-hint {
+    background: #fff8f0;
+    border: 1px solid var(--ignitercf-orange-border);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 0.75rem;
+}
+
+.ignitercf-hint .hint-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #c96a10;
+    margin-bottom: 0.5rem;
+}
+
+.ignitercf-hint .hint-solution {
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    margin: 0.5rem 0;
+}
+
+.ignitercf-hint .hint-link {
+    font-size: 0.75rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Config Checklist */
+.ignitercf-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ignitercf-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+}
+
+.ignitercf-checklist code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.875rem;
+}
+
+/* Settings List */
+.ignitercf-settings {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.ignitercf-settings dt {
+    font-weight: 500;
+    color: #666;
+}
+
+.ignitercf-settings dd {
+    margin: 0;
+}
+
+/* Dropdown in Panel Header */
+.ignitercf-module .panel-heading .form-select {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px 24px 4px 8px;
+    font-size: 12px;
+    background-color: #fff;
+}
+
+/* Log Table */
+.ignitercf-module .table {
+    margin-bottom: 0;
+}
+
+.ignitercf-module .table th {
+    background: #fafafa;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.ignitercf-module .table td {
+    vertical-align: middle;
+}
+
+/* Badges */
+.ignitercf-module .badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Chart Container */
+.ignitercf-chart-wrapper {
+    position: relative;
+    height: 280px;
+    padding: 1rem 0;
+}
+
+/* Callouts */
+.ignitercf-module .callout {
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
