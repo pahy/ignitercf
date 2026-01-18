@@ -292,6 +292,26 @@
             </trans-unit>
 
             <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeAll.title">
+                <source>IgniterCF: Purge All Zones</source>
+                <target>IgniterCF: Purger toutes les zones</target>
+            </trans-unit>
+            <trans-unit id="task.purgeAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Purge l'intégralité du cache Cloudflare pour toutes les zones configurées</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.title">
+                <source>IgniterCF: Purge Zone</source>
+                <target>IgniterCF: Purger une zone</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.description">
+                <source>Purges the entire Cloudflare cache for a specific zone/site</source>
+                <target>Purge l'intégralité du cache Cloudflare pour une zone/site spécifique</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteIdentifier">
+                <source>Site</source>
+                <target>Site</target>
+            </trans-unit>
             <trans-unit id="task.purgeZone.selectSite">
                 <source>-- Select site --</source>
                 <target>-- Sélectionner un site --</target>
@@ -304,9 +324,41 @@
                 <source>Site identifier is required</source>
                 <target>L'identifiant du site est requis</target>
             </trans-unit>
+            <trans-unit id="task.purgePage.title">
+                <source>IgniterCF: Purge Page</source>
+                <target>IgniterCF: Purger une page</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.description">
+                <source>Purges the Cloudflare cache for a specific page</source>
+                <target>Purge le cache Cloudflare pour une page spécifique</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUid">
+                <source>Page UID</source>
+                <target>UID de la page</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.languageUid">
+                <source>Language UID (-1 = all languages)</source>
+                <target>UID de la langue (-1 = toutes les langues)</target>
+            </trans-unit>
             <trans-unit id="task.purgePage.pageUidInvalid">
                 <source>Page UID must be a positive number</source>
                 <target>L'UID de la page doit être un nombre positif</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.title">
+                <source>IgniterCF: Cleanup Old Logs</source>
+                <target>IgniterCF: Nettoyer les anciens logs</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.description">
+                <source>Deletes Cloudflare log entries older than the configured retention period</source>
+                <target>Supprime les entrées de log Cloudflare antérieures à la période de rétention configurée</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.title">
+                <source>IgniterCF: Generate Chart Data</source>
+                <target>IgniterCF: Générer les données du graphique</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.description">
+                <source>Pre-computes chart statistics from Cloudflare logs for faster dashboard display</source>
+                <target>Précalcule les statistiques de graphique à partir des logs Cloudflare pour un affichage plus rapide du tableau de bord</target>
             </trans-unit>
             <trans-unit id="task.generateChartData.days">
                 <source>Number of days to include</source>
@@ -318,6 +370,14 @@
             </trans-unit>
 
             <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.title">
+                <source>IgniterCF: Configuration Status</source>
+                <target>IgniterCF: État de la configuration</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.description">
+                <source>Shows Cloudflare configuration status for all sites</source>
+                <target>Affiche l'état de la configuration Cloudflare pour tous les sites</target>
+            </trans-unit>
             <trans-unit id="widget.configurationStatus.noSites">
                 <source>No sites found</source>
                 <target>Aucun site trouvé</target>
@@ -333,6 +393,14 @@
             <trans-unit id="widget.configurationStatus.partiallyConfigured">
                 <source>%d of %d sites configured</source>
                 <target>%d sur %d sites configurés</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.title">
+                <source>IgniterCF: Purge Activity</source>
+                <target>IgniterCF: Activité de purge</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.description">
+                <source>Chart showing Cloudflare cache purge activity over the last 7 days</source>
+                <target>Graphique montrant l'activité de purge du cache Cloudflare sur les 7 derniers jours</target>
             </trans-unit>
 
             <!-- JavaScript/AJAX Messages -->

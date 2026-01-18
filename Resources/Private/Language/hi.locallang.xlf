@@ -232,6 +232,10 @@
                 <source>Config: %d/%d sites ready</source>
                 <target>कॉन्फ़िग: %d/%d साइटें तैयार</target>
             </trans-unit>
+            <trans-unit id="module.status.configNone">
+                <source>Config: No sites configured</source>
+                <target>कॉन्फ़िग: कोई साइट कॉन्फ़िगर नहीं</target>
+            </trans-unit>
             <trans-unit id="module.status.noActivity">
                 <source>Status: No activity (%d days)</source>
                 <target>स्थिति: कोई गतिविधि नहीं (%d दिन)</target>
@@ -288,6 +292,26 @@
             </trans-unit>
 
             <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeAll.title">
+                <source>IgniterCF: Purge All Zones</source>
+                <target>IgniterCF: सभी ज़ोन साफ़ करें</target>
+            </trans-unit>
+            <trans-unit id="task.purgeAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>सभी कॉन्फ़िगर किए गए ज़ोन के लिए पूरा Cloudflare कैश साफ़ करता है</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.title">
+                <source>IgniterCF: Purge Zone</source>
+                <target>IgniterCF: ज़ोन साफ़ करें</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.description">
+                <source>Purges the entire Cloudflare cache for a specific zone/site</source>
+                <target>किसी विशिष्ट ज़ोन/साइट के लिए पूरा Cloudflare कैश साफ़ करता है</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteIdentifier">
+                <source>Site</source>
+                <target>साइट</target>
+            </trans-unit>
             <trans-unit id="task.purgeZone.selectSite">
                 <source>-- Select site --</source>
                 <target>-- साइट चुनें --</target>
@@ -300,9 +324,41 @@
                 <source>Site identifier is required</source>
                 <target>साइट पहचानकर्ता आवश्यक है</target>
             </trans-unit>
+            <trans-unit id="task.purgePage.title">
+                <source>IgniterCF: Purge Page</source>
+                <target>IgniterCF: पेज साफ़ करें</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.description">
+                <source>Purges the Cloudflare cache for a specific page</source>
+                <target>किसी विशिष्ट पेज के लिए Cloudflare कैश साफ़ करता है</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUid">
+                <source>Page UID</source>
+                <target>पेज UID</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.languageUid">
+                <source>Language UID (-1 = all languages)</source>
+                <target>भाषा UID (-1 = सभी भाषाएं)</target>
+            </trans-unit>
             <trans-unit id="task.purgePage.pageUidInvalid">
                 <source>Page UID must be a positive number</source>
                 <target>पेज UID एक धनात्मक संख्या होनी चाहिए</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.title">
+                <source>IgniterCF: Cleanup Old Logs</source>
+                <target>IgniterCF: पुराने लॉग साफ़ करें</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.description">
+                <source>Deletes Cloudflare log entries older than the configured retention period</source>
+                <target>कॉन्फ़िगर की गई प्रतिधारण अवधि से पुरानी Cloudflare लॉग प्रविष्टियों को हटाता है</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.title">
+                <source>IgniterCF: Generate Chart Data</source>
+                <target>IgniterCF: चार्ट डेटा जनरेट करें</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.description">
+                <source>Pre-computes chart statistics from Cloudflare logs for faster dashboard display</source>
+                <target>तेज़ डैशबोर्ड प्रदर्शन के लिए Cloudflare लॉग से चार्ट आंकड़े पूर्व-गणना करता है</target>
             </trans-unit>
             <trans-unit id="task.generateChartData.days">
                 <source>Number of days to include</source>
@@ -314,6 +370,14 @@
             </trans-unit>
 
             <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.title">
+                <source>IgniterCF: Configuration Status</source>
+                <target>IgniterCF: कॉन्फ़िगरेशन स्थिति</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.description">
+                <source>Shows Cloudflare configuration status for all sites</source>
+                <target>सभी साइटों के लिए Cloudflare कॉन्फ़िगरेशन स्थिति दिखाता है</target>
+            </trans-unit>
             <trans-unit id="widget.configurationStatus.noSites">
                 <source>No sites found</source>
                 <target>कोई साइट नहीं मिली</target>
@@ -329,6 +393,14 @@
             <trans-unit id="widget.configurationStatus.partiallyConfigured">
                 <source>%d of %d sites configured</source>
                 <target>%d में से %d साइटें कॉन्फ़िगर की गईं</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.title">
+                <source>IgniterCF: Purge Activity</source>
+                <target>IgniterCF: पर्ज गतिविधि</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.description">
+                <source>Chart showing Cloudflare cache purge activity over the last 7 days</source>
+                <target>पिछले 7 दिनों में Cloudflare कैश पर्ज गतिविधि दिखाने वाला चार्ट</target>
             </trans-unit>
 
             <!-- JavaScript/AJAX Messages -->

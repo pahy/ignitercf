@@ -248,6 +248,10 @@
                 <source>Status: %d errors (%d days)</source>
                 <target>Stato: %d errori (%d giorni)</target>
             </trans-unit>
+            <trans-unit id="module.status.configNone">
+                <source>Config: No sites configured</source>
+                <target>Config: Nessun sito configurato</target>
+            </trans-unit>
 
             <!-- Backend Module - Configuration Hints -->
             <trans-unit id="module.hint.zoneIdMissing">
@@ -288,6 +292,26 @@
             </trans-unit>
 
             <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeAll.title">
+                <source>IgniterCF: Purge All Zones</source>
+                <target>IgniterCF: Elimina tutte le zone</target>
+            </trans-unit>
+            <trans-unit id="task.purgeAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Elimina l'intera cache Cloudflare per tutte le zone configurate</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.title">
+                <source>IgniterCF: Purge Zone</source>
+                <target>IgniterCF: Elimina zona</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.description">
+                <source>Purges the entire Cloudflare cache for a specific site/zone</source>
+                <target>Elimina l'intera cache Cloudflare per un sito/zona specifico</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteIdentifier">
+                <source>Site</source>
+                <target>Sito</target>
+            </trans-unit>
             <trans-unit id="task.purgeZone.selectSite">
                 <source>-- Select site --</source>
                 <target>-- Seleziona sito --</target>
@@ -299,6 +323,22 @@
             <trans-unit id="task.purgeZone.siteRequired">
                 <source>Site identifier is required</source>
                 <target>L'identificatore del sito è obbligatorio</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.title">
+                <source>IgniterCF: Purge Page</source>
+                <target>IgniterCF: Elimina pagina</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.description">
+                <source>Purges the Cloudflare cache for a specific page</source>
+                <target>Elimina la cache Cloudflare per una pagina specifica</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUid">
+                <source>Page UID</source>
+                <target>UID pagina</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.languageUid">
+                <source>Language UID (optional, -1 for all)</source>
+                <target>UID lingua (opzionale, -1 per tutte)</target>
             </trans-unit>
             <trans-unit id="task.purgePage.pageUidInvalid">
                 <source>Page UID must be a positive number</source>
@@ -312,8 +352,40 @@
                 <source>Days must be between 1 and 365</source>
                 <target>I giorni devono essere compresi tra 1 e 365</target>
             </trans-unit>
+            <trans-unit id="task.purgeOldLogs.title">
+                <source>IgniterCF: Cleanup Old Logs</source>
+                <target>IgniterCF: Pulizia log vecchi</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.description">
+                <source>Removes log entries older than the configured retention period</source>
+                <target>Rimuove le voci di log più vecchie del periodo di conservazione configurato</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.title">
+                <source>IgniterCF: Generate Chart Data</source>
+                <target>IgniterCF: Genera dati grafico</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.description">
+                <source>Pre-generates chart data for the dashboard from log entries</source>
+                <target>Pre-genera i dati del grafico per la dashboard dalle voci di log</target>
+            </trans-unit>
 
             <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.title">
+                <source>Cloudflare Configuration Status</source>
+                <target>Stato configurazione Cloudflare</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.description">
+                <source>Shows the configuration status of all sites</source>
+                <target>Mostra lo stato di configurazione di tutti i siti</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.title">
+                <source>Cloudflare Purge Activity</source>
+                <target>Attività eliminazione Cloudflare</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.description">
+                <source>Shows recent cache purge activity</source>
+                <target>Mostra l'attività recente di eliminazione cache</target>
+            </trans-unit>
             <trans-unit id="widget.configurationStatus.noSites">
                 <source>No sites found</source>
                 <target>Nessun sito trovato</target>

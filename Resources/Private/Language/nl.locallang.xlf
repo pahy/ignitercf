@@ -248,6 +248,10 @@
                 <source>Status: %d errors (%d days)</source>
                 <target>Status: %d fouten (%d dagen)</target>
             </trans-unit>
+            <trans-unit id="module.status.configNone">
+                <source>Config: No sites configured</source>
+                <target>Config: Geen sites geconfigureerd</target>
+            </trans-unit>
 
             <!-- Backend Module - Configuration Hints -->
             <trans-unit id="module.hint.zoneIdMissing">
@@ -288,6 +292,26 @@
             </trans-unit>
 
             <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeAll.title">
+                <source>IgniterCF: Purge All Zones</source>
+                <target>IgniterCF: Alle zones wissen</target>
+            </trans-unit>
+            <trans-unit id="task.purgeAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Wist de volledige Cloudflare-cache voor alle geconfigureerde zones</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.title">
+                <source>IgniterCF: Purge Zone</source>
+                <target>IgniterCF: Zone wissen</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.description">
+                <source>Purges the entire Cloudflare cache for a specific site/zone</source>
+                <target>Wist de volledige Cloudflare-cache voor een specifieke site/zone</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteIdentifier">
+                <source>Site</source>
+                <target>Site</target>
+            </trans-unit>
             <trans-unit id="task.purgeZone.selectSite">
                 <source>-- Select site --</source>
                 <target>-- Selecteer site --</target>
@@ -299,6 +323,22 @@
             <trans-unit id="task.purgeZone.siteRequired">
                 <source>Site identifier is required</source>
                 <target>Site-identificatie is vereist</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.title">
+                <source>IgniterCF: Purge Page</source>
+                <target>IgniterCF: Pagina wissen</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.description">
+                <source>Purges the Cloudflare cache for a specific page</source>
+                <target>Wist de Cloudflare-cache voor een specifieke pagina</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUid">
+                <source>Page UID</source>
+                <target>Pagina-UID</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.languageUid">
+                <source>Language UID (optional, -1 for all)</source>
+                <target>Taal-UID (optioneel, -1 voor alle)</target>
             </trans-unit>
             <trans-unit id="task.purgePage.pageUidInvalid">
                 <source>Page UID must be a positive number</source>
@@ -312,8 +352,40 @@
                 <source>Days must be between 1 and 365</source>
                 <target>Dagen moeten tussen 1 en 365 liggen</target>
             </trans-unit>
+            <trans-unit id="task.purgeOldLogs.title">
+                <source>IgniterCF: Cleanup Old Logs</source>
+                <target>IgniterCF: Oude logs opschonen</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.description">
+                <source>Removes log entries older than the configured retention period</source>
+                <target>Verwijdert logboekitems ouder dan de geconfigureerde retentieperiode</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.title">
+                <source>IgniterCF: Generate Chart Data</source>
+                <target>IgniterCF: Grafiekgegevens genereren</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.description">
+                <source>Pre-generates chart data for the dashboard from log entries</source>
+                <target>Genereert vooraf grafiekgegevens voor het dashboard uit logboekitems</target>
+            </trans-unit>
 
             <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.title">
+                <source>Cloudflare Configuration Status</source>
+                <target>Cloudflare-configuratiestatus</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.description">
+                <source>Shows the configuration status of all sites</source>
+                <target>Toont de configuratiestatus van alle sites</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.title">
+                <source>Cloudflare Purge Activity</source>
+                <target>Cloudflare-wisactiviteit</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.description">
+                <source>Shows recent cache purge activity</source>
+                <target>Toont recente cache-wisactiviteit</target>
+            </trans-unit>
             <trans-unit id="widget.configurationStatus.noSites">
                 <source>No sites found</source>
                 <target>Geen sites gevonden</target>

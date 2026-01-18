@@ -248,6 +248,10 @@
                 <source>Status: %d errors (%d days)</source>
                 <target>Status: %d feil (%d dager)</target>
             </trans-unit>
+            <trans-unit id="module.status.configNone">
+                <source>Config: No sites configured</source>
+                <target>Konfig: Ingen nettsteder konfigurert</target>
+            </trans-unit>
 
             <!-- Backend Module - Configuration Hints -->
             <trans-unit id="module.hint.zoneIdMissing">
@@ -288,6 +292,26 @@
             </trans-unit>
 
             <!-- Scheduler Tasks -->
+            <trans-unit id="task.purgeAll.title">
+                <source>IgniterCF: Purge All Zones</source>
+                <target>IgniterCF: Tøm alle soner</target>
+            </trans-unit>
+            <trans-unit id="task.purgeAll.description">
+                <source>Purges the entire Cloudflare cache for all configured zones</source>
+                <target>Tømmer hele Cloudflare-hurtigbufferen for alle konfigurerte soner</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.title">
+                <source>IgniterCF: Purge Zone</source>
+                <target>IgniterCF: Tøm sone</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.description">
+                <source>Purges the entire Cloudflare cache for a specific site/zone</source>
+                <target>Tømmer hele Cloudflare-hurtigbufferen for et spesifikt nettsted/sone</target>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteIdentifier">
+                <source>Site</source>
+                <target>Nettsted</target>
+            </trans-unit>
             <trans-unit id="task.purgeZone.selectSite">
                 <source>-- Select site --</source>
                 <target>-- Velg nettsted --</target>
@@ -299,6 +323,22 @@
             <trans-unit id="task.purgeZone.siteRequired">
                 <source>Site identifier is required</source>
                 <target>Nettstedsidentifikator er påkrevd</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.title">
+                <source>IgniterCF: Purge Page</source>
+                <target>IgniterCF: Tøm side</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.description">
+                <source>Purges the Cloudflare cache for a specific page</source>
+                <target>Tømmer Cloudflare-hurtigbufferen for en spesifikk side</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.pageUid">
+                <source>Page UID</source>
+                <target>Side-UID</target>
+            </trans-unit>
+            <trans-unit id="task.purgePage.languageUid">
+                <source>Language UID (optional, -1 for all)</source>
+                <target>Språk-UID (valgfri, -1 for alle)</target>
             </trans-unit>
             <trans-unit id="task.purgePage.pageUidInvalid">
                 <source>Page UID must be a positive number</source>
@@ -312,8 +352,40 @@
                 <source>Days must be between 1 and 365</source>
                 <target>Dager må være mellom 1 og 365</target>
             </trans-unit>
+            <trans-unit id="task.purgeOldLogs.title">
+                <source>IgniterCF: Cleanup Old Logs</source>
+                <target>IgniterCF: Rydd opp gamle logger</target>
+            </trans-unit>
+            <trans-unit id="task.purgeOldLogs.description">
+                <source>Removes log entries older than the configured retention period</source>
+                <target>Fjerner loggoppføringer eldre enn den konfigurerte oppbevaringsperioden</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.title">
+                <source>IgniterCF: Generate Chart Data</source>
+                <target>IgniterCF: Generer diagramdata</target>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.description">
+                <source>Pre-generates chart data for the dashboard from log entries</source>
+                <target>Forhåndsgenererer diagramdata for kontrollpanelet fra loggoppføringer</target>
+            </trans-unit>
 
             <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.title">
+                <source>Cloudflare Configuration Status</source>
+                <target>Cloudflare-konfigurasjonsstatus</target>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.description">
+                <source>Shows the configuration status of all sites</source>
+                <target>Viser konfigurasjonsstatusen for alle nettsteder</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.title">
+                <source>Cloudflare Purge Activity</source>
+                <target>Cloudflare-tømmeaktivitet</target>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.description">
+                <source>Shows recent cache purge activity</source>
+                <target>Viser nylig hurtigbuffer-tømmeaktivitet</target>
+            </trans-unit>
             <trans-unit id="widget.configurationStatus.noSites">
                 <source>No sites found</source>
                 <target>Ingen nettsteder funnet</target>
