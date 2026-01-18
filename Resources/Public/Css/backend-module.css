@@ -321,3 +321,66 @@
 .ignitercf-status-gray .icon svg {
     fill: #6c757d;
 }
+
+/* Footer */
+.ignitercf-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e5e5;
+}
+
+.ignitercf-footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: #666;
+}
+
+.ignitercf-footer-version {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ignitercf-footer-version .icon svg {
+    fill: var(--ignitercf-orange);
+}
+
+.ignitercf-footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.ignitercf-footer-links a {
+    color: #666;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.ignitercf-footer-links a:hover {
+    color: var(--ignitercf-orange);
+}
+
+.ignitercf-footer-separator {
+    color: #ccc;
+}
+
+.ignitercf-footer-credits {
+    flex-basis: 100%;
+    text-align: center;
+}
+
+.ignitercf-footer-credits a {
+    color: var(--ignitercf-orange);
+    text-decoration: none;
+}
+
+.ignitercf-footer-credits a:hover {
+    text-decoration: underline;
+}

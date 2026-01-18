@@ -26,6 +26,7 @@ final class BackendController extends ActionController
     private const UC_KEY = 'ignitercf';
     private const DEFAULT_DAYS = 7;
     private const AVAILABLE_DAYS = [7, 14, 30, 90];
+    private const EXTENSION_VERSION = '1.0.0';
 
     public function __construct(
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
@@ -77,6 +78,7 @@ final class BackendController extends ActionController
             'statisticsDays' => $statisticsDays,
             'chartDays' => $chartDays,
             'availableDays' => $this->getDaysOptions(),
+            'version' => self::EXTENSION_VERSION,
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Index');
@@ -101,6 +103,7 @@ final class BackendController extends ActionController
             'sitesStatus' => $sitesStatus,
             'globalSettings' => $globalSettings,
             'allConfigured' => $this->areAllSitesConfigured($sitesStatus),
+            'version' => self::EXTENSION_VERSION,
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Configuration');
