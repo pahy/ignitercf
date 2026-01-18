@@ -1,6 +1,7 @@
 # IgniterCF - Cloudflare Cache Purge for TYPO3
 
-> **Warning: This extension is work in progress and not yet production-ready. Use at your own risk.**
+> [!WARNING]
+> This extension is work in progress and not yet production-ready. Use at your own risk.
 
 Automatically purge Cloudflare cache when content changes in TYPO3 v12/v13.
 
