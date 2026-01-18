@@ -22,10 +22,9 @@
                     <core:icon identifier="actions-ban" size="small" />
                 </div>
                 <div class="media-body">
-                    <h4 class="callout-title">Extension disabled</h4>
+                    <h4 class="callout-title"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.extensionDisabled" /></h4>
                     <p class="callout-body">
-                        IgniterCF is globally disabled. Enable it in
-                        <strong>Settings → Extension Configuration → ignitercf</strong>.
+                        <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.extensionDisabledMessage" />
                     </p>
                 </div>
             </div>
@@ -37,7 +36,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <core:icon identifier="content-widget-chart-bar" size="small" />
-                Statistics (Last {statisticsDays} Days)
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.statistics.title" arguments="{0: statisticsDays}" />
             </h3>
             <f:form action="saveDays" method="post" style="display: inline;">
                 <f:form.hidden name="setting" value="statisticsDays" />
@@ -55,19 +54,19 @@
                 <div class="col-md-4">
                     <div class="ignitercf-stat-card stat-total">
                         <div class="stat-value">{statistics.total}</div>
-                        <div class="stat-label">Total Requests</div>
+                        <div class="stat-label"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.statistics.totalRequests" /></div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="ignitercf-stat-card stat-success">
                         <div class="stat-value">{statistics.success}</div>
-                        <div class="stat-label">Successful</div>
+                        <div class="stat-label"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.statistics.successful" /></div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="ignitercf-stat-card stat-errors">
                         <div class="stat-value">{statistics.errors}</div>
-                        <div class="stat-label">Errors</div>
+                        <div class="stat-label"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.statistics.errors" /></div>
                     </div>
                 </div>
             </div>
@@ -79,10 +78,10 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <core:icon identifier="content-widget-chart-bar" size="small" />
-                Purge Activity (Last {chartDays} Days)
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.chart.title" arguments="{0: chartDays}" />
                 <f:if condition="{chartDataAge}">
                     <small class="text-muted" style="font-weight: normal; margin-left: 0.5rem;">
-                        · updated {chartDataAge} min ago
+                        · <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.chart.updated" arguments="{0: chartDataAge}" />
                     </small>
                 </f:if>
             </h3>
@@ -102,7 +101,7 @@
                 <canvas id="ignitercf-activity-chart"></canvas>
             </div>
             <p id="ignitercf-chart-nodata" class="text-muted text-center" style="display: none;">
-                No data available. Run the chart:generate command first.
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.chart.noData" />
             </p>
             <p class="text-muted text-center" style="margin-top: 0.5rem; margin-bottom: 0;">
                 <small>
@@ -129,7 +128,7 @@
 
             const labels = chartData.map(d => {
                 const date = new Date(d.date);
-                return date.toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' });
+                return date.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
             });
             const successData = chartData.map(d => d.success);
             const errorData = chartData.map(d => d.errors);
@@ -141,7 +140,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Successful',
+                            label: '<f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.statistics.successful" />',
                             data: successData,
                             backgroundColor: 'rgba(40, 167, 69, 0.8)',
                             borderColor: 'rgba(40, 167, 69, 1)',
@@ -149,7 +148,7 @@
                             borderRadius: 2
                         },
                         {
-                            label: 'Errors',
+                            label: '<f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.statistics.errors" />',
                             data: errorData,
                             backgroundColor: 'rgba(220, 53, 69, 0.8)',
                             borderColor: 'rgba(220, 53, 69, 1)',
@@ -179,7 +178,7 @@
                                 afterBody: function(context) {
                                     const dataIndex = context[0].dataIndex;
                                     const avgResponse = chartData[dataIndex].avg_response_ms;
-                                    return 'Avg Response: ' + avgResponse.toFixed(0) + ' ms';
+                                    return '<f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.chart.avgResponse" />: ' + avgResponse.toFixed(0) + ' ms';
                                 }
                             }
                         }
@@ -194,7 +193,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <core:icon identifier="actions-document-view" size="small" />
-                Recent Log Entries
+                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.title" />
             </h3>
         </div>
         <div class="panel-body" style="padding: 0;">
@@ -204,12 +203,12 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Timestamp</th>
-                                    <th>Type</th>
-                                    <th>Site</th>
-                                    <th>URLs</th>
-                                    <th>Status</th>
-                                    <th>Response</th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.timestamp" /></th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.type" /></th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.site" /></th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.urls" /></th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.status" /></th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.response" /></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -219,10 +218,10 @@
                                         <td>
                                             <f:if condition="{log.type} == 'purge_everything'">
                                                 <f:then>
-                                                    <span class="badge" style="background: var(--ignitercf-orange); color: #fff;">Purge All</span>
+                                                    <span class="badge" style="background: var(--ignitercf-orange); color: #fff;"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.purgeAll" /></span>
                                                 </f:then>
                                                 <f:else>
-                                                    <span class="badge badge-info">Purge URLs</span>
+                                                    <span class="badge badge-info"><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.purgeUrls" /></span>
                                                 </f:else>
                                             </f:if>
                                         </td>
@@ -237,12 +236,12 @@
                                             <f:if condition="{log.success}">
                                                 <f:then>
                                                     <span class="badge badge-success">
-                                                        <core:icon identifier="actions-check" size="small" /> OK
+                                                        <core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.ok" />
                                                     </span>
                                                 </f:then>
                                                 <f:else>
                                                     <span class="badge badge-danger" title="{log.error}">
-                                                        <core:icon identifier="actions-ban" size="small" /> Error
+                                                        <core:icon identifier="actions-ban" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.error" />
                                                     </span>
                                                 </f:else>
                                             </f:if>
@@ -257,9 +256,9 @@
                 <f:else>
                     <div style="padding: 16px;">
                         <p class="text-muted mb-0">
-                            No log entries yet.
+                            <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.noEntries" />
                             <f:if condition="{globalSettings.logLevel} == 'none'">
-                                <br /><em>Note: Logging is currently disabled.</em>
+                                <br /><em><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.loggingDisabled" /></em>
                             </f:if>
                         </p>
                     </div>
