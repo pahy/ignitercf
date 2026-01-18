@@ -33,6 +33,11 @@ services:
       - name: console.command
         command: 'ignitercf:chart:generate'
 
+  Pahy\Ignitercf\Command\TestConnectionCommand:
+    tags:
+      - name: console.command
+        command: 'ignitercf:test:connection'
+
   # Event Listener - Cache Dropdown (v12 compatible, v13 uses attribute)
   Pahy\Ignitercf\EventListener\ModifyClearCacheActionsEventListener:
     tags:

@@ -18,6 +18,7 @@ final class CloudflareApiService implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     private const API_ENDPOINT = 'https://api.cloudflare.com/client/v4/zones/%s/purge_cache';
+    private const API_ZONE_DETAILS = 'https://api.cloudflare.com/client/v4/zones/%s';
     private const API_VERIFY_TOKEN = 'https://api.cloudflare.com/client/v4/user/tokens/verify';
     private const MAX_URLS_PER_REQUEST = 30;
 
@@ -147,6 +148,145 @@ final class CloudflareApiService implements LoggerAwareInterface
                 'valid' => false,
                 'status' => 'error',
                 'message' => 'Connection failed: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Test full connection to Cloudflare (token + zone access)
+     *
+     * @param Site $site Site configuration
+     * @return array{success: bool, token: array, zone: array, responseTimeMs: float}
+     */
+    public function testConnection(Site $site): array
+    {
+        $startTime = microtime(true);
+        $result = [
+            'success' => false,
+            'token' => ['valid' => false, 'status' => 'not_tested', 'message' => ''],
+            'zone' => ['valid' => false, 'status' => 'not_tested', 'message' => '', 'name' => ''],
+            'responseTimeMs' => 0,
+        ];
+
+        // Check configuration
+        $zoneId = $this->configurationService->getZoneIdForSite($site);
+        $apiToken = $this->configurationService->getApiTokenForSite($site);
+
+        if (empty($apiToken)) {
+            $result['token'] = [
+                'valid' => false,
+                'status' => 'not_configured',
+                'message' => 'API Token is not configured',
+            ];
+            $result['responseTimeMs'] = (microtime(true) - $startTime) * 1000;
+            return $result;
+        }
+
+        if (empty($zoneId)) {
+            $result['token'] = [
+                'valid' => false,
+                'status' => 'skipped',
+                'message' => 'Skipped - Zone ID missing',
+            ];
+            $result['zone'] = [
+                'valid' => false,
+                'status' => 'not_configured',
+                'message' => 'Zone ID is not configured',
+                'name' => '',
+            ];
+            $result['responseTimeMs'] = (microtime(true) - $startTime) * 1000;
+            return $result;
+        }
+
+        // Test token validity
+        $tokenResult = $this->verifyToken($site);
+        $result['token'] = $tokenResult;
+
+        if (!$tokenResult['valid']) {
+            $result['responseTimeMs'] = (microtime(true) - $startTime) * 1000;
+            return $result;
+        }
+
+        // Test zone access
+        $zoneResult = $this->verifyZoneAccess($zoneId, $apiToken);
+        $result['zone'] = $zoneResult;
+
+        $result['success'] = $tokenResult['valid'] && $zoneResult['valid'];
+        $result['responseTimeMs'] = (microtime(true) - $startTime) * 1000;
+
+        return $result;
+    }
+
+    /**
+     * Verify zone access with Cloudflare API
+     *
+     * @param string $zoneId Zone ID
+     * @param string $apiToken API Token
+     * @return array{valid: bool, status: string, message: string, name: string}
+     */
+    private function verifyZoneAccess(string $zoneId, string $apiToken): array
+    {
+        $url = sprintf(self::API_ZONE_DETAILS, $zoneId);
+
+        $additionalOptions = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $apiToken,
+                'Content-Type' => 'application/json',
+            ],
+        ];
+
+        try {
+            $response = $this->requestFactory->request($url, 'GET', $additionalOptions);
+            $statusCode = $response->getStatusCode();
+            $responseBody = $response->getBody()->getContents();
+            $data = json_decode($responseBody, true);
+
+            if ($statusCode === 404) {
+                return [
+                    'valid' => false,
+                    'status' => 'not_found',
+                    'message' => 'Zone not found - check Zone ID',
+                    'name' => '',
+                ];
+            }
+
+            if ($statusCode === 403) {
+                return [
+                    'valid' => false,
+                    'status' => 'forbidden',
+                    'message' => 'Access denied - token lacks zone permissions',
+                    'name' => '',
+                ];
+            }
+
+            if ($statusCode !== 200 || !isset($data['success']) || $data['success'] !== true) {
+                $errors = $data['errors'] ?? [];
+                $errorMessage = !empty($errors) ? $errors[0]['message'] ?? 'Unknown error' : 'Zone verification failed';
+
+                return [
+                    'valid' => false,
+                    'status' => 'error',
+                    'message' => $errorMessage,
+                    'name' => '',
+                ];
+            }
+
+            $zoneData = $data['result'] ?? [];
+            $zoneName = $zoneData['name'] ?? 'Unknown';
+            $zoneStatus = $zoneData['status'] ?? 'unknown';
+
+            return [
+                'valid' => true,
+                'status' => $zoneStatus,
+                'message' => sprintf('Zone "%s" accessible', $zoneName),
+                'name' => $zoneName,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'valid' => false,
+                'status' => 'error',
+                'message' => 'Connection failed: ' . $e->getMessage(),
+                'name' => '',
             ];
         }
     }

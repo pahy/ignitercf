@@ -98,24 +98,14 @@ final class CacheController
             ], 404);
         }
 
-        // Check if Zone ID is configured
-        $zoneId = $this->configurationService->getZoneIdForSite($site);
-        if (empty($zoneId)) {
-            return new JsonResponse([
-                'success' => false,
-                'status' => 'not_configured',
-                'message' => 'Zone ID is not configured for this site',
-            ]);
-        }
-
-        // Verify token with Cloudflare
-        $result = $this->cloudflareApiService->verifyToken($site);
+        // Full connection test (token + zone)
+        $result = $this->cloudflareApiService->testConnection($site);
 
         return new JsonResponse([
-            'success' => $result['valid'],
-            'status' => $result['status'],
-            'message' => $result['message'],
-            'expires_on' => $result['expires_on'] ?? null,
+            'success' => $result['success'],
+            'token' => $result['token'],
+            'zone' => $result['zone'],
+            'responseTimeMs' => round($result['responseTimeMs'], 0),
         ]);
     }
 }

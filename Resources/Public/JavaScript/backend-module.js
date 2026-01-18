@@ -26,12 +26,11 @@ class BackendModule {
 
         // Disable button and show loading
         button.disabled = true;
-        const originalText = button.textContent;
-        button.textContent = 'Testing...';
+        const originalHtml = button.innerHTML;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testing...';
 
         if (resultContainer) {
-            resultContainer.textContent = 'Testing connection...';
-            resultContainer.className = 'ignitercf-connection-result text-muted';
+            resultContainer.innerHTML = '<span class="text-muted">Testing connection...</span>';
         }
 
         try {
@@ -46,58 +45,64 @@ class BackendModule {
             const data = await response.json();
 
             if (data.success) {
-                Notification.success('Connection successful', data.message);
+                const message = `Token: ${data.token.message}, Zone: ${data.zone.message} (${data.responseTimeMs} ms)`;
+                Notification.success('Connection successful', message);
                 if (resultContainer) {
-                    this.showResult(resultContainer, true, data.message, data.expires_on);
+                    this.showDetailedResult(resultContainer, data);
                 }
             } else {
-                Notification.error('Connection failed', data.message);
+                const errorMsg = data.token?.message || data.zone?.message || 'Unknown error';
+                Notification.error('Connection failed', errorMsg);
                 if (resultContainer) {
-                    this.showResult(resultContainer, false, data.message);
+                    this.showDetailedResult(resultContainer, data);
                 }
             }
         } catch (error) {
             Notification.error('Connection error', 'Failed to test connection: ' + error.message);
             if (resultContainer) {
-                this.showResult(resultContainer, false, 'Connection error: ' + error.message);
+                resultContainer.innerHTML = '<span class="text-danger">✗ Error: ' + error.message + '</span>';
             }
         } finally {
             // Re-enable button
             button.disabled = false;
-            button.textContent = originalText;
+            button.innerHTML = originalHtml;
         }
     }
 
     /**
-     * Show result in container using safe DOM methods
+     * Show detailed result with token and zone status
      */
-    showResult(container, success, message, expiresOn = null) {
-        // Clear container
-        container.textContent = '';
-        container.className = 'ignitercf-connection-result';
+    showDetailedResult(container, data) {
+        container.innerHTML = '';
 
-        // Create wrapper span
-        const wrapper = document.createElement('span');
-        wrapper.className = success ? 'text-success' : 'text-danger';
+        // Token status
+        const tokenDiv = document.createElement('div');
+        const tokenIcon = data.token.valid ? '✓' : '✗';
+        const tokenClass = data.token.valid ? 'text-success' : 'text-danger';
+        tokenDiv.innerHTML = `<span class="${tokenClass}">${tokenIcon}</span> Token: ${this.escapeHtml(data.token.message)}`;
+        container.appendChild(tokenDiv);
 
-        // Create icon
-        const icon = document.createElement('span');
-        icon.textContent = success ? '✓ ' : '✗ ';
-        wrapper.appendChild(icon);
+        // Zone status
+        const zoneDiv = document.createElement('div');
+        const zoneIcon = data.zone.valid ? '✓' : '✗';
+        const zoneClass = data.zone.valid ? 'text-success' : 'text-danger';
+        zoneDiv.innerHTML = `<span class="${zoneClass}">${zoneIcon}</span> Zone: ${this.escapeHtml(data.zone.message)}`;
+        container.appendChild(zoneDiv);
 
-        // Add message
-        const messageText = document.createTextNode(message);
-        wrapper.appendChild(messageText);
+        // Response time
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'text-muted';
+        timeDiv.innerHTML = `<small>Response: ${data.responseTimeMs} ms</small>`;
+        container.appendChild(timeDiv);
+    }
 
-        container.appendChild(wrapper);
-
-        // Add expiry info if available
-        if (success && expiresOn) {
-            const expiryInfo = document.createElement('small');
-            expiryInfo.className = 'text-muted d-block';
-            expiryInfo.textContent = 'Token expires: ' + expiresOn;
-            container.appendChild(expiryInfo);
-        }
+    /**
+     * Escape HTML to prevent XSS
+     */
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 }
 
