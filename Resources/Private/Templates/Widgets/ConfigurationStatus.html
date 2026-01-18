@@ -36,6 +36,26 @@
                     </div>
                 </f:if>
             </div>
+
+            <f:if condition="{hints}">
+                <hr class="my-3" />
+                <div class="text-start" style="font-size: 0.85em;">
+                    <f:for each="{hints}" as="siteHint">
+                        <div class="mb-2">
+                            <strong class="text-warning">
+                                <core:icon identifier="actions-exclamation-triangle" size="small" />
+                                {siteHint.identifier}
+                            </strong>
+                            <f:for each="{siteHint.hints}" as="hint">
+                                <div class="ms-3 mt-1">
+                                    <span class="text-muted">{hint.message}:</span>
+                                    <pre class="mb-0 mt-1" style="font-size: 0.8em; background: #f5f5f5; padding: 4px 8px; border-radius: 3px; white-space: pre-wrap;"><f:format.raw>{hint.solution}</f:format.raw></pre>
+                                </div>
+                            </f:for>
+                        </div>
+                    </f:for>
+                </div>
+            </f:if>
         </f:then>
         <f:else>
             <div class="text-center">
