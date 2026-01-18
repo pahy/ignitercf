@@ -156,6 +156,15 @@ final class BackendController extends ActionController
     {
         $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
+        // Add module title to docheader (left side)
+        $titleButton = $buttonBar->makeLinkButton()
+            ->setHref('#')
+            ->setTitle('IgniterCF - Cloudflare Cache Management')
+            ->setShowLabelText(true)
+            ->setIcon($this->iconFactory->getIcon('ignitercf-cloudflare', Icon::SIZE_SMALL))
+            ->setClasses('ignitercf-status-indicator ignitercf-docheader-title');
+        $buttonBar->addButton($titleButton, ButtonBar::BUTTON_POSITION_LEFT, 1);
+
         // Get status data
         $configStatus = $this->getConfigurationStatus();
         $operationStatus = $this->getOperationStatus(3);

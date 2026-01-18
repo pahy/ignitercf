@@ -272,6 +272,16 @@
     margin-bottom: 1.5rem;
 }
 
+/* Docheader Title */
+.ignitercf-docheader-title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.ignitercf-docheader-title .icon svg {
+    fill: var(--ignitercf-orange);
+}
+
 /* Docheader Status Indicators */
 .ignitercf-status-indicator {
     pointer-events: none;
