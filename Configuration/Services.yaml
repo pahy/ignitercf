@@ -28,6 +28,11 @@ services:
       - name: console.command
         command: 'ignitercf:purge:page'
 
+  Pahy\Ignitercf\Command\GenerateChartDataCommand:
+    tags:
+      - name: console.command
+        command: 'ignitercf:chart:generate'
+
   # Event Listener - Cache Dropdown (v12 compatible, v13 uses attribute)
   Pahy\Ignitercf\EventListener\ModifyClearCacheActionsEventListener:
     tags:
