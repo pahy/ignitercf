@@ -71,6 +71,9 @@
             <trans-unit id="widget.configurationStatus.description">
                 <source>Shows Cloudflare configuration status for all sites</source>
             </trans-unit>
+            <trans-unit id="widget.configurationStatus.heading">
+                <source>Cloudflare Status</source>
+            </trans-unit>
 
             <trans-unit id="widget.purgeActivity.title">
                 <source>IgniterCF: Purge Activity</source>
