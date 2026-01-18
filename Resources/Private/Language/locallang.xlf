@@ -1,16 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2025-01-16T00:00:00Z" product-name="ignitercf">
+    <file source-language="en" datatype="plaintext" original="messages" date="2025-01-18T00:00:00Z" product-name="ignitercf">
         <header/>
         <body>
+            <!-- Context Menu -->
             <trans-unit id="contextMenu.clearCloudflareCache">
                 <source>Clear Cloudflare Cache</source>
             </trans-unit>
+
+            <!-- Cache Toolbar -->
             <trans-unit id="cache.clearAll">
                 <source>Clear Cloudflare Cache (All Zones)</source>
             </trans-unit>
             <trans-unit id="cache.clearAll.description">
                 <source>Purges the entire Cloudflare cache for all configured zones</source>
+            </trans-unit>
+
+            <!-- Backend Module - General -->
+            <trans-unit id="module.title">
+                <source>IgniterCF - Cloudflare Cache Management</source>
+            </trans-unit>
+            <trans-unit id="module.menu.dashboard">
+                <source>Dashboard</source>
+            </trans-unit>
+            <trans-unit id="module.menu.configuration">
+                <source>Configuration</source>
+            </trans-unit>
+
+            <!-- Backend Module - Extension Disabled Warning -->
+            <trans-unit id="module.extensionDisabled">
+                <source>Extension disabled</source>
+            </trans-unit>
+            <trans-unit id="module.extensionDisabledMessage">
+                <source>IgniterCF is globally disabled. Enable it in Settings → Extension Configuration → ignitercf.</source>
+            </trans-unit>
+
+            <!-- Backend Module - Statistics Panel -->
+            <trans-unit id="module.statistics.title">
+                <source>Statistics (Last %d Days)</source>
+            </trans-unit>
+            <trans-unit id="module.statistics.totalRequests">
+                <source>Total Requests</source>
+            </trans-unit>
+            <trans-unit id="module.statistics.successful">
+                <source>Successful</source>
+            </trans-unit>
+            <trans-unit id="module.statistics.errors">
+                <source>Errors</source>
+            </trans-unit>
+
+            <!-- Backend Module - Chart Panel -->
+            <trans-unit id="module.chart.title">
+                <source>Purge Activity (Last %d Days)</source>
+            </trans-unit>
+            <trans-unit id="module.chart.updated">
+                <source>updated %d min ago</source>
+            </trans-unit>
+            <trans-unit id="module.chart.noData">
+                <source>No data available. Run the chart:generate command first.</source>
+            </trans-unit>
+            <trans-unit id="module.chart.avgResponse">
+                <source>Avg Response</source>
+            </trans-unit>
+
+            <!-- Backend Module - Log Table -->
+            <trans-unit id="module.log.title">
+                <source>Recent Log Entries</source>
+            </trans-unit>
+            <trans-unit id="module.log.timestamp">
+                <source>Timestamp</source>
+            </trans-unit>
+            <trans-unit id="module.log.type">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="module.log.site">
+                <source>Site</source>
+            </trans-unit>
+            <trans-unit id="module.log.urls">
+                <source>URLs</source>
+            </trans-unit>
+            <trans-unit id="module.log.status">
+                <source>Status</source>
+            </trans-unit>
+            <trans-unit id="module.log.response">
+                <source>Response</source>
+            </trans-unit>
+            <trans-unit id="module.log.purgeAll">
+                <source>Purge All</source>
+            </trans-unit>
+            <trans-unit id="module.log.purgeUrls">
+                <source>Purge URLs</source>
+            </trans-unit>
+            <trans-unit id="module.log.ok">
+                <source>OK</source>
+            </trans-unit>
+            <trans-unit id="module.log.error">
+                <source>Error</source>
+            </trans-unit>
+            <trans-unit id="module.log.noEntries">
+                <source>No log entries yet.</source>
+            </trans-unit>
+            <trans-unit id="module.log.loggingDisabled">
+                <source>Note: Logging is currently disabled.</source>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Page -->
+            <trans-unit id="module.config.siteStatus">
+                <source>Site Configuration Status</source>
+            </trans-unit>
+            <trans-unit id="module.config.allConfigured">
+                <source>All sites configured</source>
+            </trans-unit>
+            <trans-unit id="module.config.setupRequired">
+                <source>Setup required</source>
+            </trans-unit>
+            <trans-unit id="module.config.noSites">
+                <source>No sites configured in TYPO3.</source>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettings">
+                <source>Global Settings</source>
+            </trans-unit>
+            <trans-unit id="module.config.globalSettingsHint">
+                <source>Configure these settings in Settings → Extension Configuration → ignitercf</source>
+            </trans-unit>
+            <trans-unit id="module.config.extensionEnabled">
+                <source>Extension Enabled</source>
+            </trans-unit>
+            <trans-unit id="module.config.autoPurgeOnSave">
+                <source>Auto-Purge on Save</source>
+            </trans-unit>
+            <trans-unit id="module.config.purgeOnClearAll">
+                <source>Purge on Clear All</source>
+            </trans-unit>
+            <trans-unit id="module.config.middlewareEnabled">
+                <source>Middleware Enabled</source>
+            </trans-unit>
+            <trans-unit id="module.config.logLevel">
+                <source>Log Level</source>
+            </trans-unit>
+            <trans-unit id="module.config.logRetention">
+                <source>Log Retention</source>
+            </trans-unit>
+            <trans-unit id="module.config.days">
+                <source>%d days</source>
+            </trans-unit>
+
+            <!-- Backend Module - Site Status -->
+            <trans-unit id="module.site.configured">
+                <source>Configured</source>
+            </trans-unit>
+            <trans-unit id="module.site.testConnection">
+                <source>Test Cloudflare connection</source>
+            </trans-unit>
+            <trans-unit id="module.site.test">
+                <source>Test</source>
+            </trans-unit>
+            <trans-unit id="module.site.zoneId">
+                <source>Zone ID</source>
+            </trans-unit>
+            <trans-unit id="module.site.apiToken">
+                <source>API Token</source>
+            </trans-unit>
+            <trans-unit id="module.site.siteEnabled">
+                <source>Site enabled</source>
+            </trans-unit>
+            <trans-unit id="module.site.clickTestToVerify">
+                <source>Click "Test" to verify connection</source>
+            </trans-unit>
+            <trans-unit id="module.site.solution">
+                <source>Solution:</source>
+            </trans-unit>
+
+            <!-- Backend Module - Status Indicators -->
+            <trans-unit id="module.status.extensionDisabled">
+                <source>Extension disabled</source>
+            </trans-unit>
+            <trans-unit id="module.status.noSitesConfigured">
+                <source>No sites configured</source>
+            </trans-unit>
+            <trans-unit id="module.status.configReady">
+                <source>Config: %d/%d sites ready</source>
+            </trans-unit>
+            <trans-unit id="module.status.configNone">
+                <source>Config: No sites configured</source>
+            </trans-unit>
+            <trans-unit id="module.status.noActivity">
+                <source>Status: No activity (%d days)</source>
+            </trans-unit>
+            <trans-unit id="module.status.statusOk">
+                <source>Status: %d OK (%d days)</source>
+            </trans-unit>
+            <trans-unit id="module.status.statusMixed">
+                <source>Status: %d OK, %d errors (%d days)</source>
+            </trans-unit>
+            <trans-unit id="module.status.statusErrors">
+                <source>Status: %d errors (%d days)</source>
+            </trans-unit>
+
+            <!-- Backend Module - Configuration Hints -->
+            <trans-unit id="module.hint.zoneIdMissing">
+                <source>Zone ID is not configured</source>
+            </trans-unit>
+            <trans-unit id="module.hint.zoneIdHelp">
+                <source>https://dash.cloudflare.com/ → Select domain → Overview → Zone ID</source>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenMissing">
+                <source>API Token is not configured</source>
+            </trans-unit>
+            <trans-unit id="module.hint.apiTokenHelp">
+                <source>https://dash.cloudflare.com/profile/api-tokens → Create Token</source>
+            </trans-unit>
+            <trans-unit id="module.hint.siteDisabled">
+                <source>Cloudflare is disabled for this site</source>
+            </trans-unit>
+
+            <!-- Backend Module - Footer -->
+            <trans-unit id="module.footer.reportBug">
+                <source>Report Bug</source>
+            </trans-unit>
+            <trans-unit id="module.footer.github">
+                <source>GitHub</source>
+            </trans-unit>
+            <trans-unit id="module.footer.developedBy">
+                <source>Developed by</source>
+            </trans-unit>
+            <trans-unit id="module.footer.notAffiliated">
+                <source>Not affiliated with Cloudflare, Inc.</source>
+            </trans-unit>
+
+            <!-- Generic Values -->
+            <trans-unit id="value.yes">
+                <source>Yes</source>
+            </trans-unit>
+            <trans-unit id="value.no">
+                <source>No</source>
             </trans-unit>
 
             <!-- Scheduler Tasks -->
@@ -20,7 +243,6 @@
             <trans-unit id="task.purgeAll.description">
                 <source>Purges the entire Cloudflare cache for all configured zones</source>
             </trans-unit>
-
             <trans-unit id="task.purgeZone.title">
                 <source>IgniterCF: Purge Zone</source>
             </trans-unit>
@@ -30,7 +252,15 @@
             <trans-unit id="task.purgeZone.siteIdentifier">
                 <source>Site</source>
             </trans-unit>
-
+            <trans-unit id="task.purgeZone.selectSite">
+                <source>-- Select site --</source>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.notConfigured">
+                <source>(not configured)</source>
+            </trans-unit>
+            <trans-unit id="task.purgeZone.siteRequired">
+                <source>Site identifier is required</source>
+            </trans-unit>
             <trans-unit id="task.purgePage.title">
                 <source>IgniterCF: Purge Page</source>
             </trans-unit>
@@ -43,14 +273,15 @@
             <trans-unit id="task.purgePage.languageUid">
                 <source>Language UID (-1 = all languages)</source>
             </trans-unit>
-
+            <trans-unit id="task.purgePage.pageUidInvalid">
+                <source>Page UID must be a positive number</source>
+            </trans-unit>
             <trans-unit id="task.purgeOldLogs.title">
                 <source>IgniterCF: Cleanup Old Logs</source>
             </trans-unit>
             <trans-unit id="task.purgeOldLogs.description">
-                <source>Deletes Cloudflare log entries older than the configured retention period (default: 30 days)</source>
+                <source>Deletes Cloudflare log entries older than the configured retention period</source>
             </trans-unit>
-
             <trans-unit id="task.generateChartData.title">
                 <source>IgniterCF: Generate Chart Data</source>
             </trans-unit>
@@ -74,7 +305,18 @@
             <trans-unit id="widget.configurationStatus.heading">
                 <source>Cloudflare Status</source>
             </trans-unit>
-
+            <trans-unit id="widget.configurationStatus.noSites">
+                <source>No sites found</source>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.allConfigured">
+                <source>All sites configured</source>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.noneConfigured">
+                <source>No sites configured</source>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.partiallyConfigured">
+                <source>%d of %d sites configured</source>
+            </trans-unit>
             <trans-unit id="widget.purgeActivity.title">
                 <source>IgniterCF: Purge Activity</source>
             </trans-unit>
@@ -82,9 +324,231 @@
                 <source>Chart showing Cloudflare cache purge activity over the last 7 days</source>
             </trans-unit>
 
-            <!-- Backend Module -->
-            <trans-unit id="module.chartDays.suffix">
-                <source>days</source>
+            <!-- CLI Commands - General -->
+            <trans-unit id="command.globallyDisabled">
+                <source>IgniterCF is globally disabled.</source>
+            </trans-unit>
+            <trans-unit id="command.dryRunMode">
+                <source>Dry-run mode - no actual purging</source>
+            </trans-unit>
+            <trans-unit id="command.purgeFailed">
+                <source>Purge failed:</source>
+            </trans-unit>
+            <trans-unit id="command.siteNotFound">
+                <source>Site "%s" not found.</source>
+            </trans-unit>
+            <trans-unit id="command.availableSites">
+                <source>Available sites:</source>
+            </trans-unit>
+
+            <!-- CLI Command - Purge Page -->
+            <trans-unit id="command.purgePage.description">
+                <source>Purge Cloudflare cache for a specific page</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.help">
+                <source>Purges the Cloudflare cache for a specific page and optionally a specific language.</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.title">
+                <source>IgniterCF - Purge Page</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.pageUidRequired">
+                <source>Page UID required. Use --page=&lt;uid&gt;</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.optionPage">
+                <source>Page UID</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.optionLanguage">
+                <source>Language UID (default: all languages)</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.optionDryRun">
+                <source>Show what would be purged without actually purging</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.page">
+                <source>Page: %d</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.language">
+                <source>Language: %d</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.languageAll">
+                <source>Language: all</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.dryRunPageLanguage">
+                <source>Would purge page %d, language %d.</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.dryRunPageAll">
+                <source>Would purge page %d, all languages.</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.purgedPageLanguage">
+                <source>Page %d, language %d purged.</source>
+            </trans-unit>
+            <trans-unit id="command.purgePage.purgedPageAll">
+                <source>Page %d purged (all languages).</source>
+            </trans-unit>
+
+            <!-- CLI Command - Purge Zone -->
+            <trans-unit id="command.purgeZone.description">
+                <source>Purge Cloudflare cache for a specific zone/site</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.help">
+                <source>Purges the entire Cloudflare cache for a specific site.</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.title">
+                <source>IgniterCF - Purge Zone</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.optionSite">
+                <source>Site identifier (e.g. "main")</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.siteRequired">
+                <source>Site identifier required. Use --site=&lt;identifier&gt;</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.siteNotConfigured">
+                <source>Site "%s" has no valid Cloudflare configuration.</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.site">
+                <source>Site: %s</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.zone">
+                <source>Zone: %s</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.dryRun">
+                <source>Would purge zone "%s" for site "%s".</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.purged">
+                <source>Zone "%s" purged for site "%s".</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.identifier">
+                <source>Identifier</source>
+            </trans-unit>
+            <trans-unit id="command.purgeZone.configured">
+                <source>Configured</source>
+            </trans-unit>
+
+            <!-- CLI Command - Purge All -->
+            <trans-unit id="command.purgeAll.description">
+                <source>Purge Cloudflare cache for all configured zones</source>
+            </trans-unit>
+            <trans-unit id="command.purgeAll.help">
+                <source>Purges the entire Cloudflare cache for all sites with valid configuration.</source>
+            </trans-unit>
+            <trans-unit id="command.purgeAll.title">
+                <source>IgniterCF - Purge All Zones</source>
+            </trans-unit>
+            <trans-unit id="command.purgeAll.dryRun">
+                <source>Would purge all configured Cloudflare zones.</source>
+            </trans-unit>
+            <trans-unit id="command.purgeAll.purged">
+                <source>All Cloudflare zones purged.</source>
+            </trans-unit>
+
+            <!-- CLI Command - Test Connection -->
+            <trans-unit id="command.testConnection.description">
+                <source>Test Cloudflare connection for configured sites</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.help">
+                <source>Tests the API token validity and zone access for one or all sites.</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.title">
+                <source>IgniterCF - Connection Test</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.argumentSite">
+                <source>Site identifier (optional, tests all sites if omitted)</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.testing">
+                <source>Testing site: %s</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.noSites">
+                <source>No sites configured in TYPO3.</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.connectionIssues">
+                <source>Some sites have connection issues.</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.allConnected">
+                <source>All sites connected successfully.</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.token">
+                <source>Token:</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.zone">
+                <source>Zone:</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.responseTime">
+                <source>Response time:</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.siteConnected">
+                <source>Site "%s" connected successfully.</source>
+            </trans-unit>
+            <trans-unit id="command.testConnection.siteFailed">
+                <source>Site "%s" connection failed.</source>
+            </trans-unit>
+
+            <!-- CLI Command - Generate Chart Data -->
+            <trans-unit id="command.generateChartData.description">
+                <source>Generate chart data from Cloudflare logs</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.help">
+                <source>Generates pre-computed chart data from Cloudflare API logs and saves it to a JSON cache file.</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.title">
+                <source>IgniterCF - Generate Chart Data</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.optionDays">
+                <source>Number of days to include in statistics</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.optionClear">
+                <source>Clear the cache without regenerating</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.cacheCleared">
+                <source>Chart data cache cleared.</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.invalidDays">
+                <source>Days must be between 1 and 365.</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.generating">
+                <source>Generating statistics for the last %d days...</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.summary">
+                <source>Generated Data Summary</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.sitesSummary">
+                <source>Sites: %d/%d configured</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.apiCallsSummary">
+                <source>API Calls (last %d days): %d total, %d success, %d errors</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.dailyBreakdown">
+                <source>Daily Breakdown</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.date">
+                <source>Date</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.success">
+                <source>Success</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.errors">
+                <source>Errors</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.generated">
+                <source>Chart data generated at: %s</source>
+            </trans-unit>
+            <trans-unit id="command.generateChartData.failed">
+                <source>Failed to generate chart data:</source>
+            </trans-unit>
+
+            <!-- JavaScript/AJAX Messages -->
+            <trans-unit id="ajax.testConnection.success">
+                <source>Connection successful</source>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.failed">
+                <source>Connection failed</source>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.error">
+                <source>Failed to test connection:</source>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testing">
+                <source>Testing...</source>
+            </trans-unit>
+            <trans-unit id="ajax.testConnection.testingConnection">
+                <source>Testing connection...</source>
             </trans-unit>
         </body>
     </file>
