@@ -1,0 +1,66 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      xmlns:dashboard="http://typo3.org/ns/TYPO3/CMS/Dashboard/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<dashboard:widget.header title="{configuration.title}" icon="{configuration.iconIdentifier}">
+</dashboard:widget.header>
+
+<div class="widget-body">
+    <f:if condition="{enabled}">
+        <f:then>
+            <div class="text-center">
+                <div class="widget-number-icon">
+                    <span class="text-{status}">
+                        <core:icon identifier="{statusIcon}" size="large" />
+                    </span>
+                </div>
+                <div class="widget-number mt-2">
+                    <span class="widget-number-count text-{status}">{configured}/{total}</span>
+                </div>
+                <div class="widget-number-label">
+                    {statusText}
+                </div>
+
+                <f:if condition="{sites}">
+                    <div class="mt-3">
+                        <f:for each="{sites}" as="site">
+                            <span class="badge badge-{f:if(condition: site.configured, then: 'success', else: 'warning')} me-1">
+                                <f:if condition="{site.configured}">
+                                    <f:then>
+                                        <core:icon identifier="actions-check" size="small" />
+                                    </f:then>
+                                    <f:else>
+                                        <core:icon identifier="actions-exclamation-triangle" size="small" />
+                                    </f:else>
+                                </f:if>
+                                {site.identifier}
+                            </span>
+                        </f:for>
+                    </div>
+                </f:if>
+            </div>
+        </f:then>
+        <f:else>
+            <div class="text-center">
+                <div class="widget-number-icon">
+                    <span class="text-danger">
+                        <core:icon identifier="actions-ban" size="large" />
+                    </span>
+                </div>
+                <div class="widget-number-label mt-2">
+                    Extension disabled
+                </div>
+            </div>
+        </f:else>
+    </f:if>
+</div>
+
+<dashboard:widget.footer>
+    <f:be.link route="ignitercf" class="btn btn-link">
+        <core:icon identifier="actions-cog" size="small" />
+        Open IgniterCF Module
+    </f:be.link>
+</dashboard:widget.footer>
+
+</html>

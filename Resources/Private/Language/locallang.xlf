@@ -50,6 +50,34 @@
             <trans-unit id="task.purgeOldLogs.description">
                 <source>Deletes Cloudflare log entries older than the configured retention period (default: 30 days)</source>
             </trans-unit>
+
+            <trans-unit id="task.generateChartData.title">
+                <source>IgniterCF: Generate Chart Data</source>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.description">
+                <source>Pre-computes chart statistics from Cloudflare logs for faster dashboard display</source>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days">
+                <source>Number of days to include</source>
+            </trans-unit>
+            <trans-unit id="task.generateChartData.days.invalid">
+                <source>Days must be between 1 and 365</source>
+            </trans-unit>
+
+            <!-- Dashboard Widgets -->
+            <trans-unit id="widget.configurationStatus.title">
+                <source>IgniterCF: Configuration Status</source>
+            </trans-unit>
+            <trans-unit id="widget.configurationStatus.description">
+                <source>Shows Cloudflare configuration status for all sites</source>
+            </trans-unit>
+
+            <trans-unit id="widget.purgeActivity.title">
+                <source>IgniterCF: Purge Activity</source>
+            </trans-unit>
+            <trans-unit id="widget.purgeActivity.description">
+                <source>Chart showing Cloudflare cache purge activity over the last 7 days</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
