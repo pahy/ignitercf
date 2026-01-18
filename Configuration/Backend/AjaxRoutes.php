@@ -9,4 +9,8 @@ return [
         'path' => '/ignitercf/clear-all',
         'target' => \Pahy\Ignitercf\Controller\CacheController::class . '::clearAllAction',
     ],
+    'ignitercf_test_connection' => [
+        'path' => '/ignitercf/test-connection',
+        'target' => \Pahy\Ignitercf\Controller\BackendController::class . '::testConnectionAction',
+    ],
 ];
