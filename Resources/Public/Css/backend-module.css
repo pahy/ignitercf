@@ -272,6 +272,28 @@
     margin-bottom: 1.5rem;
 }
 
+/* Docheader Layout - Title left, Menu + Status right */
+.module-docheader .module-docheader-bar-navigation {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.module-docheader .module-docheader-bar-navigation .module-docheader-bar-column-left {
+    flex: 1;
+}
+
+.module-docheader .module-docheader-bar-navigation .module-docheader-bar-column-right {
+    order: 2;
+}
+
+/* Move menu dropdown to right side */
+.module-docheader .module-docheader-bar-navigation nav.dropdown {
+    order: 1;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
 /* Docheader Title */
 .ignitercf-docheader-title {
     font-weight: 600;
