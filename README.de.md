@@ -125,6 +125,23 @@ curl -I -H "Cookie: be_typo_user=test" https://deine-domain.de/
 2. "Clear Cloudflare Cache" auswählen
 3. Bestätigen
 
+#### Test 5: Verbindungstest
+Teste deine Cloudflare-Konfiguration (Token-Gültigkeit + Zone-Zugriff):
+
+**Via CLI:**
+```bash
+# Alle Sites testen:
+vendor/bin/typo3 ignitercf:test:connection
+
+# Spezifische Site testen:
+vendor/bin/typo3 ignitercf:test:connection main
+```
+
+**Via Backend-Modul:**
+1. Gehe zu **System → IgniterCF → Configuration**
+2. Klicke **Test** Button neben einer konfigurierten Site
+3. Ergebnisse zeigen Token- und Zone-Status
+
 ---
 
 ## Troubleshooting
@@ -204,6 +221,8 @@ Log: `var/log/typo3_ignitercf_*.log`
 - Context-Menu im Seitenbaum
 - CLI Commands für automatisierte Purges
 - Scheduler Tasks für geplante Purges
+- Verbindungstest (Token + Zone-Verifizierung)
+- Backend-Modul mit Statistiken und Konfigurations-Status
 - Middleware verhindert CF-Caching für BE-User
 - Batch-Purge (max. 30 URLs pro Request)
 - TYPO3 v12 + v13 kompatibel
@@ -244,6 +263,26 @@ vendor/bin/typo3 ignitercf:purge:page --page=123 --language=1
 # In DDEV:
 ddev typo3 ignitercf:purge:page --page=123
 ```
+
+### Verbindung testen
+
+Teste Cloudflare API-Token und Zone-Zugriff für deine Sites:
+
+```bash
+# Alle konfigurierten Sites testen:
+vendor/bin/typo3 ignitercf:test:connection
+
+# Spezifische Site testen:
+vendor/bin/typo3 ignitercf:test:connection main
+
+# In DDEV:
+ddev typo3 ignitercf:test:connection
+```
+
+Ausgabe zeigt:
+- Token-Gültigkeit (aktiv/abgelaufen/ungültig)
+- Zone-Zugriff (erreichbar/verboten/nicht gefunden)
+- Antwortzeit
 
 ---
 
