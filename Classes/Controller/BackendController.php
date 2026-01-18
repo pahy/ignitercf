@@ -120,43 +120,15 @@ final class BackendController extends ActionController
     }
 
     /**
-     * Add docheader menu for page navigation
+     * Add docheader elements (all in button bar for single-row layout)
      */
     private function addDocHeaderMenu(ModuleTemplate $moduleTemplate, string $currentAction): void
     {
-        $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
-        $menu->setIdentifier('ignitercf_menu');
-
-        $menuItems = [
-            'index' => 'Dashboard',
-            'configuration' => 'Configuration',
-        ];
-
+        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
         $uriBuilder = $this->uriBuilder;
         $uriBuilder->setRequest($this->request);
 
-        foreach ($menuItems as $action => $label) {
-            $menuItem = $menu->makeMenuItem()
-                ->setTitle($label)
-                ->setHref($uriBuilder->reset()->uriFor($action, [], 'Backend'))
-                ->setActive($currentAction === $action);
-            $menu->addMenuItem($menuItem);
-        }
-
-        $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
-
-        // Add status indicators to button bar
-        $this->addStatusIndicators($moduleTemplate);
-    }
-
-    /**
-     * Add status indicators to the docheader button bar
-     */
-    private function addStatusIndicators(ModuleTemplate $moduleTemplate): void
-    {
-        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
-
-        // Add module title to docheader (left side)
+        // 1. Title (left side)
         $titleButton = $buttonBar->makeLinkButton()
             ->setHref('#')
             ->setTitle('IgniterCF - Cloudflare Cache Management')
@@ -165,6 +137,37 @@ final class BackendController extends ActionController
             ->setClasses('ignitercf-status-indicator ignitercf-docheader-title');
         $buttonBar->addButton($titleButton, ButtonBar::BUTTON_POSITION_LEFT, 1);
 
+        // 2. Navigation dropdown (right side, before status)
+        $menuItems = [
+            'index' => 'Dashboard',
+            'configuration' => 'Configuration',
+        ];
+
+        $options = '';
+        foreach ($menuItems as $action => $label) {
+            $url = $uriBuilder->reset()->uriFor($action, [], 'Backend');
+            $selected = $currentAction === $action ? ' selected="selected"' : '';
+            $options .= sprintf('<option value="%s"%s>%s</option>', htmlspecialchars($url), $selected, htmlspecialchars($label));
+        }
+
+        $dropdownHtml = sprintf(
+            '<select class="form-select form-select-sm ignitercf-nav-dropdown" onchange="window.location.href=this.value">%s</select>',
+            $options
+        );
+
+        $dropdownButton = $buttonBar->makeFullyRenderedButton()
+            ->setHtmlSource($dropdownHtml);
+        $buttonBar->addButton($dropdownButton, ButtonBar::BUTTON_POSITION_RIGHT, 80);
+
+        // 3. Status indicators (right side)
+        $this->addStatusIndicators($buttonBar);
+    }
+
+    /**
+     * Add status indicators to the docheader button bar
+     */
+    private function addStatusIndicators(ButtonBar $buttonBar): void
+    {
         // Get status data
         $configStatus = $this->getConfigurationStatus();
         $operationStatus = $this->getOperationStatus(3);
