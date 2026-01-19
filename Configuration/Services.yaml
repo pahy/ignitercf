@@ -11,6 +11,19 @@ services:
   Pahy\Ignitercf\Controller\CacheController:
     public: true
 
+  # Scheduler Tasks require their dependencies to be public
+  Pahy\Ignitercf\Service\ConfigurationService:
+    public: true
+
+  Pahy\Ignitercf\Service\CloudflareApiService:
+    public: true
+
+  Pahy\Ignitercf\Service\TestStatusService:
+    public: true
+
+  TYPO3\CMS\Core\Site\SiteFinder:
+    public: true
+
   # Scheduler Task Additional Field Providers (must be public for scheduler instantiation)
   Pahy\Ignitercf\Task\PurgeZoneTaskAdditionalFieldProvider:
     public: true

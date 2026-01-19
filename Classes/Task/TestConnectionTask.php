@@ -20,30 +20,30 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    public function __construct(
+        private readonly ConfigurationService $configurationService,
+        private readonly SiteFinder $siteFinder,
+        private readonly CloudflareApiService $cloudflareApiService,
+        private readonly TestStatusService $testStatusService,
+    ) {}
+
     public function execute(): bool
     {
         try {
-            $container = GeneralUtility::getContainer();
-            $configurationService = $container->get(ConfigurationService::class);
-
-            if (!$configurationService->isEnabled()) {
+            if (!$this->configurationService->isEnabled()) {
                 $this->logger?->info('IgniterCF: Connection test skipped - extension is disabled');
                 return true;
             }
 
-            $siteFinder = $container->get(SiteFinder::class);
-            $cloudflareApiService = $container->get(CloudflareApiService::class);
-            $testStatusService = $container->get(TestStatusService::class);
-
-            $sites = $siteFinder->getAllSites();
+            $sites = $this->siteFinder->getAllSites();
             $successCount = 0;
             $failureCount = 0;
 
             foreach ($sites as $site) {
                 $identifier = $site->getIdentifier();
-                $zoneId = $configurationService->getZoneId($identifier);
-                $apiToken = $configurationService->getApiToken($identifier);
-                $siteEnabled = $configurationService->isSiteEnabled($identifier);
+                $zoneId = $this->configurationService->getZoneId($identifier);
+                $apiToken = $this->configurationService->getApiToken($identifier);
+                $siteEnabled = $this->configurationService->isSiteEnabled($identifier);
 
                 // Skip if not configured
                 if (empty($zoneId) || empty($apiToken) || !$siteEnabled) {
@@ -52,24 +52,24 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
 
                 try {
                     // Test the connection by fetching zone info
-                    $info = $cloudflareApiService->getZoneInfo($zoneId, $apiToken);
+                    $info = $this->cloudflareApiService->getZoneInfo($zoneId, $apiToken);
 
                     if (!$info || !($info['success'] ?? false)) {
-                        $testStatusService->recordFailedTest($identifier);
+                        $this->testStatusService->recordFailedTest($identifier);
                         $failureCount++;
                         $this->logger?->warning('IgniterCF: Connection test failed for site', [
                             'site' => $identifier,
                             'error' => $info['errors'][0]['message'] ?? 'Unknown error',
                         ]);
                     } else {
-                        $testStatusService->recordSuccessfulTest($identifier);
+                        $this->testStatusService->recordSuccessfulTest($identifier);
                         $successCount++;
                         $this->logger?->info('IgniterCF: Connection test successful for site', [
                             'site' => $identifier,
                         ]);
                     }
                 } catch (\Exception $e) {
-                    $testStatusService->recordFailedTest($identifier);
+                    $this->testStatusService->recordFailedTest($identifier);
                     $failureCount++;
                     $this->logger?->error('IgniterCF: Connection test error for site', [
                         'site' => $identifier,
