@@ -309,13 +309,30 @@ final class ChartDataService
 
         // Ensure cache directory exists
         if (!is_dir($cacheDir)) {
-            mkdir($cacheDir, 0775, true);
+            try {
+                mkdir($cacheDir, 0775, true);
+            } catch (\Exception $e) {
+                $this->logger?->error('IgniterCF: Failed to create chart data cache directory', [
+                    'path' => $cacheDir,
+                    'error' => $e->getMessage(),
+                ]);
+                return;
+            }
         }
 
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        if ($json !== false) {
+        if ($json === false) {
+            return;
+        }
+
+        try {
             file_put_contents($cacheFile, $json, LOCK_EX);
+        } catch (\Exception $e) {
+            $this->logger?->error('IgniterCF: Failed to write chart data cache file', [
+                'path' => $cacheFile,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 

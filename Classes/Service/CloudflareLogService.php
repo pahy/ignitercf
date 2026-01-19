@@ -250,7 +250,15 @@ final class CloudflareLogService
 
         // Ensure log directory exists
         if (!is_dir($logDir)) {
-            mkdir($logDir, 0775, true);
+            try {
+                mkdir($logDir, 0775, true);
+            } catch (\Exception $e) {
+                $this->logger?->error('IgniterCF: Failed to create log directory', [
+                    'path' => $logDir,
+                    'error' => $e->getMessage(),
+                ]);
+                return;
+            }
         }
 
         $json = json_encode($entry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -259,7 +267,14 @@ final class CloudflareLogService
             return;
         }
 
-        file_put_contents($logFile, $json . "\n", FILE_APPEND | LOCK_EX);
+        try {
+            file_put_contents($logFile, $json . "\n", FILE_APPEND | LOCK_EX);
+        } catch (\Exception $e) {
+            $this->logger?->error('IgniterCF: Failed to write log file', [
+                'path' => $logFile,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
