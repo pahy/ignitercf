@@ -8,12 +8,12 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
-use TYPO3\CMS\Scheduler\Task\Enumeration\Action;
 
 /**
  * Additional field provider for GenerateChartDataTask
  *
  * Provides configuration field for the number of days to include in statistics.
+ * Compatible with TYPO3 v12 and v13
  */
 class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
@@ -25,10 +25,11 @@ class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFie
      */
     public function getAdditionalFields(array &$taskInfo, $task, SchedulerModuleController $schedulerModule): array
     {
-        $currentAction = $schedulerModule->getCurrentAction();
+        // Check if we're editing an existing task (compatible with v12 and v13)
+        $isEdit = $this->isEditAction($schedulerModule);
 
         // Initialize field value
-        if ($currentAction === Action::EDIT && $task instanceof GenerateChartDataTask) {
+        if ($isEdit && $task instanceof GenerateChartDataTask) {
             $taskInfo['ignitercf_days'] = $task->days;
         }
 
@@ -89,5 +90,28 @@ class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFie
     private function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
+    }
+
+    /**
+     * Check if we're in edit mode (compatible with TYPO3 v12 and v13)
+     *
+     * v12: Action is TYPO3\CMS\Scheduler\Task\Enumeration\Action (class with constants)
+     * v13: Action is TYPO3\CMS\Scheduler\SchedulerManagementAction (backed enum)
+     */
+    private function isEditAction(SchedulerModuleController $schedulerModule): bool
+    {
+        $currentAction = $schedulerModule->getCurrentAction();
+
+        // Handle both v12 (Enumeration class) and v13 (backed enum)
+        if (is_object($currentAction)) {
+            // v13: backed enum - compare value
+            if ($currentAction instanceof \BackedEnum) {
+                return $currentAction->value === 'edit';
+            }
+            // v12: Enumeration class - cast to string
+            return (string)$currentAction === 'edit';
+        }
+
+        return false;
     }
 }
