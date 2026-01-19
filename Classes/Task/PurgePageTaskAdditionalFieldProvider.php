@@ -73,17 +73,25 @@ class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
         $languageUid = (int)($submittedData['languageUid'] ?? -1);
 
          if ($pageUid <= 0) {
-             $this->addMessage(
-                 $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgePage.pageUidInvalid'),
-                 \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
-             );
-             return false;
-         }
+              $this->addMessage(
+                  $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgePage.pageUidInvalid'),
+                  \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+              );
+              return false;
+          }
 
-        $submittedData['pageUid'] = $pageUid;
-        $submittedData['languageUid'] = $languageUid;
+         if ($languageUid < -1) {
+              $this->addMessage(
+                  $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgePage.languageUidInvalid'),
+                  \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+              );
+              return false;
+          }
 
-        return true;
+         $submittedData['pageUid'] = $pageUid;
+         $submittedData['languageUid'] = $languageUid;
+
+         return true;
     }
 
     public function saveAdditionalFields(
