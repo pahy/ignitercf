@@ -23,16 +23,17 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
     public function execute(): bool
     {
         try {
-            $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+            $container = GeneralUtility::getContainer();
+            $configurationService = $container->get(ConfigurationService::class);
 
             if (!$configurationService->isEnabled()) {
                 $this->logger?->info('IgniterCF: Connection test skipped - extension is disabled');
                 return true;
             }
 
-            $siteFinder = GeneralUtility::getContainer()->get(SiteFinder::class);
-            $cloudflareApiService = GeneralUtility::getContainer()->get(CloudflareApiService::class);
-            $testStatusService = GeneralUtility::getContainer()->get(TestStatusService::class);
+            $siteFinder = $container->get(SiteFinder::class);
+            $cloudflareApiService = $container->get(CloudflareApiService::class);
+            $testStatusService = $container->get(TestStatusService::class);
 
             $sites = $siteFinder->getAllSites();
             $successCount = 0;
@@ -86,6 +87,9 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
         } catch (\Exception $e) {
             $this->logger?->error('IgniterCF: Connection test task failed', [
                 'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
             ]);
             return false;
         }
