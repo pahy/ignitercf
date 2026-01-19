@@ -385,13 +385,13 @@ final class BackendController extends ActionController
             // Check Zone ID
             if (empty($zoneId)) {
                 $issues[] = 'zone_id_missing';
+                $envVarNameZone = 'IGNITERCF_ZONE_' . strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', $identifier));
                 $hints[] = [
                     'type' => 'zone_id',
                     'message' => 'Zone ID is not configured',
                     'solution' => sprintf(
-                        'Add to config/sites/%s/config.yaml:%scloudflare:%s  zoneId: \'your-zone-id\'',
-                        $identifier,
-                        "\n",
+                        'Set environment variable: %s=your-zone-id%sOr global: IGNITERCF_ZONE_ID=your-zone-id',
+                        $envVarNameZone,
                         "\n"
                     ),
                     'link' => 'https://dash.cloudflare.com/ → Select domain → Overview → Zone ID',
