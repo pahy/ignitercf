@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Command;
 
 use Pahy\Ignitercf\Service\CloudflareApiService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\TestStatusService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,7 +27,8 @@ final class TestConnectionCommand extends Command
     public function __construct(
         private readonly CloudflareApiService $cloudflareApiService,
         private readonly ConfigurationService $configurationService,
-        private readonly SiteFinder $siteFinder
+        private readonly SiteFinder $siteFinder,
+        private readonly TestStatusService $testStatusService,
     ) {
         parent::__construct();
     }
@@ -74,6 +76,13 @@ final class TestConnectionCommand extends Command
 
         $this->displayResult($io, $siteIdentifier, $result);
 
+        // Record test status
+        if ($result['success']) {
+            $this->testStatusService->recordSuccessfulTest($siteIdentifier);
+        } else {
+            $this->testStatusService->recordFailedTest($siteIdentifier);
+        }
+
         return $result['success'] ? Command::SUCCESS : Command::FAILURE;
     }
 
@@ -94,7 +103,11 @@ final class TestConnectionCommand extends Command
             $result = $this->cloudflareApiService->testConnection($site);
             $this->displayResult($io, $identifier, $result);
 
-            if (!$result['success']) {
+            // Record test status
+            if ($result['success']) {
+                $this->testStatusService->recordSuccessfulTest($identifier);
+            } else {
+                $this->testStatusService->recordFailedTest($identifier);
                 $hasFailure = true;
             }
         }

@@ -7,6 +7,7 @@ namespace Pahy\Ignitercf\Controller;
 use Pahy\Ignitercf\Service\ChartDataService;
 use Pahy\Ignitercf\Service\CloudflareLogService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\TestStatusService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
@@ -39,6 +40,7 @@ final class BackendController extends ActionController
         private readonly IconFactory $iconFactory,
         private readonly PackageManager $packageManager,
         private readonly LanguageServiceFactory $languageServiceFactory,
+        private readonly TestStatusService $testStatusService,
     ) {}
 
     /**
@@ -446,6 +448,10 @@ final class BackendController extends ActionController
 
             $isConfigured = empty($issues) && $siteEnabled;
 
+            // Get last test information
+            $testInfo = $this->testStatusService->getLastTestInfo($identifier);
+            $testBadge = $this->testStatusService->getTestStatusBadge($identifier);
+
             $sitesStatus[$identifier] = [
                 'site' => $site,
                 'identifier' => $identifier,
@@ -457,6 +463,9 @@ final class BackendController extends ActionController
                 'isConfigured' => $isConfigured,
                 'issues' => $issues,
                 'hints' => $hints,
+                'lastTestTime' => $testInfo['formattedTime'] ?? 'Never tested',
+                'lastTestStatus' => $testInfo['status'] ?? null,
+                'testBadge' => $testBadge,
             ];
         }
 

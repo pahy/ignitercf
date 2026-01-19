@@ -7,6 +7,7 @@ namespace Pahy\Ignitercf\Controller;
 use Pahy\Ignitercf\Service\CacheClearService;
 use Pahy\Ignitercf\Service\CloudflareApiService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\TestStatusService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -21,7 +22,8 @@ final class CacheController
         private readonly CacheClearService $cacheClearService,
         private readonly CloudflareApiService $cloudflareApiService,
         private readonly ConfigurationService $configurationService,
-        private readonly SiteFinder $siteFinder
+        private readonly SiteFinder $siteFinder,
+        private readonly TestStatusService $testStatusService,
     ) {}
 
     /**
@@ -94,6 +96,13 @@ final class CacheController
 
             // Full connection test (token + zone)
             $result = $this->cloudflareApiService->testConnection($site);
+
+            // Record test status
+            if ($result['success']) {
+                $this->testStatusService->recordSuccessfulTest($siteIdentifier);
+            } else {
+                $this->testStatusService->recordFailedTest($siteIdentifier);
+            }
 
             return new JsonResponse([
                 'success' => $result['success'],
