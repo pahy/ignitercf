@@ -7,6 +7,7 @@ namespace Pahy\Ignitercf\Widgets;
 use Pahy\Ignitercf\Service\ChartDataService;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Dashboard\Widgets\WidgetConfigurationInterface;
@@ -24,10 +25,10 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 final class ConfigurationStatusWidget implements WidgetInterface
 {
     public function __construct(
-        private readonly WidgetConfigurationInterface $configuration,
         private readonly ChartDataService $chartDataService,
         private readonly ConfigurationService $configurationService,
-        private readonly SiteFinder $siteFinder
+        private readonly SiteFinder $siteFinder,
+        private readonly LanguageServiceFactory $languageServiceFactory,
     ) {}
 
     public function renderWidgetContent(): string
@@ -142,7 +143,7 @@ final class ConfigurationStatusWidget implements WidgetInterface
 
     private function getLanguageService(): LanguageService
     {
-        return $GLOBALS['LANG'];
+        return $this->languageServiceFactory->create('default');
     }
 
     public function getOptions(): array

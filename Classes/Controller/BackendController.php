@@ -14,6 +14,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -37,6 +38,7 @@ final class BackendController extends ActionController
         private readonly ChartDataService $chartDataService,
         private readonly CloudflareLogService $cloudflareLogService,
         private readonly PackageManager $packageManager,
+        private readonly LanguageServiceFactory $languageServiceFactory,
     ) {}
 
     /**
@@ -371,7 +373,7 @@ final class BackendController extends ActionController
 
     private function getLanguageService(): LanguageService
     {
-        return $GLOBALS['LANG'];
+        return $this->languageServiceFactory->create('default');
     }
 
     /**
