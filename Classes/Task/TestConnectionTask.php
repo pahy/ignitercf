@@ -84,15 +84,15 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
                 }
 
                 try {
-                    // Test the connection by fetching zone info
-                    $info = $this->cloudflareApiService->getZoneInfo($zoneId, $apiToken);
+                    // Test the connection
+                    $result = $this->cloudflareApiService->testConnection($site);
 
-                    if (!$info || !($info['success'] ?? false)) {
+                    if (!($result['success'] ?? false)) {
                         $this->testStatusService->recordFailedTest($identifier);
                         $failureCount++;
                         $this->logger?->warning('IgniterCF: Connection test failed for site', [
                             'site' => $identifier,
-                            'error' => $info['errors'][0]['message'] ?? 'Unknown error',
+                            'error' => $result['errors'][0]['message'] ?? 'Unknown error',
                         ]);
                     } else {
                         $this->testStatusService->recordSuccessfulTest($identifier);
