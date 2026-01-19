@@ -91,21 +91,29 @@ final class CacheController
 
         try {
             $site = $this->siteFinder->getSiteByIdentifier($siteIdentifier);
-        } catch (\Exception $e) {
+
+            // Full connection test (token + zone)
+            $result = $this->cloudflareApiService->testConnection($site);
+
+            return new JsonResponse([
+                'success' => $result['success'],
+                'token' => $result['token'],
+                'zone' => $result['zone'],
+                'responseTimeMs' => round($result['responseTimeMs'], 0),
+            ]);
+        } catch (\TYPO3\CMS\Core\Exception\SiteNotFoundException $e) {
             return new JsonResponse([
                 'success' => false,
                 'message' => sprintf('Site "%s" not found', $siteIdentifier),
             ], 404);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Connection test failed: ' . $e->getMessage(),
+                'token' => ['valid' => false, 'status' => 'error', 'message' => $e->getMessage()],
+                'zone' => ['valid' => false, 'status' => 'error', 'message' => 'Not tested', 'name' => ''],
+                'responseTimeMs' => 0,
+            ], 500);
         }
-
-        // Full connection test (token + zone)
-        $result = $this->cloudflareApiService->testConnection($site);
-
-        return new JsonResponse([
-            'success' => $result['success'],
-            'token' => $result['token'],
-            'zone' => $result['zone'],
-            'responseTimeMs' => round($result['responseTimeMs'], 0),
-        ]);
     }
 }
