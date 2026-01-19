@@ -48,24 +48,48 @@
     <div class="site-body">
         <f:if condition="{site.isConfigured}">
             <f:then>
-                <!-- Configured: Show checklist -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="ignitercf-checklist">
-                            <li>
-                                <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.zoneId" />: <code>{site.zoneId}</code>
-                            </li>
-                            <li>
-                                <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.apiToken" />: <code>{site.apiTokenMasked}</code>
-                            </li>
-                            <li>
-                                <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
-                                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.siteEnabled" />
-                            </li>
-                        </ul>
-                    </div>
+                 <!-- Configured: Show checklist -->
+                 <div class="row">
+                     <div class="col-md-6">
+                         <ul class="ignitercf-checklist">
+                             <f:if condition="{site.lastTestTime}">
+                                 <f:then>
+                                     <li>
+                                         <f:switch expression="{site.lastTestStatus}">
+                                             <f:case value="success">
+                                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
+                                             </f:case>
+                                             <f:case value="failed">
+                                                 <span class="text-danger"><core:icon identifier="actions-close" size="small" /></span>
+                                             </f:case>
+                                             <f:defaultCase>
+                                                 <span class="text-muted"><core:icon identifier="actions-question-circle" size="small" /></span>
+                                             </f:defaultCase>
+                                         </f:switch>
+                                         <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.lastTest" />: {site.lastTestTime}
+                                     </li>
+                                 </f:then>
+                                 <f:else>
+                                     <li>
+                                         <span class="text-muted"><core:icon identifier="actions-question-circle" size="small" /></span>
+                                         <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.lastTestNever" />
+                                     </li>
+                                 </f:else>
+                             </f:if>
+                             <li>
+                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
+                                 <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.zoneId" />: <code>{site.zoneId}</code>
+                             </li>
+                             <li>
+                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
+                                 <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.apiToken" />: <code>{site.apiTokenMasked}</code>
+                             </li>
+                             <li>
+                                 <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
+                                 <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.siteEnabled" />
+                             </li>
+                         </ul>
+                     </div>
                     <div class="col-md-6">
                         <div class="ignitercf-connection-result" data-site="{site.identifier}">
                             <span class="text-muted">

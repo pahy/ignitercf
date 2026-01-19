@@ -162,12 +162,18 @@
             <trans-unit id="module.config.siteEnabled">
                 <source>Site enabled</source>
             </trans-unit>
-            <trans-unit id="module.config.clickTest">
-                <source>Click "Test" to verify connection</source>
-            </trans-unit>
-            <trans-unit id="module.config.solution">
-                <source>Solution</source>
-            </trans-unit>
+             <trans-unit id="module.config.clickTest">
+                 <source>Click "Test" to verify connection</source>
+             </trans-unit>
+             <trans-unit id="module.config.lastTest">
+                 <source>Last test</source>
+             </trans-unit>
+             <trans-unit id="module.config.lastTestNever">
+                 <source>Never tested</source>
+             </trans-unit>
+             <trans-unit id="module.config.solution">
+                 <source>Solution</source>
+             </trans-unit>
 
             <!-- Backend Module - Site Status -->
             <trans-unit id="module.site.configured">
