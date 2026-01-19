@@ -34,9 +34,9 @@ final class BackendController extends ActionController
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly SiteFinder $siteFinder,
         private readonly ConfigurationService $configurationService,
-        private readonly IconFactory $iconFactory,
-        private readonly ChartDataService $chartDataService,
         private readonly CloudflareLogService $cloudflareLogService,
+        private readonly ChartDataService $chartDataService,
+        private readonly IconFactory $iconFactory,
         private readonly PackageManager $packageManager,
         private readonly LanguageServiceFactory $languageServiceFactory,
     ) {}
