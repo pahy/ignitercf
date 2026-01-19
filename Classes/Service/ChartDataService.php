@@ -149,12 +149,6 @@ final class ChartDataService
             return $this->getEmptyDailyStats($days);
         }
 
-        $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        if ($lines === false) {
-            return $this->getEmptyDailyStats($days);
-        }
-
         $cutoffDate = new \DateTimeImmutable("-{$days} days");
         $cutoffTimestamp = $cutoffDate->format('c');
 
@@ -171,36 +165,51 @@ final class ChartDataService
             ];
         }
 
-        // Parse log entries
-        foreach ($lines as $line) {
-            $entry = json_decode($line, true);
+        // Parse log entries using SplFileObject for memory efficiency
+        try {
+            $file = new \SplFileObject($logFile, 'r');
+            while (!$file->eof()) {
+                $line = $file->fgets();
 
-            if (!is_array($entry) || !isset($entry['timestamp'])) {
-                continue;
+                if (empty($line) || $line === false) {
+                    continue;
+                }
+
+                $entry = json_decode(trim($line), true);
+
+                if (!is_array($entry) || !isset($entry['timestamp'])) {
+                    continue;
+                }
+
+                if ($entry['timestamp'] < $cutoffTimestamp) {
+                    continue;
+                }
+
+                try {
+                    $entryDate = (new \DateTimeImmutable($entry['timestamp']))->format('Y-m-d');
+                } catch (\Exception) {
+                    continue;
+                }
+
+                if (!isset($dailyData[$entryDate])) {
+                    continue;
+                }
+
+                if ($entry['success'] ?? false) {
+                    $dailyData[$entryDate]['success']++;
+                } else {
+                    $dailyData[$entryDate]['errors']++;
+                }
+
+                $dailyData[$entryDate]['total_response_ms'] += (float)($entry['response_time_ms'] ?? 0);
+                $dailyData[$entryDate]['count']++;
             }
-
-            if ($entry['timestamp'] < $cutoffTimestamp) {
-                continue;
-            }
-
-            try {
-                $entryDate = (new \DateTimeImmutable($entry['timestamp']))->format('Y-m-d');
-            } catch (\Exception) {
-                continue;
-            }
-
-            if (!isset($dailyData[$entryDate])) {
-                continue;
-            }
-
-            if ($entry['success'] ?? false) {
-                $dailyData[$entryDate]['success']++;
-            } else {
-                $dailyData[$entryDate]['errors']++;
-            }
-
-            $dailyData[$entryDate]['total_response_ms'] += (float)($entry['response_time_ms'] ?? 0);
-            $dailyData[$entryDate]['count']++;
+        } catch (\Exception $e) {
+            $this->logger?->error('IgniterCF: Failed to read log file for chart data', [
+                'path' => $logFile,
+                'error' => $e->getMessage(),
+            ]);
+            return $this->getEmptyDailyStats($days);
         }
 
         // Calculate averages and format output
