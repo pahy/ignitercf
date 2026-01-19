@@ -15,6 +15,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -27,15 +28,15 @@ final class BackendController extends ActionController
     private const UC_KEY = 'ignitercf';
     private const DEFAULT_DAYS = 7;
     private const AVAILABLE_DAYS = [7, 14, 30, 90];
-    private const EXTENSION_VERSION = '1.0.0';
 
     public function __construct(
         private readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly SiteFinder $siteFinder,
         private readonly ConfigurationService $configurationService,
-        private readonly CloudflareLogService $cloudflareLogService,
+        private readonly IconFactory $iconFactory,
         private readonly ChartDataService $chartDataService,
-        private readonly IconFactory $iconFactory
+        private readonly CloudflareLogService $cloudflareLogService,
+        private readonly PackageManager $packageManager,
     ) {}
 
     /**
@@ -79,7 +80,7 @@ final class BackendController extends ActionController
             'statisticsDays' => $statisticsDays,
             'chartDays' => $chartDays,
             'availableDays' => $this->getDaysOptions(),
-            'version' => self::EXTENSION_VERSION,
+            'version' => $this->getExtensionVersion(),
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Index');
@@ -104,7 +105,7 @@ final class BackendController extends ActionController
             'sitesStatus' => $sitesStatus,
             'globalSettings' => $globalSettings,
             'allConfigured' => $this->areAllSitesConfigured($sitesStatus),
-            'version' => self::EXTENSION_VERSION,
+            'version' => $this->getExtensionVersion(),
         ]);
 
         return $moduleTemplate->renderResponse('Backend/Configuration');
@@ -347,6 +348,16 @@ final class BackendController extends ActionController
      *
      * @return array<int, string>
      */
+    private function getExtensionVersion(): string
+    {
+        try {
+            $package = $this->packageManager->getPackage('ignitercf');
+            return $package->getPackageMetaData()->getVersion() ?: '1.1.0';
+        } catch (\Exception) {
+            return '1.1.0';
+        }
+    }
+
     private function getDaysOptions(): array
     {
         $languageService = $this->getLanguageService();
