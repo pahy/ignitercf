@@ -15,21 +15,55 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
  * Scheduler task to test Cloudflare connection for all configured sites
+ *
+ * TYPO3 scheduler tasks are loaded from the database and require setter injection.
  */
 class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    public function __construct(
-        private readonly ConfigurationService $configurationService,
-        private readonly SiteFinder $siteFinder,
-        private readonly CloudflareApiService $cloudflareApiService,
-        private readonly TestStatusService $testStatusService,
-    ) {}
+    private ?ConfigurationService $configurationService = null;
+    private ?SiteFinder $siteFinder = null;
+    private ?CloudflareApiService $cloudflareApiService = null;
+    private ?TestStatusService $testStatusService = null;
+
+    public function setConfigurationService(ConfigurationService $configurationService): void
+    {
+        $this->configurationService = $configurationService;
+    }
+
+    public function setSiteFinder(SiteFinder $siteFinder): void
+    {
+        $this->siteFinder = $siteFinder;
+    }
+
+    public function setCloudflareApiService(CloudflareApiService $cloudflareApiService): void
+    {
+        $this->cloudflareApiService = $cloudflareApiService;
+    }
+
+    public function setTestStatusService(TestStatusService $testStatusService): void
+    {
+        $this->testStatusService = $testStatusService;
+    }
 
     public function execute(): bool
     {
         try {
+            // Get services from container if not injected via setters
+            if ($this->configurationService === null) {
+                $this->configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+            }
+            if ($this->siteFinder === null) {
+                $this->siteFinder = GeneralUtility::getContainer()->get(SiteFinder::class);
+            }
+            if ($this->cloudflareApiService === null) {
+                $this->cloudflareApiService = GeneralUtility::getContainer()->get(CloudflareApiService::class);
+            }
+            if ($this->testStatusService === null) {
+                $this->testStatusService = GeneralUtility::getContainer()->get(TestStatusService::class);
+            }
+
             if (!$this->configurationService->isEnabled()) {
                 $this->logger?->info('IgniterCF: Connection test skipped - extension is disabled');
                 return true;
@@ -41,12 +75,11 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
 
             foreach ($sites as $site) {
                 $identifier = $site->getIdentifier();
-                $zoneId = $this->configurationService->getZoneId($identifier);
-                $apiToken = $this->configurationService->getApiToken($identifier);
-                $siteEnabled = $this->configurationService->isSiteEnabled($identifier);
+                $zoneId = $this->configurationService->getZoneIdForSite($site);
+                $apiToken = $this->configurationService->getApiTokenForSite($site);
 
                 // Skip if not configured
-                if (empty($zoneId) || empty($apiToken) || !$siteEnabled) {
+                if (empty($zoneId) || empty($apiToken)) {
                     continue;
                 }
 

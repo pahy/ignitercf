@@ -24,7 +24,10 @@ services:
   TYPO3\CMS\Core\Site\SiteFinder:
     public: true
 
-  # Scheduler Task Additional Field Providers (must be public for scheduler instantiation)
+  # Scheduler Tasks and Additional Field Providers (must be public for scheduler instantiation)
+  Pahy\Ignitercf\Task\TestConnectionTask:
+    public: true
+
   Pahy\Ignitercf\Task\PurgeZoneTaskAdditionalFieldProvider:
     public: true
 
