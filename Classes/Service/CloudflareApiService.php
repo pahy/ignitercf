@@ -115,8 +115,8 @@ final class CloudflareApiService implements LoggerAwareInterface
             $responseBody = $response->getBody()->getContents();
             $data = json_decode($responseBody, true);
 
-            if ($statusCode !== 200 || !isset($data['success']) || $data['success'] !== true) {
-                $errors = $data['errors'] ?? [];
+            if ($data === null || $statusCode !== 200 || !isset($data['success']) || $data['success'] !== true) {
+                $errors = is_array($data) ? ($data['errors'] ?? []) : [];
                 $errorMessage = !empty($errors) ? $errors[0]['message'] ?? 'Unknown error' : 'Token verification failed';
 
                 return [
@@ -241,6 +241,15 @@ final class CloudflareApiService implements LoggerAwareInterface
             $responseBody = $response->getBody()->getContents();
             $data = json_decode($responseBody, true);
 
+            if ($data === null) {
+                return [
+                    'valid' => false,
+                    'status' => 'invalid_response',
+                    'message' => 'Invalid JSON response from Cloudflare API',
+                    'name' => '',
+                ];
+            }
+
             if ($statusCode === 404) {
                 return [
                     'valid' => false,
@@ -356,9 +365,11 @@ final class CloudflareApiService implements LoggerAwareInterface
 
             $data = json_decode($responseBody, true);
 
-            if (!isset($data['success']) || $data['success'] !== true) {
-                $errors = $data['errors'] ?? [];
-                $errorMessage = 'API returned success=false: ' . json_encode($errors);
+            if ($data === null || !isset($data['success']) || $data['success'] !== true) {
+                $errors = is_array($data) ? ($data['errors'] ?? []) : [];
+                $errorMessage = $data === null
+                    ? 'Invalid JSON response from Cloudflare API'
+                    : 'API returned success=false: ' . json_encode($errors);
                 $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
                 throw new CloudflareException($errorMessage);
             }
