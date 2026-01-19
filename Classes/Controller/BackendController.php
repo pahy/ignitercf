@@ -177,22 +177,24 @@ final class BackendController extends ActionController
         $operationStatus = $this->getOperationStatus(3);
 
         // Configuration status indicator
-        $configButton = $buttonBar->makeLinkButton()
-            ->setHref('#')
-            ->setTitle($configStatus['tooltip'])
-            ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon($configStatus['icon'], Icon::SIZE_SMALL))
-            ->setClasses('ignitercf-status-indicator ignitercf-status-' . $configStatus['level']);
-        $buttonBar->addButton($configButton, ButtonBar::BUTTON_POSITION_RIGHT, 90);
+        $this->addStatusButton($buttonBar, $configStatus, 90);
 
         // Operation status indicator (last 3 days)
-        $operationButton = $buttonBar->makeLinkButton()
+        $this->addStatusButton($buttonBar, $operationStatus, 91);
+    }
+
+    /**
+     * Add a single status button to the button bar
+     */
+    private function addStatusButton(ButtonBar $buttonBar, array $status, int $position): void
+    {
+        $button = $buttonBar->makeLinkButton()
             ->setHref('#')
-            ->setTitle($operationStatus['tooltip'])
+            ->setTitle($status['tooltip'])
             ->setShowLabelText(true)
-            ->setIcon($this->iconFactory->getIcon($operationStatus['icon'], Icon::SIZE_SMALL))
-            ->setClasses('ignitercf-status-indicator ignitercf-status-' . $operationStatus['level']);
-        $buttonBar->addButton($operationButton, ButtonBar::BUTTON_POSITION_RIGHT, 91);
+            ->setIcon($this->iconFactory->getIcon($status['icon'], Icon::SIZE_SMALL))
+            ->setClasses('ignitercf-status-indicator ignitercf-status-' . $status['level']);
+        $buttonBar->addButton($button, ButtonBar::BUTTON_POSITION_RIGHT, $position);
     }
 
     /**
