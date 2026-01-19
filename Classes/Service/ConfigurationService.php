@@ -12,9 +12,14 @@ use TYPO3\CMS\Core\Site\Entity\Site;
  * Service to retrieve extension configuration with environment variable fallback
  *
  * Architecture (Hybrid for Multi-Domain):
- * - Zone ID: Site config.yaml (different per domain)
- * - API Token: Environment variable based on Site Identifier (secure)
+ * - Zone ID: Environment variable or Site config.yaml
+ * - API Token: Environment variable or Site config.yaml
  * - Global settings: Extension Configuration
+ *
+ * Environment Variables for Zone ID (Fallback chain):
+ * 1. IGNITERCF_ZONE_{SITE_IDENTIFIER} (e.g. IGNITERCF_ZONE_MAIN)
+ * 2. IGNITERCF_ZONE_ID (global fallback for single-domain)
+ * 3. Site config.yaml cloudflare.zoneId (legacy support)
  *
  * Environment Variables for API Token (Fallback chain):
  * 1. IGNITERCF_TOKEN_{SITE_IDENTIFIER} (e.g. IGNITERCF_TOKEN_MAIN)
@@ -179,11 +184,32 @@ final class ConfigurationService
     /**
      * Get Cloudflare Zone ID for a site
      *
+     * Fallback chain:
+     * 1. IGNITERCF_ZONE_{SITE_IDENTIFIER} (e.g. IGNITERCF_ZONE_MAIN)
+     * 2. IGNITERCF_ZONE_ID (global fallback)
+     * 3. Site config.yaml cloudflare.zoneId (legacy)
+     *
      * @param Site $site The site
      * @return string Zone ID or empty string if not configured
      */
     public function getZoneIdForSite(Site $site): string
     {
+        $siteIdentifier = $site->getIdentifier();
+
+        // 1. Try site-specific env var: IGNITERCF_ZONE_{SITE_IDENTIFIER}
+        $siteEnvVar = 'IGNITERCF_ZONE_' . $this->sanitizeForEnvVar($siteIdentifier);
+        $zoneId = getenv($siteEnvVar);
+        if ($zoneId !== false && $zoneId !== '') {
+            return $zoneId;
+        }
+
+        // 2. Try global fallback env var: IGNITERCF_ZONE_ID
+        $zoneId = getenv('IGNITERCF_ZONE_ID');
+        if ($zoneId !== false && $zoneId !== '') {
+            return $zoneId;
+        }
+
+        // 3. Legacy: Site config.yaml
         $cloudflareConfig = $site->getConfiguration()['cloudflare'] ?? [];
         return (string)($cloudflareConfig['zoneId'] ?? '');
     }
@@ -272,11 +298,12 @@ final class ConfigurationService
         }
 
         if (empty($this->getZoneIdForSite($site))) {
+            $siteEnvVar = 'IGNITERCF_ZONE_' . $this->sanitizeForEnvVar($site->getIdentifier());
             throw new CloudflareException(
                 sprintf(
-                    'Cloudflare Zone ID is not configured for site "%s". Add cloudflare.zoneId to config/sites/%s/config.yaml',
+                    'Cloudflare Zone ID is not configured for site "%s". Set environment variable %s or IGNITERCF_ZONE_ID',
                     $site->getIdentifier(),
-                    $site->getIdentifier()
+                    $siteEnvVar
                 )
             );
         }
