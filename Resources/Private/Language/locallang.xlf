@@ -171,6 +171,15 @@
              <trans-unit id="module.config.lastTestNever">
                  <source>Never tested</source>
              </trans-unit>
+             <trans-unit id="module.config.lastTestSuccess">
+                 <source>Success</source>
+             </trans-unit>
+             <trans-unit id="module.config.lastTestFailed">
+                 <source>Failed</source>
+             </trans-unit>
+             <trans-unit id="module.config.lastTestUnknown">
+                 <source>Unknown</source>
+             </trans-unit>
              <trans-unit id="module.config.solution">
                  <source>Solution</source>
              </trans-unit>
