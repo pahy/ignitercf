@@ -32,25 +32,37 @@
     </f:if>
 
     <!-- Site Configuration Status -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <core:icon identifier="actions-cog" size="small" />
-                <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.siteStatus" />
-            </h3>
-            <f:if condition="{allConfigured}">
-                <f:then>
-                    <span class="badge badge-success">
-                        <core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.allConfigured" />
-                    </span>
-                </f:then>
-                <f:else>
-                    <span class="badge" style="background: var(--ignitercf-orange); color: #fff;">
-                        <core:icon identifier="actions-exclamation-triangle" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.setupRequired" />
-                    </span>
-                </f:else>
-            </f:if>
-        </div>
+     <div class="panel panel-default">
+         <div class="panel-heading">
+             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                 <div style="display: flex; align-items: center; gap: 1rem;">
+                     <h3 class="panel-title">
+                         <core:icon identifier="actions-cog" size="small" />
+                         <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.siteStatus" />
+                     </h3>
+                     <f:if condition="{allConfigured}">
+                         <f:then>
+                             <span class="badge badge-success">
+                                 <core:icon identifier="actions-check" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.allConfigured" />
+                             </span>
+                         </f:then>
+                         <f:else>
+                             <span class="badge" style="background: var(--ignitercf-orange); color: #fff;">
+                                 <core:icon identifier="actions-exclamation-triangle" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.setupRequired" />
+                             </span>
+                         </f:else>
+                     </f:if>
+                 </div>
+                 <f:if condition="{sitesStatus}">
+                     <button type="button"
+                             class="btn btn-sm btn-default ignitercf-test-all"
+                             title="Test all site connections">
+                         <core:icon identifier="actions-refresh" size="small" />
+                         <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.testAllButton" />
+                     </button>
+                 </f:if>
+             </div>
+         </div>
         <div class="panel-body">
             <f:if condition="{sitesStatus}">
                 <f:then>

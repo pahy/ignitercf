@@ -150,9 +150,12 @@
             <trans-unit id="module.config.testConnectionTitle">
                 <source>Test Cloudflare connection</source>
             </trans-unit>
-            <trans-unit id="module.config.testButton">
-                <source>Test</source>
-            </trans-unit>
+             <trans-unit id="module.config.testButton">
+                 <source>Test</source>
+             </trans-unit>
+             <trans-unit id="module.config.testAllButton">
+                 <source>Test all</source>
+             </trans-unit>
             <trans-unit id="module.config.zoneId">
                 <source>Zone ID</source>
             </trans-unit>

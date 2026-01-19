@@ -7,6 +7,7 @@ import Notification from '@typo3/backend/notification.js';
 class BackendModule {
     constructor() {
         this.initTestConnectionButtons();
+        this.initTestAllButton();
     }
 
     initTestConnectionButtons() {
@@ -17,6 +18,70 @@ class BackendModule {
                 this.testConnection(siteIdentifier, button);
             });
         });
+    }
+
+    initTestAllButton() {
+        const testAllButton = document.querySelector('.ignitercf-test-all');
+        if (testAllButton) {
+            testAllButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.testAllConnections();
+            });
+        }
+    }
+
+    async testAllConnections() {
+        const testAllButton = document.querySelector('.ignitercf-test-all');
+        const testButtons = document.querySelectorAll('.ignitercf-test-connection');
+
+        if (testButtons.length === 0) {
+            Notification.warning('No sites', 'No sites configured for testing');
+            return;
+        }
+
+        // Disable the "Test all" button
+        testAllButton.disabled = true;
+        const originalHtml = testAllButton.innerHTML;
+        testAllButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testing...';
+
+        let successCount = 0;
+        let failureCount = 0;
+
+        // Test each site sequentially
+        for (const button of testButtons) {
+            const siteIdentifier = button.dataset.site;
+            try {
+                const url = TYPO3.settings.ajaxUrls['ignitercf_test_connection'] + '&site=' + encodeURIComponent(siteIdentifier);
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    successCount++;
+                } else {
+                    failureCount++;
+                }
+            } catch (error) {
+                failureCount++;
+            }
+        }
+
+        // Show summary notification
+        if (failureCount === 0) {
+            Notification.success('All tests passed', `Successfully tested ${successCount} site(s)`);
+        } else if (successCount === 0) {
+            Notification.error('All tests failed', `Failed to test ${failureCount} site(s)`);
+        } else {
+            Notification.warning('Some tests failed', `Passed: ${successCount}, Failed: ${failureCount}`);
+        }
+
+        // Re-enable button
+        testAllButton.disabled = false;
+        testAllButton.innerHTML = originalHtml;
     }
 
     async testConnection(siteIdentifier, button) {
