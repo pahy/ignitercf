@@ -39,25 +39,26 @@ class TestStatusService implements LoggerAwareInterface
         $this->recordTest($siteIdentifier, 'failed');
     }
 
-    /**
-     * Get last test information for a site
-     *
-     * @return array{timestamp: int, status: string, formattedTime: string}|null
-     */
-    public function getLastTestInfo(string $siteIdentifier): ?array
-    {
-        $data = $this->readTestData($siteIdentifier);
+     /**
+      * Get last test information for a site
+      *
+      * @return array{timestamp: int, status: string, formattedTime: string, tooltipTime: string}|null
+      */
+     public function getLastTestInfo(string $siteIdentifier): ?array
+     {
+         $data = $this->readTestData($siteIdentifier);
 
-        if ($data === null) {
-            return null;
-        }
+         if ($data === null) {
+             return null;
+         }
 
-        return [
-            'timestamp' => $data['timestamp'],
-            'status' => $data['status'],
-            'formattedTime' => $this->formatTimestamp($data['timestamp']),
-        ];
-    }
+         return [
+             'timestamp' => $data['timestamp'],
+             'status' => $data['status'],
+             'formattedTime' => $this->formatTimestamp($data['timestamp']),
+             'tooltipTime' => $this->formatTooltipTime($data['timestamp']),
+         ];
+     }
 
     /**
      * Get last test time formatted for display
@@ -203,5 +204,13 @@ class TestStatusService implements LoggerAwareInterface
 
         // Fallback to date format (after 12 hours)
         return date('H:i:s d.m.Y', $timestamp);
+    }
+
+    /**
+     * Format timestamp for tooltip display
+     */
+    private function formatTooltipTime(int $timestamp): string
+    {
+        return date('H:i d.m.Y', $timestamp);
     }
 }

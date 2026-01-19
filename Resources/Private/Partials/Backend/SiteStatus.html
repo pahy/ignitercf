@@ -88,32 +88,32 @@
                          <div class="ignitercf-connection-result" data-site="{site.identifier}">
                              <f:if condition="{site.lastTestTime}">
                                  <f:then>
-                                     <f:switch expression="{site.lastTestStatus}">
-                                         <f:case value="success">
-                                             <span class="text-success">
-                                                 <core:icon identifier="actions-check-circle" size="small" />
-                                                 <strong>Verbindung erfolgreich</strong>
-                                             </span>
-                                             <br />
-                                             <span class="text-muted" style="font-size: 0.9em;">Letzter Test: {site.lastTestTime}</span>
-                                         </f:case>
-                                         <f:case value="failed">
-                                             <span class="text-danger">
-                                                 <core:icon identifier="actions-close-circle" size="small" />
-                                                 <strong>Verbindung fehlgeschlagen</strong>
-                                             </span>
-                                             <br />
-                                             <span class="text-muted" style="font-size: 0.9em;">Letzter Test: {site.lastTestTime}</span>
-                                         </f:case>
-                                         <f:defaultCase>
-                                             <span class="text-muted">
-                                                 <core:icon identifier="actions-question-circle" size="small" />
-                                                 <strong>Status unbekannt</strong>
-                                             </span>
-                                             <br />
-                                             <span class="text-muted" style="font-size: 0.9em;">Letzter Test: {site.lastTestTime}</span>
-                                         </f:defaultCase>
-                                     </f:switch>
+                                      <f:switch expression="{site.lastTestStatus}">
+                                          <f:case value="success">
+                                              <span class="text-success">
+                                                  <core:icon identifier="actions-check-circle" size="small" />
+                                                  <strong>Verbindung erfolgreich</strong>
+                                              </span>
+                                              <br />
+                                              <span class="text-muted" style="font-size: 0.9em; cursor: help;" title="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
+                                          </f:case>
+                                          <f:case value="failed">
+                                              <span class="text-danger">
+                                                  <core:icon identifier="actions-close-circle" size="small" />
+                                                  <strong>Verbindung fehlgeschlagen</strong>
+                                              </span>
+                                              <br />
+                                              <span class="text-muted" style="font-size: 0.9em; cursor: help;" title="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
+                                          </f:case>
+                                          <f:defaultCase>
+                                              <span class="text-muted">
+                                                  <core:icon identifier="actions-question-circle" size="small" />
+                                                  <strong>Status unbekannt</strong>
+                                              </span>
+                                              <br />
+                                              <span class="text-muted" style="font-size: 0.9em; cursor: help;" title="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
+                                          </f:defaultCase>
+                                      </f:switch>
                                  </f:then>
                                  <f:else>
                                      <span class="text-muted">

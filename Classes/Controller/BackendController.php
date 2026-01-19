@@ -465,6 +465,7 @@ final class BackendController extends ActionController
                 'hints' => $hints,
                 'lastTestTime' => $testInfo['formattedTime'] ?? null,
                 'lastTestStatus' => $testInfo['status'] ?? null,
+                'testTooltipTime' => $testInfo['tooltipTime'] ?? null,
                 'testBadge' => $testBadge,
             ];
         }
