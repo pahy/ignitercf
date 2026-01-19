@@ -378,17 +378,31 @@ final class CloudflareApiService implements LoggerAwareInterface
             $this->cloudflareLogService->logSuccess($logType, $zoneId, $siteIdentifier, $urls, $responseTimeMs);
 
             return true;
-        } catch (\Exception $e) {
+         } catch (\Exception $e) {
             $responseTimeMs = (microtime(true) - $startTime) * 1000;
 
             if ($e instanceof CloudflareException) {
                 throw $e;
             }
 
-            $errorMessage = 'Cloudflare API request failed: ' . $e->getMessage();
+            $errorMessage = 'Cloudflare API request failed: ' . $this->maskSensitiveData($e->getMessage());
             $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
 
             throw new CloudflareException($errorMessage, 0, $e);
         }
+    }
+
+    /**
+     * Mask sensitive data in error messages (API tokens, URLs with parameters)
+     */
+    private function maskSensitiveData(string $message): string
+    {
+        // Mask Bearer tokens
+        $message = preg_replace('/Bearer\s+[a-zA-Z0-9._-]{20,}/', 'Bearer [REDACTED]', $message);
+
+        // Mask URLs containing sensitive parameters
+        $message = preg_replace('/(?:token|api_token|auth)=[a-zA-Z0-9._-]{10,}/i', '$0=[REDACTED]', $message);
+
+        return $message;
     }
 }
