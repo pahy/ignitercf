@@ -13,12 +13,16 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  * Additional field provider for PurgePageTask
  *
  * Compatible with TYPO3 v12 and v13
+ * Supports both constructor injection and fallback
  */
 class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
-    public function __construct(
-        private readonly LanguageService $languageService,
-    ) {}
+    private readonly LanguageService $languageService;
+
+    public function __construct(?LanguageService $languageService = null)
+    {
+        $this->languageService = $languageService ?? $GLOBALS['LANG'];
+    }
     public function getAdditionalFields(
         array &$taskInfo,
         $task,

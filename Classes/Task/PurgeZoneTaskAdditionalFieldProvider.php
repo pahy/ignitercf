@@ -7,6 +7,7 @@ namespace Pahy\Ignitercf\Task;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
@@ -15,14 +16,23 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  * Additional field provider for PurgeZoneTask
  *
  * Compatible with TYPO3 v12 and v13
+ * Supports both constructor injection and container fallback
  */
 class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
+    private readonly SiteFinder $siteFinder;
+    private readonly ConfigurationService $configurationService;
+    private readonly LanguageService $languageService;
+
     public function __construct(
-        private readonly SiteFinder $siteFinder,
-        private readonly ConfigurationService $configurationService,
-        private readonly LanguageService $languageService,
-    ) {}
+        ?SiteFinder $siteFinder = null,
+        ?ConfigurationService $configurationService = null,
+        ?LanguageService $languageService = null,
+    ) {
+        $this->siteFinder = $siteFinder ?? GeneralUtility::makeInstance(SiteFinder::class);
+        $this->configurationService = $configurationService ?? GeneralUtility::getContainer()->get(ConfigurationService::class);
+        $this->languageService = $languageService ?? $GLOBALS['LANG'];
+    }
 
     public function getAdditionalFields(
         array &$taskInfo,

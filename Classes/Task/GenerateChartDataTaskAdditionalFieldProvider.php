@@ -14,12 +14,16 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  *
  * Provides configuration field for the number of days to include in statistics.
  * Compatible with TYPO3 v12 and v13
+ * Supports both constructor injection and fallback
  */
 class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
-    public function __construct(
-        private readonly LanguageService $languageService,
-    ) {}
+    private readonly LanguageService $languageService;
+
+    public function __construct(?LanguageService $languageService = null)
+    {
+        $this->languageService = $languageService ?? $GLOBALS['LANG'];
+    }
     /**
      * @param array<string, mixed> $taskInfo
      * @param AbstractTask|null $task
