@@ -8,6 +8,7 @@ use Pahy\Ignitercf\Service\CloudflareLogService;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
@@ -47,6 +48,32 @@ class PurgeOldLogsTask extends AbstractTask implements LoggerAwareInterface
                 'error' => $e->getMessage(),
             ]);
             return false;
+        }
+    }
+
+    /**
+     * Get additional information for Scheduler UI display
+     *
+     * Shows the configured log retention days when task is listed in Scheduler
+     */
+    public function getAdditionalInformation(): string
+    {
+        try {
+            $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+            $languageService = $GLOBALS['LANG'] ?? GeneralUtility::makeInstance(LanguageService::class);
+
+            $retentionDays = $configurationService->getLogRetentionDays();
+
+            if ($retentionDays <= 0) {
+                return $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeOldLogs.retentionIndefinite') ?: 'Retention: Indefinite';
+            }
+
+            return sprintf(
+                $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeOldLogs.retentionDays') ?: 'Retention: %d days',
+                $retentionDays
+            );
+        } catch (\Exception $e) {
+            return 'Error loading task information';
         }
     }
 }
