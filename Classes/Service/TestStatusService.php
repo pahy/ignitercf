@@ -195,19 +195,13 @@ class TestStatusService implements LoggerAwareInterface
             return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' ago';
         }
 
-        // Less than 1 day
-        if ($diff < 86400) {
+        // Less than 12 hours
+        if ($diff < 43200) {
             $hours = (int)floor($diff / 3600);
             return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
         }
 
-        // Less than 7 days
-        if ($diff < 604800) {
-            $days = (int)floor($diff / 86400);
-            return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
-        }
-
-        // Fallback to date format
-        return date('Y-m-d H:i', $timestamp);
+        // Fallback to date format (after 12 hours)
+        return date('H:i:s d.m.Y', $timestamp);
     }
 }
