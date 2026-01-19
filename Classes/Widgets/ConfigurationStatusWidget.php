@@ -102,10 +102,11 @@ class ConfigurationStatusWidget implements WidgetInterface
 
             // Check Zone ID
             if (empty($this->configurationService->getZoneIdForSite($site))) {
+                $envVarNameZone = 'IGNITERCF_ZONE_' . strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', $identifier));
                 $siteHints[] = [
                     'type' => 'zone_id',
                     'message' => $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.hint.zoneIdMissing'),
-                    'solution' => "config/sites/{$identifier}/config.yaml:\ncloudflare:\n  zoneId: 'your-zone-id'",
+                    'solution' => "Set environment variable: {$envVarNameZone}=your-zone-id\nOr global: IGNITERCF_ZONE_ID=your-zone-id",
                 ];
             }
 
