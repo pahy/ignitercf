@@ -12,7 +12,7 @@ use TYPO3\CMS\Dashboard\Widgets\ChartDataProviderInterface;
  *
  * Provides daily purge statistics for display in a bar chart.
  */
-class PurgeActivityChartDataProvider implements ChartDataProviderInterface
+final class PurgeActivityChartDataProvider implements ChartDataProviderInterface
 {
     public function __construct(
         private readonly ChartDataService $chartDataService

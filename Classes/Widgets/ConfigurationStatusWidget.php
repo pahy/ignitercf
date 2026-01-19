@@ -21,7 +21,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * - Status indicator (green/yellow/red)
  * - Configuration hints for unconfigured sites
  */
-class ConfigurationStatusWidget implements WidgetInterface
+final class ConfigurationStatusWidget implements WidgetInterface
 {
     public function __construct(
         private readonly WidgetConfigurationInterface $configuration,
