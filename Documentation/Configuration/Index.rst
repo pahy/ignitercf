@@ -8,8 +8,8 @@ Configuration
 
 IgniterCF uses a hybrid configuration for multi-domain setups:
 
-*  **Zone ID** - Configured per site in :file:`config.yaml` (different per domain)
-*  **API Token** - Stored in environment variables (secure, never in Git)
+*  **Zone ID** - Environment variable or site :file:`config.yaml` (different per domain)
+*  **API Token** - Environment variable or site :file:`config.yaml` (secure, never in Git)
 *  **Global Settings** - Configured in Extension Configuration (TYPO3 backend)
 
 .. _configuration-cloudflare-token:
@@ -48,37 +48,45 @@ Add to your :file:`.env` file in TYPO3 root:
 
 .. code-block:: bash
 
-   # For site with identifier "main":
+   # Zone ID (site-specific or global):
+   IGNITERCF_ZONE_MAIN=your-zone-id
+   IGNITERCF_ZONE_ID=fallback-zone-id  # Global fallback
+
+   # API Token (site-specific or global):
    IGNITERCF_TOKEN_MAIN=your-cloudflare-api-token
+   IGNITERCF_API_TOKEN=fallback-token  # Global fallback
 
-   # For additional sites (multi-domain):
+   # Multi-domain example:
+   IGNITERCF_ZONE_MAIN=abc123def456
+   IGNITERCF_ZONE_SHOP=xyz789ghi012
+   IGNITERCF_TOKEN_MAIN=token-for-main-zone
    IGNITERCF_TOKEN_SHOP=token-for-shop-zone
-   IGNITERCF_TOKEN_BLOG=token-for-blog-zone
-
-   # OR: Global fallback (single-domain setups):
-   IGNITERCF_API_TOKEN=your-global-token
 
 .. important::
 
    The site identifier is converted to uppercase and hyphens become underscores:
 
-   *  Site ``main`` -> ``IGNITERCF_TOKEN_MAIN``
-   *  Site ``my-shop`` -> ``IGNITERCF_TOKEN_MY_SHOP``
-   *  Site ``blog-2024`` -> ``IGNITERCF_TOKEN_BLOG_2024``
+   *  Site ``main`` -> ``IGNITERCF_ZONE_MAIN`` / ``IGNITERCF_TOKEN_MAIN``
+   *  Site ``my-shop`` -> ``IGNITERCF_ZONE_MY_SHOP`` / ``IGNITERCF_TOKEN_MY_SHOP``
+   *  Site ``blog-2024`` -> ``IGNITERCF_ZONE_BLOG_2024`` / ``IGNITERCF_TOKEN_BLOG_2024``
 
 .. _configuration-site-config:
 
-Step 4: Configure Site
-======================
+Step 4: Configure Site (Alternative to Environment Variables)
+==============================================================
 
-Edit your site's :file:`config/sites/{identifier}/config.yaml`:
+If not using environment variables for Zone ID, edit your site's :file:`config/sites/{identifier}/config.yaml`:
 
 .. code-block:: yaml
 
    # Add at the end of the file:
    cloudflare:
-     zoneId: 'your-cloudflare-zone-id'
+     zoneId: 'your-cloudflare-zone-id'  # Optional if IGNITERCF_ZONE_* is set
      enabled: true
+
+.. note::
+
+   Environment variables take precedence over config.yaml settings.
 
 .. _configuration-multi-domain:
 
@@ -178,14 +186,20 @@ Optional: Create a Cache Rule in Cloudflare as additional protection:
 
 3. Deploy the rule
 
-.. _configuration-api-token-fallback:
+.. _configuration-lookup-order:
 
-API Token Lookup Order
-======================
+Lookup Order
+============
 
-Token lookup order:
+Zone ID lookup order:
 
-1. ``IGNITERCF_TOKEN_{SITE_IDENTIFIER}`` (site-specific)
+1. ``IGNITERCF_ZONE_{SITE_IDENTIFIER}`` (site-specific, e.g. ``IGNITERCF_ZONE_MAIN``)
+2. ``IGNITERCF_ZONE_ID`` (global fallback)
+3. Site config.yaml ``cloudflare.zoneId`` (legacy)
+
+API Token lookup order:
+
+1. ``IGNITERCF_TOKEN_{SITE_IDENTIFIER}`` (site-specific, e.g. ``IGNITERCF_TOKEN_MAIN``)
 2. ``IGNITERCF_API_TOKEN`` (global fallback)
 3. Site config.yaml ``cloudflare.apiToken`` (legacy, supports ``%env()%``)
 

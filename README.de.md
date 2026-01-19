@@ -30,38 +30,42 @@ Automatisches Purgen des Cloudflare-Caches bei Content-Änderungen in TYPO3 v12/
 2. Auf der Übersichtsseite rechts: **Zone ID**
 3. Kopiere diese ID
 
-### 3. Environment Variable setzen
+### 3. Environment-Variablen setzen
 
 In `.env` (TYPO3-Root):
 
 ```env
-# Für Site mit Identifier "main":
+# Zone ID (site-spezifisch oder global):
+IGNITERCF_ZONE_MAIN=deine-zone-id
+IGNITERCF_ZONE_ID=fallback-zone-id  # Globaler Fallback
+
+# API Token (site-spezifisch oder global):
 IGNITERCF_TOKEN_MAIN=dein-cloudflare-api-token
+IGNITERCF_API_TOKEN=fallback-token  # Globaler Fallback
 
-# Bei Multi-Domain (weitere Sites):
+# Multi-Domain Beispiel:
+IGNITERCF_ZONE_MAIN=abc123def456
+IGNITERCF_ZONE_SHOP=xyz789ghi012
+IGNITERCF_TOKEN_MAIN=token-fuer-main-zone
 IGNITERCF_TOKEN_SHOP=token-fuer-shop-zone
-IGNITERCF_TOKEN_BLOG=token-fuer-blog-zone
-
-# ODER: Globaler Fallback (wenn alle Sites dieselbe Zone nutzen):
-IGNITERCF_API_TOKEN=dein-globaler-token
 ```
 
 **Namenskonvention:** Site-Identifier wird uppercase, Bindestriche werden Unterstriche:
-- `main` → `IGNITERCF_TOKEN_MAIN`
-- `my-shop` → `IGNITERCF_TOKEN_MY_SHOP`
+- `main` → `IGNITERCF_ZONE_MAIN` / `IGNITERCF_TOKEN_MAIN`
+- `my-shop` → `IGNITERCF_ZONE_MY_SHOP` / `IGNITERCF_TOKEN_MY_SHOP`
 
-### 4. Site Configuration erweitern
+### 4. Site Configuration erweitern (Alternative zu Environment-Variablen)
 
-Bearbeite `config/sites/{site-identifier}/config.yaml`:
+Falls du keine Environment-Variablen für die Zone ID verwendest, bearbeite `config/sites/{site-identifier}/config.yaml`:
 
 ```yaml
 # Am Ende der Datei hinzufügen:
 cloudflare:
-  zoneId: 'deine-zone-id-hier'
+  zoneId: 'deine-zone-id-hier'  # Optional wenn IGNITERCF_ZONE_* gesetzt ist
   enabled: true
 ```
 
-**Beispiel für Multi-Domain:**
+**Beispiel für Multi-Domain (config.yaml):**
 
 ```yaml
 # config/sites/main/config.yaml
@@ -69,11 +73,13 @@ cloudflare:
   zoneId: 'abc123def456'
   enabled: true
 
-# config/sites/shop/config.yaml  
+# config/sites/shop/config.yaml
 cloudflare:
   zoneId: 'xyz789ghi012'  # Andere Zone!
   enabled: true
 ```
+
+> **Hinweis:** Environment-Variablen haben Vorrang vor config.yaml Einstellungen.
 
 ### 5. Extension Configuration (optional)
 
@@ -205,10 +211,16 @@ Log: `var/log/typo3_ignitercf_*.log`
 
 | Was | Wo | Beispiel |
 |-----|-----|----------|
-| Zone ID | Site config.yaml | `cloudflare.zoneId: 'abc123'` |
+| Zone ID | Environment Variable | `IGNITERCF_ZONE_MAIN=abc123` |
+| Zone ID (Fallback) | Site config.yaml | `cloudflare.zoneId: 'abc123'` |
 | API Token | Environment Variable | `IGNITERCF_TOKEN_MAIN=...` |
 | Globale Settings | Extension Configuration | Backend → Settings |
 | Site aktivieren/deaktivieren | Site config.yaml | `cloudflare.enabled: false` |
+
+**Lookup-Reihenfolge (Zone ID & API Token):**
+1. `IGNITERCF_ZONE_{SITE}` / `IGNITERCF_TOKEN_{SITE}` (site-spezifisch)
+2. `IGNITERCF_ZONE_ID` / `IGNITERCF_API_TOKEN` (globaler Fallback)
+3. Site config.yaml (Legacy)
 
 ---
 

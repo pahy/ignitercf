@@ -8,8 +8,8 @@ Konfiguration
 
 IgniterCF nutzt eine hybride Konfiguration für Multi-Domain Setups:
 
-*  **Zone ID** - Pro Site in :file:`config.yaml` konfiguriert (unterschiedlich pro Domain)
-*  **API Token** - In Environment-Variablen gespeichert (sicher, nie in Git)
+*  **Zone ID** - Environment-Variable oder Site :file:`config.yaml` (unterschiedlich pro Domain)
+*  **API Token** - Environment-Variable oder Site :file:`config.yaml` (sicher, nie in Git)
 *  **Globale Einstellungen** - In der Extension Configuration konfiguriert (TYPO3 Backend)
 
 .. _configuration-cloudflare-token:
@@ -48,37 +48,45 @@ Füge zu deiner :file:`.env` Datei im TYPO3-Root hinzu:
 
 .. code-block:: bash
 
-   # Für Site mit Identifier "main":
+   # Zone ID (site-spezifisch oder global):
+   IGNITERCF_ZONE_MAIN=deine-zone-id
+   IGNITERCF_ZONE_ID=fallback-zone-id  # Globaler Fallback
+
+   # API Token (site-spezifisch oder global):
    IGNITERCF_TOKEN_MAIN=dein-cloudflare-api-token
+   IGNITERCF_API_TOKEN=fallback-token  # Globaler Fallback
 
-   # Für weitere Sites (Multi-Domain):
+   # Multi-Domain Beispiel:
+   IGNITERCF_ZONE_MAIN=abc123def456
+   IGNITERCF_ZONE_SHOP=xyz789ghi012
+   IGNITERCF_TOKEN_MAIN=token-fuer-main-zone
    IGNITERCF_TOKEN_SHOP=token-fuer-shop-zone
-   IGNITERCF_TOKEN_BLOG=token-fuer-blog-zone
-
-   # ODER: Globaler Fallback (Single-Domain Setups):
-   IGNITERCF_API_TOKEN=dein-globaler-token
 
 .. important::
 
    Der Site-Identifier wird in Großbuchstaben umgewandelt und Bindestriche werden zu Unterstrichen:
 
-   *  Site ``main`` -> ``IGNITERCF_TOKEN_MAIN``
-   *  Site ``my-shop`` -> ``IGNITERCF_TOKEN_MY_SHOP``
-   *  Site ``blog-2024`` -> ``IGNITERCF_TOKEN_BLOG_2024``
+   *  Site ``main`` -> ``IGNITERCF_ZONE_MAIN`` / ``IGNITERCF_TOKEN_MAIN``
+   *  Site ``my-shop`` -> ``IGNITERCF_ZONE_MY_SHOP`` / ``IGNITERCF_TOKEN_MY_SHOP``
+   *  Site ``blog-2024`` -> ``IGNITERCF_ZONE_BLOG_2024`` / ``IGNITERCF_TOKEN_BLOG_2024``
 
 .. _configuration-site-config:
 
-Schritt 4: Site konfigurieren
-=============================
+Schritt 4: Site konfigurieren (Alternative zu Environment-Variablen)
+=====================================================================
 
-Bearbeite die :file:`config/sites/{identifier}/config.yaml` deiner Site:
+Falls du keine Environment-Variablen für die Zone ID verwendest, bearbeite die :file:`config/sites/{identifier}/config.yaml` deiner Site:
 
 .. code-block:: yaml
 
    # Am Ende der Datei hinzufügen:
    cloudflare:
-     zoneId: 'deine-cloudflare-zone-id'
+     zoneId: 'deine-cloudflare-zone-id'  # Optional wenn IGNITERCF_ZONE_* gesetzt ist
      enabled: true
+
+.. note::
+
+   Environment-Variablen haben Vorrang vor config.yaml Einstellungen.
 
 .. _configuration-multi-domain:
 
@@ -178,13 +186,19 @@ Optional: Erstelle eine Cache Rule in Cloudflare als zusätzlichen Schutz:
 
 3. Rule deployen
 
-.. _configuration-api-token-fallback:
+.. _configuration-lookup-order:
 
-API Token Lookup-Reihenfolge
-============================
+Lookup-Reihenfolge
+==================
 
-Token-Lookup-Reihenfolge:
+Zone ID Lookup-Reihenfolge:
 
-1. ``IGNITERCF_TOKEN_{SITE_IDENTIFIER}`` (site-spezifisch)
+1. ``IGNITERCF_ZONE_{SITE_IDENTIFIER}`` (site-spezifisch, z.B. ``IGNITERCF_ZONE_MAIN``)
+2. ``IGNITERCF_ZONE_ID`` (globaler Fallback)
+3. Site config.yaml ``cloudflare.zoneId`` (Legacy)
+
+API Token Lookup-Reihenfolge:
+
+1. ``IGNITERCF_TOKEN_{SITE_IDENTIFIER}`` (site-spezifisch, z.B. ``IGNITERCF_TOKEN_MAIN``)
 2. ``IGNITERCF_API_TOKEN`` (globaler Fallback)
 3. Site config.yaml ``cloudflare.apiToken`` (Legacy, unterstützt ``%env()%``)
