@@ -278,8 +278,15 @@
                 <source>No</source>
             </trans-unit>
 
-            <!-- Scheduler Tasks -->
-            <trans-unit id="task.purgeAll.title">
+             <!-- Scheduler Tasks -->
+             <trans-unit id="task.testConnection.title">
+                 <source>IgniterCF: Test Cloudflare Connections</source>
+             </trans-unit>
+             <trans-unit id="task.testConnection.description">
+                 <source>Tests the API token validity and zone access for all configured sites, records the status</source>
+             </trans-unit>
+
+             <trans-unit id="task.purgeAll.title">
                 <source>IgniterCF: Purge All Zones</source>
             </trans-unit>
             <trans-unit id="task.purgeAll.description">

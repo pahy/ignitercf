@@ -38,10 +38,16 @@ defined('TYPO3') || die();
         'description' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeOldLogs.description',
     ];
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\Pahy\Ignitercf\Task\GenerateChartDataTask::class] = [
-        'extension' => 'ignitercf',
-        'title' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.title',
-        'description' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.description',
-        'additionalFields' => \Pahy\Ignitercf\Task\GenerateChartDataTaskAdditionalFieldProvider::class,
-    ];
-})();
+     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\Pahy\Ignitercf\Task\GenerateChartDataTask::class] = [
+         'extension' => 'ignitercf',
+         'title' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.title',
+         'description' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.description',
+         'additionalFields' => \Pahy\Ignitercf\Task\GenerateChartDataTaskAdditionalFieldProvider::class,
+     ];
+
+     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\Pahy\Ignitercf\Task\TestConnectionTask::class] = [
+         'extension' => 'ignitercf',
+         'title' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.testConnection.title',
+         'description' => 'LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.testConnection.description',
+     ];
+ })();
