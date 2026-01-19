@@ -95,7 +95,7 @@
                                                   <strong>Verbindung erfolgreich</strong>
                                               </span>
                                               <br />
-                                              <span class="text-muted" style="font-size: 0.9em; cursor: help;" title="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
+                                              <span class="text-muted ignitercf-test-time" style="font-size: 0.9em;" data-tooltip="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
                                           </f:case>
                                           <f:case value="failed">
                                               <span class="text-danger">
@@ -103,7 +103,7 @@
                                                   <strong>Verbindung fehlgeschlagen</strong>
                                               </span>
                                               <br />
-                                              <span class="text-muted" style="font-size: 0.9em; cursor: help;" title="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
+                                              <span class="text-muted ignitercf-test-time" style="font-size: 0.9em;" data-tooltip="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
                                           </f:case>
                                           <f:defaultCase>
                                               <span class="text-muted">
@@ -111,7 +111,7 @@
                                                   <strong>Status unbekannt</strong>
                                               </span>
                                               <br />
-                                              <span class="text-muted" style="font-size: 0.9em; cursor: help;" title="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
+                                              <span class="text-muted ignitercf-test-time" style="font-size: 0.9em;" data-tooltip="{site.testTooltipTime}">Letzter Test: {site.lastTestTime}</span>
                                           </f:defaultCase>
                                       </f:switch>
                                  </f:then>

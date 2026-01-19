@@ -393,3 +393,43 @@
 .ignitercf-footer-credits a:hover {
     color: #666;
 }
+
+/* Tooltip Styling */
+[title] {
+    position: relative;
+}
+
+/* Tooltip Container */
+.ignitercf-test-time {
+    position: relative;
+    border-bottom: 1px dotted #999;
+    cursor: default;
+}
+
+.ignitercf-test-time:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: normal;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ignitercf-test-time:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    z-index: 1000;
+}
