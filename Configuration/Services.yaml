@@ -7,6 +7,20 @@ services:
   Pahy\Ignitercf\:
     resource: '../Classes/*'
 
+  # AJAX Controller (must be public for route dispatcher)
+  Pahy\Ignitercf\Controller\CacheController:
+    public: true
+
+  # Scheduler Task Additional Field Providers (must be public for scheduler instantiation)
+  Pahy\Ignitercf\Task\PurgeZoneTaskAdditionalFieldProvider:
+    public: true
+
+  Pahy\Ignitercf\Task\PurgePageTaskAdditionalFieldProvider:
+    public: true
+
+  Pahy\Ignitercf\Task\GenerateChartDataTaskAdditionalFieldProvider:
+    public: true
+
   # Context-Menu Provider registration
   Pahy\Ignitercf\ContextMenu\ItemProvider:
     tags:

@@ -17,6 +17,9 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  */
 class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
+    public function __construct(
+        private readonly LanguageService $languageService,
+    ) {}
     /**
      * @param array<string, mixed> $taskInfo
      * @param AbstractTask|null $task
@@ -64,14 +67,14 @@ class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFie
     {
         $days = (int)($submittedData['ignitercf_days'] ?? 0);
 
-        if ($days < 1 || $days > 365) {
-            $this->addMessage(
-                $this->getLanguageService()->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.days.invalid') ?: 'Days must be between 1 and 365',
-                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
-            );
+         if ($days < 1 || $days > 365) {
+             $this->addMessage(
+                 $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.generateChartData.days.invalid') ?: 'Days must be between 1 and 365',
+                 \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+             );
 
-            return false;
-        }
+             return false;
+         }
 
         return true;
     }
@@ -85,11 +88,6 @@ class GenerateChartDataTaskAdditionalFieldProvider extends AbstractAdditionalFie
         if ($task instanceof GenerateChartDataTask) {
             $task->days = (int)($submittedData['ignitercf_days'] ?? 7);
         }
-    }
-
-    private function getLanguageService(): LanguageService
-    {
-        return $GLOBALS['LANG'];
     }
 
     /**

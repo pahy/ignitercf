@@ -16,6 +16,9 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  */
 class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
+    public function __construct(
+        private readonly LanguageService $languageService,
+    ) {}
     public function getAdditionalFields(
         array &$taskInfo,
         $task,
@@ -65,13 +68,13 @@ class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
         $pageUid = (int)($submittedData['pageUid'] ?? 0);
         $languageUid = (int)($submittedData['languageUid'] ?? -1);
 
-        if ($pageUid <= 0) {
-            $this->addMessage(
-                $this->getLanguageService()->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgePage.pageUidInvalid'),
-                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
-            );
-            return false;
-        }
+         if ($pageUid <= 0) {
+             $this->addMessage(
+                 $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgePage.pageUidInvalid'),
+                 \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+             );
+             return false;
+         }
 
         $submittedData['pageUid'] = $pageUid;
         $submittedData['languageUid'] = $languageUid;
@@ -87,11 +90,6 @@ class PurgePageTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
             $task->pageUid = (int)$submittedData['pageUid'];
             $task->languageUid = (int)$submittedData['languageUid'];
         }
-    }
-
-    private function getLanguageService(): LanguageService
-    {
-        return $GLOBALS['LANG'];
     }
 
     /**

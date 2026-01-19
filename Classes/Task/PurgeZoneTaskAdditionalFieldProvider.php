@@ -7,7 +7,6 @@ namespace Pahy\Ignitercf\Task;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Scheduler\AbstractAdditionalFieldProvider;
 use TYPO3\CMS\Scheduler\Controller\SchedulerModuleController;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
@@ -19,6 +18,12 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  */
 class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvider
 {
+    public function __construct(
+        private readonly SiteFinder $siteFinder,
+        private readonly ConfigurationService $configurationService,
+        private readonly LanguageService $languageService,
+    ) {}
+
     public function getAdditionalFields(
         array &$taskInfo,
         $task,
@@ -53,13 +58,13 @@ class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
     ): bool {
         $submittedData['siteIdentifier'] = trim($submittedData['siteIdentifier'] ?? '');
 
-        if (empty($submittedData['siteIdentifier'])) {
-            $this->addMessage(
-                $this->getLanguageService()->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.siteRequired'),
-                \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
-            );
-            return false;
-        }
+         if (empty($submittedData['siteIdentifier'])) {
+             $this->addMessage(
+                 $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.siteRequired'),
+                 \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR
+             );
+             return false;
+         }
 
         return true;
     }
@@ -75,18 +80,14 @@ class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
 
     private function buildSiteOptions(string $selectedIdentifier): string
     {
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
-        $languageService = $this->getLanguageService();
-
-        $selectSiteLabel = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.selectSite');
-        $notConfiguredLabel = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.notConfigured');
+        $selectSiteLabel = $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.selectSite');
+        $notConfiguredLabel = $this->languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:task.purgeZone.notConfigured');
 
         $options = '<option value="">' . htmlspecialchars($selectSiteLabel) . '</option>';
 
-        foreach ($siteFinder->getAllSites() as $site) {
+        foreach ($this->siteFinder->getAllSites() as $site) {
             $identifier = $site->getIdentifier();
-            $configured = $configurationService->isSiteConfigured($site);
+            $configured = $this->configurationService->isSiteConfigured($site);
             $label = $identifier . ($configured ? '' : ' ' . $notConfiguredLabel);
             $selected = $identifier === $selectedIdentifier ? ' selected="selected"' : '';
             $disabled = $configured ? '' : ' disabled="disabled"';
@@ -101,11 +102,6 @@ class PurgeZoneTaskAdditionalFieldProvider extends AbstractAdditionalFieldProvid
         }
 
         return $options;
-    }
-
-    private function getLanguageService(): LanguageService
-    {
-        return $GLOBALS['LANG'];
     }
 
     /**
