@@ -463,7 +463,7 @@ final class BackendController extends ActionController
                 'isConfigured' => $isConfigured,
                 'issues' => $issues,
                 'hints' => $hints,
-                'lastTestTime' => $testInfo['formattedTime'] ?? 'Never tested',
+                'lastTestTime' => $testInfo['formattedTime'] ?? null,
                 'lastTestStatus' => $testInfo['status'] ?? null,
                 'testBadge' => $testBadge,
             ];

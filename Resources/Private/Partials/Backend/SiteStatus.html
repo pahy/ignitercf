@@ -52,10 +52,10 @@
                  <div class="row">
                      <div class="col-md-6">
                          <ul class="ignitercf-checklist">
-                              <f:if condition="{site.lastTestTime}">
-                                  <f:then>
-                                      <li>
-                                          <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.lastTest" />:
+                              <li>
+                                  <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.lastTest" />:
+                                  <f:if condition="{site.lastTestTime}">
+                                      <f:then>
                                           <f:switch expression="{site.lastTestStatus}">
                                               <f:case value="success">
                                                   <span class="badge" style="background-color: #28a745; color: #fff;">
@@ -74,17 +74,14 @@
                                               </f:defaultCase>
                                           </f:switch>
                                           <span class="text-muted" style="margin-left: 0.5rem; font-size: 0.9em;">{site.lastTestTime}</span>
-                                      </li>
-                                  </f:then>
-                                  <f:else>
-                                      <li>
-                                          <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.lastTest" />:
+                                      </f:then>
+                                      <f:else>
                                           <span class="badge" style="background-color: #6c757d; color: #fff;">
                                               <core:icon identifier="actions-question-circle" size="small" /> <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.lastTestNever" />
                                           </span>
-                                      </li>
-                                  </f:else>
-                              </f:if>
+                                      </f:else>
+                                  </f:if>
+                              </li>
                              <li>
                                  <span class="text-success"><core:icon identifier="actions-check" size="small" /></span>
                                  <f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.config.zoneId" />: <code>{site.zoneId}</code>
