@@ -25,6 +25,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 final class ConfigurationStatusWidget implements WidgetInterface
 {
     public function __construct(
+        private readonly WidgetConfigurationInterface $configuration,
         private readonly ChartDataService $chartDataService,
         private readonly ConfigurationService $configurationService,
         private readonly SiteFinder $siteFinder,
