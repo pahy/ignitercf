@@ -32,13 +32,15 @@ final class CloudflareLogService implements LoggerAwareInterface
      * @param string $siteIdentifier TYPO3 site identifier
      * @param array<string> $urls Purged URLs (empty for purge_everything)
      * @param float $responseTimeMs Response time in milliseconds
+     * @param array<int> $pageIds Page UIDs that were purged (empty for purge_everything)
      */
     public function logSuccess(
         string $type,
         string $zoneId,
         string $siteIdentifier,
         array $urls,
-        float $responseTimeMs
+        float $responseTimeMs,
+        array $pageIds = []
     ): void {
         if (!$this->configurationService->shouldLogAllCalls()) {
             return;
@@ -51,6 +53,7 @@ final class CloudflareLogService implements LoggerAwareInterface
             'site' => $siteIdentifier,
             'urls' => $urls,
             'urls_count' => count($urls),
+            'page_ids' => array_values(array_unique($pageIds)),
             'success' => true,
             'response_time_ms' => round($responseTimeMs, 2),
         ]);
@@ -65,6 +68,7 @@ final class CloudflareLogService implements LoggerAwareInterface
      * @param array<string> $urls Attempted URLs (empty for purge_everything)
      * @param string $errorMessage Error message
      * @param float $responseTimeMs Response time in milliseconds
+     * @param array<int> $pageIds Page UIDs that were attempted (empty for purge_everything)
      */
     public function logError(
         string $type,
@@ -72,7 +76,8 @@ final class CloudflareLogService implements LoggerAwareInterface
         string $siteIdentifier,
         array $urls,
         string $errorMessage,
-        float $responseTimeMs
+        float $responseTimeMs,
+        array $pageIds = []
     ): void {
         if (!$this->configurationService->shouldLogErrors()) {
             return;
@@ -85,6 +90,7 @@ final class CloudflareLogService implements LoggerAwareInterface
             'site' => $siteIdentifier,
             'urls' => $urls,
             'urls_count' => count($urls),
+            'page_ids' => array_values(array_unique($pageIds)),
             'success' => false,
             'error' => $errorMessage,
             'response_time_ms' => round($responseTimeMs, 2),

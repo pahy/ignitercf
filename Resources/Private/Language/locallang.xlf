@@ -76,6 +76,12 @@
             <trans-unit id="module.log.site">
                 <source>Site</source>
             </trans-unit>
+            <trans-unit id="module.log.pages">
+                <source>Page(s)</source>
+            </trans-unit>
+            <trans-unit id="module.log.allPages">
+                <source>All pages</source>
+            </trans-unit>
             <trans-unit id="module.log.urls">
                 <source>URLs</source>
             </trans-unit>

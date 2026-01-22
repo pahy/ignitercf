@@ -33,10 +33,11 @@ final class CloudflareApiService implements LoggerAwareInterface
      *
      * @param array<string> $urls URLs to purge
      * @param Site $site Site configuration containing Cloudflare settings
+     * @param array<int> $pageIds Page UIDs being purged (for logging)
      * @return bool True on success
      * @throws CloudflareException On API errors
      */
-    public function purgeUrls(array $urls, Site $site): bool
+    public function purgeUrls(array $urls, Site $site, array $pageIds = []): bool
     {
         if (empty($urls)) {
             return true;
@@ -58,7 +59,8 @@ final class CloudflareApiService implements LoggerAwareInterface
             body: $body,
             logType: 'purge_urls',
             siteIdentifier: $site->getIdentifier(),
-            urls: $urls
+            urls: $urls,
+            pageIds: $pageIds
         );
     }
 
@@ -327,6 +329,7 @@ final class CloudflareApiService implements LoggerAwareInterface
      * @param string $logType Log type (purge_urls, purge_everything)
      * @param string $siteIdentifier Site identifier for logging
      * @param array<string> $urls URLs for logging
+     * @param array<int> $pageIds Page UIDs for logging
      * @return bool True on success
      * @throws CloudflareException On API errors
      */
@@ -336,7 +339,8 @@ final class CloudflareApiService implements LoggerAwareInterface
         string $body,
         string $logType,
         string $siteIdentifier,
-        array $urls
+        array $urls,
+        array $pageIds = []
     ): bool {
         $url = sprintf(self::API_ENDPOINT, $zoneId);
 
@@ -359,7 +363,7 @@ final class CloudflareApiService implements LoggerAwareInterface
 
             if ($statusCode !== 200) {
                 $errorMessage = sprintf('API request failed with status %d', $statusCode);
-                $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
+                $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs, $pageIds);
                 throw CloudflareException::fromApiError(
                     $errorMessage,
                     $statusCode,
@@ -377,7 +381,7 @@ final class CloudflareApiService implements LoggerAwareInterface
                 $errorMessage = $data === null
                     ? 'Invalid JSON response from Cloudflare API'
                     : 'API returned success=false: ' . json_encode($errors);
-                $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
+                $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs, $pageIds);
                 throw CloudflareException::fromApiError(
                     $errorMessage,
                     $statusCode,
@@ -389,7 +393,7 @@ final class CloudflareApiService implements LoggerAwareInterface
             }
 
             // Log successful request
-            $this->cloudflareLogService->logSuccess($logType, $zoneId, $siteIdentifier, $urls, $responseTimeMs);
+            $this->cloudflareLogService->logSuccess($logType, $zoneId, $siteIdentifier, $urls, $responseTimeMs, $pageIds);
 
             return true;
          } catch (\Exception $e) {
@@ -400,7 +404,7 @@ final class CloudflareApiService implements LoggerAwareInterface
             }
 
             $errorMessage = 'Cloudflare API request failed: ' . $this->maskSensitiveData($e->getMessage());
-            $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
+            $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs, $pageIds);
 
             throw CloudflareException::fromApiError(
                 $errorMessage,

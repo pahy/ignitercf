@@ -20,6 +20,7 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * Backend module controller for IgniterCF administration
@@ -56,8 +57,9 @@ final class BackendController extends ActionController
         $statisticsDays = $this->getUserSetting('statisticsDays');
         $chartDays = $this->getUserSetting('chartDays');
 
-        // Get recent log entries
+        // Get recent log entries and enrich with page titles
         $recentLogs = $this->cloudflareLogService->getRecentEntries(20);
+        $recentLogs = $this->enrichLogsWithPageTitles($recentLogs);
 
         // Get statistics for selected period
         $statistics = $this->cloudflareLogService->getStatistics($statisticsDays);
@@ -487,5 +489,46 @@ final class BackendController extends ActionController
         }
 
         return !empty($sitesStatus);
+    }
+
+    /**
+     * Enrich log entries with page titles
+     *
+     * @param array<int, array<string, mixed>> $logs Log entries
+     * @return array<int, array<string, mixed>> Enriched log entries
+     */
+    private function enrichLogsWithPageTitles(array $logs): array
+    {
+        $languageService = $this->getLanguageService();
+
+        foreach ($logs as &$log) {
+            // For purge_everything, show "All pages"
+            if (($log['type'] ?? '') === 'purge_everything') {
+                $log['pages_display'] = $languageService->sL('LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.allPages');
+                continue;
+            }
+
+            // For purge_urls, get page titles from page_ids
+            $pageIds = $log['page_ids'] ?? [];
+
+            if (empty($pageIds)) {
+                $log['pages_display'] = '–';
+                continue;
+            }
+
+            $pageTitles = [];
+            foreach ($pageIds as $pageId) {
+                $pageRecord = BackendUtility::getRecord('pages', (int)$pageId, 'uid,title');
+                if ($pageRecord) {
+                    $pageTitles[] = $pageRecord['title'] . ' [' . $pageRecord['uid'] . ']';
+                } else {
+                    $pageTitles[] = '[' . $pageId . ']';
+                }
+            }
+
+            $log['pages_display'] = implode(', ', $pageTitles);
+        }
+
+        return $logs;
     }
 }

@@ -206,6 +206,7 @@
                                     <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.timestamp" /></th>
                                     <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.type" /></th>
                                     <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.site" /></th>
+                                    <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.pages" /></th>
                                     <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.urls" /></th>
                                     <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.status" /></th>
                                     <th><f:translate key="LLL:EXT:ignitercf/Resources/Private/Language/locallang.xlf:module.log.response" /></th>
@@ -226,6 +227,12 @@
                                             </f:if>
                                         </td>
                                         <td><strong>{log.site}</strong></td>
+                                        <td>
+                                            <f:if condition="{log.pages_display}">
+                                                <f:then><small>{log.pages_display}</small></f:then>
+                                                <f:else>–</f:else>
+                                            </f:if>
+                                        </td>
                                         <td>
                                             <f:if condition="{log.urls_count}">
                                                 <f:then>{log.urls_count}</f:then>

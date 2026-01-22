@@ -64,6 +64,7 @@ final class CacheClearService implements LoggerAwareInterface
                     if (!isset($urlsByZone[$zoneId])) {
                         $urlsByZone[$zoneId] = [
                             'urls' => [],
+                            'page_ids' => [],
                             'site' => $site,
                         ];
                     }
@@ -71,6 +72,11 @@ final class CacheClearService implements LoggerAwareInterface
                     // Avoid duplicates
                     if (!in_array($url, $urlsByZone[$zoneId]['urls'], true)) {
                         $urlsByZone[$zoneId]['urls'][] = $url;
+                    }
+
+                    // Track page IDs (avoid duplicates)
+                    if (!in_array($pageId, $urlsByZone[$zoneId]['page_ids'], true)) {
+                        $urlsByZone[$zoneId]['page_ids'][] = $pageId;
                     }
                 }
             }
@@ -161,7 +167,7 @@ final class CacheClearService implements LoggerAwareInterface
     /**
      * Internal: Purge URLs grouped by zone
      *
-     * @param array<string, array{urls: array<string>, site: \TYPO3\CMS\Core\Site\Entity\Site}> $urlsByZone
+     * @param array<string, array{urls: array<string>, page_ids: array<int>, site: \TYPO3\CMS\Core\Site\Entity\Site}> $urlsByZone
      * @return PurgeResult Result of the purge operation
      */
     private function purgeUrlsByZone(array $urlsByZone): PurgeResult
@@ -174,6 +180,7 @@ final class CacheClearService implements LoggerAwareInterface
 
         foreach ($urlsByZone as $zoneId => $data) {
             $urls = $data['urls'];
+            $pageIds = $data['page_ids'] ?? [];
             $site = $data['site'];
 
             // Split into batches of 30 URLs
@@ -181,13 +188,14 @@ final class CacheClearService implements LoggerAwareInterface
 
             foreach ($batches as $batch) {
                 try {
-                    $success = $this->cloudflareApiService->purgeUrls($batch, $site);
+                    $success = $this->cloudflareApiService->purgeUrls($batch, $site, $pageIds);
 
                     if ($success) {
                         $this->logger?->info('Cloudflare cache purged', [
                             'zone_id' => $zoneId,
                             'urls_count' => count($batch),
                             'urls' => $batch,
+                            'page_ids' => $pageIds,
                         ]);
 
                         $results[] = PurgeResult::success(count($batch), $batch, $site->getIdentifier());
@@ -196,6 +204,7 @@ final class CacheClearService implements LoggerAwareInterface
                     $this->logger?->error('Cloudflare purge failed', [
                         'zone_id' => $zoneId,
                         'urls' => $batch,
+                        'page_ids' => $pageIds,
                         'error' => $e->getMessage(),
                     ]);
 
