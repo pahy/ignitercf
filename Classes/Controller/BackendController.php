@@ -492,7 +492,7 @@ final class BackendController extends ActionController
     }
 
     /**
-     * Enrich log entries with page titles
+     * Enrich log entries with page info (title, ID, paths)
      *
      * @param array<int, array<string, mixed>> $logs Log entries
      * @return array<int, array<string, mixed>> Enriched log entries
@@ -508,25 +508,44 @@ final class BackendController extends ActionController
                 continue;
             }
 
-            // For purge_urls, get page titles from page_ids
+            // For purge_urls, get page info from page_ids and urls
             $pageIds = $log['page_ids'] ?? [];
+            $urls = $log['urls'] ?? [];
 
-            if (empty($pageIds)) {
+            if (empty($pageIds) && empty($urls)) {
                 $log['pages_display'] = '–';
                 continue;
             }
 
-            $pageTitles = [];
+            // Build page info display
+            $pageInfoParts = [];
+
+            // Get page title for each page ID
             foreach ($pageIds as $pageId) {
                 $pageRecord = BackendUtility::getRecord('pages', (int)$pageId, 'uid,title');
                 if ($pageRecord) {
-                    $pageTitles[] = $pageRecord['title'] . ' [' . $pageRecord['uid'] . ']';
+                    $pageInfoParts[] = $pageRecord['title'] . ' [' . $pageRecord['uid'] . ']';
                 } else {
-                    $pageTitles[] = '[' . $pageId . ']';
+                    $pageInfoParts[] = '[' . $pageId . ']';
                 }
             }
 
-            $log['pages_display'] = implode(', ', $pageTitles);
+            // Extract paths from URLs
+            $paths = [];
+            foreach ($urls as $url) {
+                $parsedUrl = parse_url($url);
+                if (isset($parsedUrl['path'])) {
+                    $paths[] = $parsedUrl['path'];
+                }
+            }
+
+            // Combine: "Title [ID] /path1, /path2, ..."
+            $display = implode(', ', $pageInfoParts);
+            if (!empty($paths)) {
+                $display .= ' ' . implode(', ', $paths);
+            }
+
+            $log['pages_display'] = $display;
         }
 
         return $logs;
