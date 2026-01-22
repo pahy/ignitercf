@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Task;
 
 use Pahy\Ignitercf\Service\CloudflareApiService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\EmailNotificationService;
 use Pahy\Ignitercf\Service\TestStatusService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -124,7 +125,23 @@ class TestConnectionTask extends AbstractTask implements LoggerAwareInterface
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
             ]);
+            $this->sendErrorNotification($e);
             return false;
+        }
+    }
+
+    /**
+     * Send error notification email
+     */
+    private function sendErrorNotification(\Throwable $exception): void
+    {
+        try {
+            $emailService = GeneralUtility::getContainer()->get(EmailNotificationService::class);
+            $emailService->notifyTaskError('TestConnectionTask', $exception);
+        } catch (\Exception $e) {
+            $this->logger?->warning('IgniterCF: Could not send error notification', [
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }

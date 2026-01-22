@@ -19,6 +19,15 @@ logLevel = errors_only
 # cat=advanced/logging/30; type=int+; label=Log Retention Days:Number of days to keep log entries. Older entries are deleted by the cleanup scheduler task. Set to 0 to keep logs indefinitely.
 logRetentionDays = 30
 
+# cat=advanced/notification/40; type=string; label=Error Notification Emails:Comma-separated list of email addresses to notify when scheduler tasks fail. Leave empty to disable email notifications.
+errorNotificationEmails =
+
+# cat=advanced/notification/50; type=string; label=Notification Sender Email:Email address used as sender for error notifications. Leave empty to use system default.
+errorNotificationSenderEmail =
+
+# cat=advanced/notification/60; type=string; label=Notification Sender Name:Name used as sender for error notifications.
+errorNotificationSenderName = IgniterCF
+
 # ---------------------------------------------------------------------------------
 # IMPORTANT: Zone ID and API Token are configured per-site, not here!
 # ---------------------------------------------------------------------------------

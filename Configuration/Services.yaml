@@ -26,6 +26,10 @@ services:
   Pahy\Ignitercf\Service\NotificationService:
     public: true
 
+  # Required for Scheduler Tasks error email notifications
+  Pahy\Ignitercf\Service\EmailNotificationService:
+    public: true
+
   Pahy\Ignitercf\Service\TestStatusService:
     public: true
 

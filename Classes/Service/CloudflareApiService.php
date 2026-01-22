@@ -358,9 +358,16 @@ final class CloudflareApiService implements LoggerAwareInterface
             $responseBody = $response->getBody()->getContents();
 
             if ($statusCode !== 200) {
-                $errorMessage = sprintf('API request failed with status %d: %s', $statusCode, $responseBody);
+                $errorMessage = sprintf('API request failed with status %d', $statusCode);
                 $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
-                throw new CloudflareException($errorMessage);
+                throw CloudflareException::fromApiError(
+                    $errorMessage,
+                    $statusCode,
+                    $responseBody,
+                    $zoneId,
+                    $siteIdentifier,
+                    $urls
+                );
             }
 
             $data = json_decode($responseBody, true);
@@ -371,7 +378,14 @@ final class CloudflareApiService implements LoggerAwareInterface
                     ? 'Invalid JSON response from Cloudflare API'
                     : 'API returned success=false: ' . json_encode($errors);
                 $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
-                throw new CloudflareException($errorMessage);
+                throw CloudflareException::fromApiError(
+                    $errorMessage,
+                    $statusCode,
+                    $responseBody,
+                    $zoneId,
+                    $siteIdentifier,
+                    $urls
+                );
             }
 
             // Log successful request
@@ -388,7 +402,15 @@ final class CloudflareApiService implements LoggerAwareInterface
             $errorMessage = 'Cloudflare API request failed: ' . $this->maskSensitiveData($e->getMessage());
             $this->cloudflareLogService->logError($logType, $zoneId, $siteIdentifier, $urls, $errorMessage, $responseTimeMs);
 
-            throw new CloudflareException($errorMessage, 0, $e);
+            throw CloudflareException::fromApiError(
+                $errorMessage,
+                0,
+                '',
+                $zoneId,
+                $siteIdentifier,
+                $urls,
+                $e
+            );
         }
     }
 

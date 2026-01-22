@@ -50,6 +50,9 @@ final class ConfigurationService
         'debug' => 'IGNITERCF_DEBUG',
         'logLevel' => 'IGNITERCF_LOG_LEVEL',
         'logRetentionDays' => 'IGNITERCF_LOG_RETENTION_DAYS',
+        'errorNotificationEmails' => 'IGNITERCF_ERROR_NOTIFICATION_EMAILS',
+        'errorNotificationSenderEmail' => 'IGNITERCF_ERROR_NOTIFICATION_SENDER_EMAIL',
+        'errorNotificationSenderName' => 'IGNITERCF_ERROR_NOTIFICATION_SENDER_NAME',
     ];
 
     /**
@@ -63,6 +66,9 @@ final class ConfigurationService
         'debug' => false,
         'logLevel' => 'errors_only',
         'logRetentionDays' => 30,
+        'errorNotificationEmails' => '',
+        'errorNotificationSenderEmail' => '',
+        'errorNotificationSenderName' => 'IgniterCF',
     ];
 
     /**
@@ -175,6 +181,70 @@ final class ConfigurationService
     public function shouldLogErrors(): bool
     {
         return in_array($this->getLogLevel(), [self::LOG_LEVEL_ALL, self::LOG_LEVEL_ERRORS_ONLY], true);
+    }
+
+    // =========================================================================
+    // Email Notification Settings
+    // =========================================================================
+
+    /**
+     * Check if error email notifications are enabled
+     */
+    public function isErrorNotificationEnabled(): bool
+    {
+        return !empty($this->getErrorNotificationEmails());
+    }
+
+    /**
+     * Get email addresses for error notifications
+     *
+     * @return array<string> List of email addresses
+     */
+    public function getErrorNotificationEmails(): array
+    {
+        $emails = (string)$this->get('errorNotificationEmails');
+
+        if (empty($emails)) {
+            return [];
+        }
+
+        // Split by comma, trim whitespace, filter empty values
+        $emailList = array_map('trim', explode(',', $emails));
+        $emailList = array_filter($emailList, static fn($email) => !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL));
+
+        return array_values($emailList);
+    }
+
+    /**
+     * Get sender email for error notifications
+     *
+     * Falls back to TYPO3 system email if not configured
+     */
+    public function getErrorNotificationSenderEmail(): string
+    {
+        $email = (string)$this->get('errorNotificationSenderEmail');
+
+        if (!empty($email)) {
+            return $email;
+        }
+
+        // Fallback to TYPO3 system email
+        return $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] ?? 'noreply@example.com';
+    }
+
+    /**
+     * Get sender name for error notifications
+     */
+    public function getErrorNotificationSenderName(): string
+    {
+        $name = (string)$this->get('errorNotificationSenderName');
+
+        if (!empty($name)) {
+            return $name;
+        }
+
+        // Fallback to TYPO3 system name or default
+        return $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromName'] ?? 'IgniterCF';
     }
 
     // =========================================================================

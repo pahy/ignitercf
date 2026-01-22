@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Task;
 
 use Pahy\Ignitercf\Service\CloudflareApiService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\EmailNotificationService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -32,14 +33,15 @@ class PurgeZoneTask extends AbstractTask implements LoggerAwareInterface
         }
 
         try {
-            $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+            $container = GeneralUtility::getContainer();
+            $configurationService = $container->get(ConfigurationService::class);
 
             if (!$configurationService->isEnabled()) {
                 $this->logger?->warning('IgniterCF: Scheduler task skipped - extension is disabled');
                 return true;
             }
 
-            $siteFinder = GeneralUtility::getContainer()->get(SiteFinder::class);
+            $siteFinder = $container->get(SiteFinder::class);
 
             try {
                 $site = $siteFinder->getSiteByIdentifier($this->siteIdentifier);
@@ -47,6 +49,7 @@ class PurgeZoneTask extends AbstractTask implements LoggerAwareInterface
                 $this->logger?->error('IgniterCF: Scheduler task failed - site not found', [
                     'siteIdentifier' => $this->siteIdentifier,
                 ]);
+                $this->sendErrorNotification($e, ['reason' => 'Site not found']);
                 return false;
             }
 
@@ -57,7 +60,7 @@ class PurgeZoneTask extends AbstractTask implements LoggerAwareInterface
                 return false;
             }
 
-            $cloudflareApiService = GeneralUtility::getContainer()->get(CloudflareApiService::class);
+            $cloudflareApiService = $container->get(CloudflareApiService::class);
             $cloudflareApiService->purgeEverything($site);
 
             $this->logger?->info('IgniterCF: Scheduler task - zone purged', [
@@ -71,6 +74,7 @@ class PurgeZoneTask extends AbstractTask implements LoggerAwareInterface
                 'siteIdentifier' => $this->siteIdentifier,
                 'error' => $e->getMessage(),
             ]);
+            $this->sendErrorNotification($e);
             return false;
         }
     }
@@ -78,5 +82,25 @@ class PurgeZoneTask extends AbstractTask implements LoggerAwareInterface
     public function getAdditionalInformation(): string
     {
         return sprintf('Site: %s', $this->siteIdentifier ?: '(not configured)');
+    }
+
+    /**
+     * Send error notification email
+     */
+    private function sendErrorNotification(\Throwable $exception, array $additionalContext = []): void
+    {
+        try {
+            $emailService = GeneralUtility::getContainer()->get(EmailNotificationService::class);
+            $emailService->notifyTaskError(
+                'PurgeZoneTask',
+                $exception,
+                $this->siteIdentifier,
+                $additionalContext
+            );
+        } catch (\Exception $e) {
+            $this->logger?->warning('IgniterCF: Could not send error notification', [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Task;
 
 use Pahy\Ignitercf\Service\CacheClearService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\EmailNotificationService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -36,25 +37,28 @@ class PurgePageTask extends AbstractTask implements LoggerAwareInterface
         }
 
         try {
-            $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+            $container = GeneralUtility::getContainer();
+            $configurationService = $container->get(ConfigurationService::class);
 
             if (!$configurationService->isEnabled()) {
                 $this->logger?->warning('IgniterCF: Scheduler task skipped - extension is disabled');
                 return true;
             }
 
-            $cacheClearService = GeneralUtility::getContainer()->get(CacheClearService::class);
+            $cacheClearService = $container->get(CacheClearService::class);
 
             if ($this->languageUid >= 0) {
-                $cacheClearService->clearCacheForPages([$this->pageUid], [$this->languageUid]);
+                $result = $cacheClearService->clearCacheForPages([$this->pageUid], [$this->languageUid]);
                 $this->logger?->info('IgniterCF: Scheduler task - page purged', [
                     'pageUid' => $this->pageUid,
                     'languageUid' => $this->languageUid,
+                    'urlCount' => $result->urlCount,
                 ]);
             } else {
-                $cacheClearService->clearCacheForPage($this->pageUid);
+                $result = $cacheClearService->clearCacheForPage($this->pageUid);
                 $this->logger?->info('IgniterCF: Scheduler task - page purged (all languages)', [
                     'pageUid' => $this->pageUid,
+                    'urlCount' => $result->urlCount,
                 ]);
             }
 
@@ -64,6 +68,7 @@ class PurgePageTask extends AbstractTask implements LoggerAwareInterface
                 'pageUid' => $this->pageUid,
                 'error' => $e->getMessage(),
             ]);
+            $this->sendErrorNotification($e);
             return false;
         }
     }
@@ -72,5 +77,25 @@ class PurgePageTask extends AbstractTask implements LoggerAwareInterface
     {
         $language = $this->languageUid >= 0 ? (string)$this->languageUid : 'all';
         return sprintf('Page: %d, Language: %s', $this->pageUid, $language);
+    }
+
+    /**
+     * Send error notification email
+     */
+    private function sendErrorNotification(\Throwable $exception): void
+    {
+        try {
+            $emailService = GeneralUtility::getContainer()->get(EmailNotificationService::class);
+            $emailService->notifyTaskError(
+                'PurgePageTask',
+                $exception,
+                '',
+                ['pageUid' => $this->pageUid, 'languageUid' => $this->languageUid]
+            );
+        } catch (\Exception $e) {
+            $this->logger?->warning('IgniterCF: Could not send error notification', [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

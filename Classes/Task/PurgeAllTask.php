@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Task;
 
 use Pahy\Ignitercf\Service\CacheClearService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\EmailNotificationService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -21,23 +22,52 @@ class PurgeAllTask extends AbstractTask implements LoggerAwareInterface
     public function execute(): bool
     {
         try {
-            $configurationService = GeneralUtility::getContainer()->get(ConfigurationService::class);
+            $container = GeneralUtility::getContainer();
+            $configurationService = $container->get(ConfigurationService::class);
 
             if (!$configurationService->isEnabled()) {
                 $this->logger?->warning('IgniterCF: Scheduler task skipped - extension is disabled');
                 return true;
             }
 
-            $cacheClearService = GeneralUtility::getContainer()->get(CacheClearService::class);
-            $cacheClearService->clearAllZones();
+            $cacheClearService = $container->get(CacheClearService::class);
+            $result = $cacheClearService->clearAllZones();
 
-            $this->logger?->info('IgniterCF: Scheduler task - all zones purged');
+            if ($result->hasErrors()) {
+                $this->logger?->error('IgniterCF: Scheduler task completed with errors', [
+                    'successCount' => $result->successCount,
+                    'errorCount' => $result->errorCount,
+                    'errors' => $result->errors,
+                ]);
+                // Still return true as some zones may have been purged successfully
+            } else {
+                $this->logger?->info('IgniterCF: Scheduler task - all zones purged', [
+                    'urlCount' => $result->urlCount,
+                ]);
+            }
+
             return true;
         } catch (\Exception $e) {
             $this->logger?->error('IgniterCF: Scheduler task failed', [
                 'error' => $e->getMessage(),
             ]);
+            $this->sendErrorNotification($e);
             return false;
+        }
+    }
+
+    /**
+     * Send error notification email
+     */
+    private function sendErrorNotification(\Throwable $exception): void
+    {
+        try {
+            $emailService = GeneralUtility::getContainer()->get(EmailNotificationService::class);
+            $emailService->notifyTaskError('PurgeAllTask', $exception);
+        } catch (\Exception $e) {
+            $this->logger?->warning('IgniterCF: Could not send error notification', [
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }
