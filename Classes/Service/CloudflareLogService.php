@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pahy\Ignitercf\Service;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Core\Environment;
 
 /**
@@ -12,8 +14,10 @@ use TYPO3\CMS\Core\Core\Environment;
  * Log file: var/log/typo3_ignitercf_cloudflare.log
  * Format: JSON per line (JSONL) for easy parsing
  */
-final class CloudflareLogService
+final class CloudflareLogService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private const LOG_FILE_NAME = 'typo3_ignitercf_cloudflare.log';
 
     public function __construct(

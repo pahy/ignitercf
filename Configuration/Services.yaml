@@ -34,6 +34,10 @@ services:
   Pahy\Ignitercf\Service\ChartDataService:
     public: true
 
+  # Required for CloudflareApiService (used in scheduler tasks)
+  Pahy\Ignitercf\Service\CloudflareLogService:
+    public: true
+
   Pahy\Ignitercf\Service\TestStatusService:
     public: true
 
