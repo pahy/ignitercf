@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pahy\Ignitercf\Hook;
 
+use Pahy\Ignitercf\Dto\PurgeResult;
 use Pahy\Ignitercf\Service\CacheClearService;
 use Pahy\Ignitercf\Service\ConfigurationService;
 use Pahy\Ignitercf\Service\NotificationService;
@@ -27,8 +28,14 @@ final class DataHandlerHook implements LoggerAwareInterface
     private const RELEVANT_TABLES = ['tt_content', 'pages'];
 
     /**
+     * Collected purge results during DataHandler operations
+     * @var array<PurgeResult>
+     */
+    private static array $collectedResults = [];
+
+    /**
      * Hook: processDatamap_afterDatabaseOperations
-     * Called after each save operation
+     * Called after each save operation - collects pages to purge
      *
      * @param string $status 'new' or 'update'
      * @param string $table Table name
@@ -90,21 +97,14 @@ final class DataHandlerHook implements LoggerAwareInterface
             return;
         }
 
-        // Trigger cache clear
+        // Trigger cache clear and collect results (no notification yet)
         try {
-            $container = GeneralUtility::getContainer();
-            $cacheClearService = $container->get(CacheClearService::class);
-            $notificationService = $container->get(NotificationService::class);
-
+            $cacheClearService = GeneralUtility::getContainer()->get(CacheClearService::class);
             $result = $cacheClearService->clearCacheForPages($pageIds, $languageIds);
-
-            // Show toast notifications
-            if ($result->hasPurgedUrls()) {
-                $notificationService->notifyPurgeSuccess($result->successCount, $result->siteIdentifier);
-            }
-
-            if ($result->hasErrors()) {
-                $notificationService->notifyPurgeError($result->errors[0] ?? 'Unknown error', $result->siteIdentifier);
+            
+            // Collect result for later notification
+            if ($result->hasPurgedUrls() || $result->hasErrors()) {
+                self::$collectedResults[] = $result;
             }
         } catch (\Exception $e) {
             $this->logger?->error('Cache purge failed', [
@@ -112,6 +112,43 @@ final class DataHandlerHook implements LoggerAwareInterface
                 'uid' => $recordUid,
                 'error' => $e->getMessage(),
             ]);
+        }
+    }
+
+    /**
+     * Hook: processDatamap_afterAllOperations
+     * Called after ALL DataHandler operations are complete - shows combined notification
+     *
+     * @param DataHandler $dataHandler DataHandler instance
+     */
+    public function processDatamap_afterAllOperations(DataHandler $dataHandler): void
+    {
+        if (empty(self::$collectedResults)) {
+            return;
+        }
+
+        try {
+            $notificationService = GeneralUtility::getContainer()->get(NotificationService::class);
+            
+            // Merge all results into one
+            $mergedResult = PurgeResult::merge(self::$collectedResults);
+            
+            // Show single combined notification
+            if ($mergedResult->hasPurgedUrls()) {
+                $notificationService->notifyPurgeSuccess($mergedResult->successCount, $mergedResult->siteIdentifier);
+            }
+
+            if ($mergedResult->hasErrors()) {
+                // Show first error (could be extended to show all)
+                $notificationService->notifyPurgeError($mergedResult->errors[0] ?? 'Unknown error', $mergedResult->siteIdentifier);
+            }
+        } catch (\Exception $e) {
+            $this->logger?->error('Failed to show purge notification', [
+                'error' => $e->getMessage(),
+            ]);
+        } finally {
+            // Always reset collected results
+            self::$collectedResults = [];
         }
     }
 
