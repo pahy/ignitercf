@@ -6,6 +6,7 @@ namespace Pahy\Ignitercf\Hook;
 
 use Pahy\Ignitercf\Service\CacheClearService;
 use Pahy\Ignitercf\Service\ConfigurationService;
+use Pahy\Ignitercf\Service\NotificationService;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -91,8 +92,20 @@ final class DataHandlerHook implements LoggerAwareInterface
 
         // Trigger cache clear
         try {
-            $cacheClearService = GeneralUtility::getContainer()->get(CacheClearService::class);
-            $cacheClearService->clearCacheForPages($pageIds, $languageIds);
+            $container = GeneralUtility::getContainer();
+            $cacheClearService = $container->get(CacheClearService::class);
+            $notificationService = $container->get(NotificationService::class);
+
+            $result = $cacheClearService->clearCacheForPages($pageIds, $languageIds);
+
+            // Show toast notifications
+            if ($result->hasPurgedUrls()) {
+                $notificationService->notifyPurgeSuccess($result->successCount, $result->siteIdentifier);
+            }
+
+            if ($result->hasErrors()) {
+                $notificationService->notifyPurgeError($result->errors[0] ?? 'Unknown error', $result->siteIdentifier);
+            }
         } catch (\Exception $e) {
             $this->logger?->error('Cache purge failed', [
                 'table' => $table,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pahy\Ignitercf\Service;
 
+use Pahy\Ignitercf\Dto\PurgeResult;
 use Pahy\Ignitercf\Exception\CloudflareException;
 use Pahy\Ignitercf\Utility\SiteConfigurationUtility;
 use Psr\Log\LoggerAwareInterface;
@@ -28,12 +29,13 @@ final class CacheClearService implements LoggerAwareInterface
      *
      * @param array<int> $pageIds Page UIDs to purge
      * @param array<int> $languageIds Language UIDs to purge
+     * @return PurgeResult Result of the purge operation
      */
-    public function clearCacheForPages(array $pageIds, array $languageIds): void
+    public function clearCacheForPages(array $pageIds, array $languageIds): PurgeResult
     {
         // Check global enabled flag
         if (!$this->configurationService->isEnabled()) {
-            return;
+            return PurgeResult::empty();
         }
 
         $urlsByZone = [];
@@ -74,25 +76,26 @@ final class CacheClearService implements LoggerAwareInterface
             }
         }
 
-        $this->purgeUrlsByZone($urlsByZone);
+        return $this->purgeUrlsByZone($urlsByZone);
     }
 
     /**
      * Purge cache for a single page (all languages)
      *
      * @param int $pageId Page UID
+     * @return PurgeResult Result of the purge operation
      */
-    public function clearCacheForPage(int $pageId): void
+    public function clearCacheForPage(int $pageId): PurgeResult
     {
         // Check global enabled flag
         if (!$this->configurationService->isEnabled()) {
-            return;
+            return PurgeResult::empty();
         }
 
         $siteConfigs = $this->siteConfigurationUtility->getSitesForPage($pageId);
 
         if (empty($siteConfigs)) {
-            return;
+            return PurgeResult::empty();
         }
 
         $site = $siteConfigs[0]['site'];
@@ -104,20 +107,23 @@ final class CacheClearService implements LoggerAwareInterface
             }
         }
 
-        $this->clearCacheForPages([$pageId], $languageIds);
+        return $this->clearCacheForPages([$pageId], $languageIds);
     }
 
     /**
      * Purge entire cache for all configured zones
+     *
+     * @return PurgeResult Result of the purge operation
      */
-    public function clearAllZones(): void
+    public function clearAllZones(): PurgeResult
     {
         // Check global enabled flag
         if (!$this->configurationService->isEnabled()) {
-            return;
+            return PurgeResult::empty();
         }
 
         $allSites = $this->siteConfigurationUtility->getAllSites();
+        $results = [];
 
         foreach ($allSites as $siteData) {
             $site = $siteData['site'];
@@ -136,23 +142,36 @@ final class CacheClearService implements LoggerAwareInterface
                     'zone_id' => $zoneId,
                     'site' => $site->getIdentifier(),
                 ]);
+
+                $results[] = PurgeResult::success(1, [], $site->getIdentifier());
             } catch (CloudflareException $e) {
                 $this->logger?->error('Cloudflare purge everything failed', [
                     'zone_id' => $zoneId,
                     'site' => $site->getIdentifier(),
                     'error' => $e->getMessage(),
                 ]);
+
+                $results[] = PurgeResult::failure($e->getMessage(), $site->getIdentifier());
             }
         }
+
+        return empty($results) ? PurgeResult::empty() : PurgeResult::merge($results);
     }
 
     /**
      * Internal: Purge URLs grouped by zone
      *
      * @param array<string, array{urls: array<string>, site: \TYPO3\CMS\Core\Site\Entity\Site}> $urlsByZone
+     * @return PurgeResult Result of the purge operation
      */
-    private function purgeUrlsByZone(array $urlsByZone): void
+    private function purgeUrlsByZone(array $urlsByZone): PurgeResult
     {
+        if (empty($urlsByZone)) {
+            return PurgeResult::empty();
+        }
+
+        $results = [];
+
         foreach ($urlsByZone as $zoneId => $data) {
             $urls = $data['urls'];
             $site = $data['site'];
@@ -170,6 +189,8 @@ final class CacheClearService implements LoggerAwareInterface
                             'urls_count' => count($batch),
                             'urls' => $batch,
                         ]);
+
+                        $results[] = PurgeResult::success(count($batch), $batch, $site->getIdentifier());
                     }
                 } catch (CloudflareException $e) {
                     $this->logger?->error('Cloudflare purge failed', [
@@ -177,9 +198,13 @@ final class CacheClearService implements LoggerAwareInterface
                         'urls' => $batch,
                         'error' => $e->getMessage(),
                     ]);
+
+                    $results[] = PurgeResult::failure($e->getMessage(), $site->getIdentifier());
                     // Don't rethrow - save operation should succeed
                 }
             }
         }
+
+        return empty($results) ? PurgeResult::empty() : PurgeResult::merge($results);
     }
 }

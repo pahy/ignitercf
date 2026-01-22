@@ -22,6 +22,10 @@ services:
   Pahy\Ignitercf\Service\CacheClearService:
     public: true
 
+  # Required for DataHandlerHook toast notifications
+  Pahy\Ignitercf\Service\NotificationService:
+    public: true
+
   Pahy\Ignitercf\Service\TestStatusService:
     public: true
 
