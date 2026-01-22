@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pahy\Ignitercf\Service;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Site\SiteFinder;
 
@@ -13,8 +15,10 @@ use TYPO3\CMS\Core\Site\SiteFinder;
  * Chart data is stored in var/cache/ignitercf/chart-data.json
  * and generated via CLI command or scheduler task for performance.
  */
-final class ChartDataService
+final class ChartDataService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private const CACHE_DIR = 'ignitercf';
     private const CACHE_FILE = 'chart-data.json';
 

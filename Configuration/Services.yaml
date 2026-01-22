@@ -30,6 +30,10 @@ services:
   Pahy\Ignitercf\Service\EmailNotificationService:
     public: true
 
+  # Required for GenerateChartDataTask scheduler task
+  Pahy\Ignitercf\Service\ChartDataService:
+    public: true
+
   Pahy\Ignitercf\Service\TestStatusService:
     public: true
 
